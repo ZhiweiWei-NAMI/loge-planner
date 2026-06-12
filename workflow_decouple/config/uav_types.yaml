@@ -1,0 +1,59 @@
+# UAV类型定义配置
+# 注意：移动性(mobility)模块是所有UAV的默认组件，无需显式声明
+
+uav_types:
+  # 物流+巡检双功能UAV
+  logistics_inspection:
+    components:
+      - logistics
+      - inspection
+    battery_capacity: 10000.0
+    payload_capacity: 5.0
+    weight: 2.5
+    description: "支持物流配送和设施巡检的多功能UAV"
+
+  # 纯物流UAV
+  logistics_only:
+    components:
+      - logistics
+    battery_capacity: 10000.0
+    payload_capacity: 5.0
+    weight: 2.5
+    description: "专注于物流配送的UAV"
+
+  # 纯巡检UAV
+  inspection_only:
+    components:
+      - inspection
+    battery_capacity: 10000.0
+    payload_capacity: 5.0
+    weight: 2.5
+    description: "专注于设施巡检的UAV"
+
+  # 纯通信UAV
+  communication_only:
+    components:
+      - communication
+    battery_capacity: 10000.0
+    payload_capacity: 5.0
+    weight: 2.5
+    description: "专注于通信中继的UAV"
+
+  # 纯计算UAV
+  compute_only:
+    components:
+      - compute
+    battery_capacity: 10000.0
+    payload_capacity: 5.0
+    weight: 2.5
+    description: "专注于边缘计算的UAV"
+
+  # 通信+计算双功能UAV
+  comm_compute:
+    components:
+      - communication
+      - compute
+    battery_capacity: 10000.0
+    payload_capacity: 5.0
+    weight: 2.5
+    description: "支持通信中继和边缘计算的多功能UAV"

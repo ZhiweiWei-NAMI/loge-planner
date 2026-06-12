@@ -1,0 +1,9 @@
+{
+  "name": "cloud",
+  "plan_target": "cloud",
+  "replan_target": "cloud",
+  "decouple_target": "cloud",
+  "plan_response_source": "cloud",
+  "replan_response_source": "cloud",
+  "decouple_response_source": "cloud"
+}

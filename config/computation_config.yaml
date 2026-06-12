@@ -1,0 +1,103 @@
+# 计算任务场景配置文件
+# 用于配置计算无人机、工作流和仿真参数
+
+# 场景基本信息
+scenario_name: "计算任务场景"
+description: "展示如何使用框架实现边缘计算和数据处理场景"
+
+# 引用公共配置
+common_config: "common_config.yaml"
+
+# 智能体配置
+agents:
+  - id: "ComputingDrone_A"
+    type: "computing_drone"
+    description: "负责边缘计算的无人机"
+    properties:
+      battery_level: 100.0
+      battery_capacity: 6000.0
+      payload_capacity: 2.5
+      weight: 2.2
+      max_speed: 12.0  # m/s
+      communication_range: 1200.0  # 米
+      # 计算相关属性
+      cpu_cores: 4
+      cpu_frequency: 3.0  # GHz
+      memory_size: 8.0  # GB
+      storage_available: 256.0  # GB
+    initial_position:
+      x: 150.0  # 米
+      y: 250.0  # 米
+      z: 100.0  # 米
+    initial_state:
+      battery_level: 100.0
+      cpu_utilization: 0.0
+      memory_usage: 2.0  # GB
+      storage_usage: 50.0  # GB
+      ambient_temperature: 25.0  # 摄氏度
+      computing_power_consumption: 0.0
+      task_queue_length: 0
+
+  - id: "ComputingDrone_B"
+    type: "computing_drone"
+    description: "协作计算的无人机"
+    properties:
+      battery_level: 100.0
+      battery_capacity: 6000.0
+      payload_capacity: 2.5
+      weight: 2.2
+      max_speed: 12.0  # m/s
+      communication_range: 1200.0  # 米
+      # 计算相关属性
+      cpu_cores: 4
+      cpu_frequency: 3.0  # GHz
+      memory_size: 8.0  # GB
+      storage_available: 256.0  # GB
+    initial_position:
+      x: 300.0  # 米
+      y: 350.0  # 米
+      z: 120.0  # 米
+    initial_state:
+      battery_level: 100.0
+      cpu_utilization: 0.0
+      memory_usage: 1.5  # GB
+      storage_usage: 30.0  # GB
+      ambient_temperature: 23.0  # 摄氏度
+      computing_power_consumption: 0.0
+      task_queue_length: 0
+
+# 工作流配置 (已按要求精简)
+workflows:
+  - id: "computation_workflow_1"
+    name: "AI模型推理任务"
+    type: "computation"
+    description: "在无人机A上执行一个高优先级的AI模型推理作业"
+    agent_id: "ComputingDrone_A"
+    properties:
+      # [新增] 计算任务执行的虚拟位置 (x, y, z 米)
+      compute_location: [150.0, 250.0, 50.0]
+      job_id: "inference_job_001"
+      # [核心] 需要完成的总计算量 (GFLOPs: 十亿次浮点运算)
+      required_gflops: 2500.0
+      # [核心] 描述此任务的资源消耗特征
+      workload_profile:
+        cpu_intensity: 0.9  # CPU密集型 (0-1)
+        memory_intensity: 0.6 # 中等内存占用 (0-1)
+    start_delay: 10
+
+  - id: "computation_workflow_2"
+    name: "数据预处理任务"
+    type: "computation"
+    description: "在无人机B上执行一个中等优先级的数据批处理作业"
+    agent_id: "ComputingDrone_B"
+    properties:
+      # [新增] 计算任务执行的虚拟位置 (x, y, z 米)
+      compute_location: [300.0, 350.0, 120.0]
+      job_id: "data_preprocess_002"
+      # [核心] 需要完成的总计算量 (GFLOPs: 十亿次浮点运算)
+      required_gflops: 1500.0
+      # [核心] 描述此任务的资源消耗特征
+      workload_profile:
+        cpu_intensity: 0.5  # CPU和I/O均衡 (0-1)
+        memory_intensity: 0.4 # 内存占用较低 (0-1)
+    start_delay: 60

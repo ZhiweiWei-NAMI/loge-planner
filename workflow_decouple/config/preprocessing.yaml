@@ -1,0 +1,75 @@
+# 任务时空耦合数据预处理配置
+# Task Spatial-Temporal Coupling Data Preprocessing Configuration
+
+# 时间粒度 (秒)
+# Time granularity for generating task instances (in seconds)
+# 较小的值会生成更多的时空实例，数据更精细但处理时间更长
+# Smaller values generate more instances (finer granularity) but take longer to process
+time_granularity: 20.0
+
+# 输出文件名
+# Output filename for processed data
+output_filename: 'processed_task_spatial_temporal_coupling.csv'
+
+# 任务类型配置
+# Task type configurations
+task_types:
+  # 移动任务 - 使用线性插值
+  # Movement tasks - use linear interpolation
+  movement:
+    - MoveToTask
+  
+  # 静态任务 - 使用固定位置
+  # Static tasks - use fixed position
+  static:
+    - ComputeTask
+    - CommunicationTask
+    - DeliveryTask
+    - PickupTask
+    - InspectionTask
+
+# 日志配置
+# Logging configuration
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR
+  format: '%(asctime)s - %(levelname)s - %(message)s'
+
+# 数据处理选项
+# Data processing options
+processing:
+  # 是否跳过不完整的任务 (只有started没有completed)
+  # Whether to skip incomplete tasks (started but not completed)
+  skip_incomplete_tasks: false
+  
+  # 是否在输出中包含额外的元数据
+  # Whether to include additional metadata in output
+  include_metadata: false
+  
+  # 位置坐标精度 (小数点位数)
+  # Position coordinate precision (decimal places)
+  position_precision: 2
+
+# 空间聚类配置
+# Spatial clustering configuration
+clustering:
+  # 是否启用空间聚类
+  # Whether to enable spatial clustering
+  enable_clustering: true
+  
+  # 聚类方法: 'kmeans' 或 'hierarchical'
+  # Clustering method: 'kmeans' or 'hierarchical'
+  method: 'hierarchical'
+  
+  # 距离阈值 (米) - 用于层次聚类或估计KMeans簇数
+  # Distance threshold (meters) - for hierarchical clustering or estimating KMeans clusters
+  distance_threshold: 500.0
+  
+  # 时间窗口大小 (秒) - 在此窗口内的任务进行聚类
+  # Time window size (seconds) - tasks within this window will be clustered
+  # 如果不设置，默认使用time_granularity
+  # If not set, defaults to time_granularity
+  time_window: 20.0
+  
+  # 全局网格大小 (米) - 用于生成稳定的global_cell_id
+  # Global grid size (meters) - for generating stable global_cell_id
+  grid_size: 500.0

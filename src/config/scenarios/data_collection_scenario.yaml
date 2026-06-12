@@ -1,0 +1,3647 @@
+agents:
+- id: agent_logistics_inspection_1
+  initial_position:
+    x: 2788.76
+    y: 3229.22
+    z: 121.64
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_2
+  initial_position:
+    x: 866.42
+    y: 2.24
+    z: 195.99
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_3
+  initial_position:
+    x: 2848.54
+    y: 328.93
+    z: 110.13
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_4
+  initial_position:
+    x: 216.76
+    y: 3836.35
+    z: 197.3
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_5
+  initial_position:
+    x: 496.74
+    y: 246.15
+    z: 54.18
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_6
+  initial_position:
+    x: 2551.1
+    y: 3894.39
+    z: 79.14
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_7
+  initial_position:
+    x: 946.73
+    y: 3541.15
+    z: 197.18
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_8
+  initial_position:
+    x: 4701.52
+    y: 3193.5
+    z: 188.19
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_9
+  initial_position:
+    x: 1772.35
+    y: 4560.89
+    z: 139.35
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_inspection_10
+  initial_position:
+    x: 2730.66
+    y: 1040.89
+    z: 86.52
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_11
+  initial_position:
+    x: 161.93
+    y: 3922.28
+    z: 132.91
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_12
+  initial_position:
+    x: 1839.8
+    y: 4940.31
+    z: 119.09
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_13
+  initial_position:
+    x: 1388.83
+    y: 4063.27
+    z: 136.6
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_14
+  initial_position:
+    x: 4111.93
+    y: 1620.56
+    z: 117.0
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_15
+  initial_position:
+    x: 3995.52
+    y: 2282.39
+    z: 153.55
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_16
+  initial_position:
+    x: 3785.1
+    y: 2813.46
+    z: 148.22
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_17
+  initial_position:
+    x: 2936.9
+    y: 3789.56
+    z: 178.31
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_18
+  initial_position:
+    x: 4199.15
+    y: 1721.32
+    z: 131.59
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_19
+  initial_position:
+    x: 2998.31
+    y: 804.61
+    z: 91.99
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_logistics_only_20
+  initial_position:
+    x: 1655.91
+    y: 1805.2
+    z: 133.66
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - logistics
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_21
+  initial_position:
+    x: 3332.96
+    y: 1378.41
+    z: 91.18
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_22
+  initial_position:
+    x: 3192.68
+    y: 741.99
+    z: 102.66
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_23
+  initial_position:
+    x: 3649.92
+    y: 3119.55
+    z: 171.72
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_24
+  initial_position:
+    x: 2695.51
+    y: 2856.1
+    z: 125.35
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_25
+  initial_position:
+    x: 1918.37
+    y: 1716.74
+    z: 86.95
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_26
+  initial_position:
+    x: 2940.09
+    y: 2526.19
+    z: 136.05
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_27
+  initial_position:
+    x: 3436.9
+    y: 1028.46
+    z: 80.71
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_28
+  initial_position:
+    x: 717.1
+    y: 2217.32
+    z: 135.92
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_29
+  initial_position:
+    x: 3823.23
+    y: 1292.27
+    z: 51.71
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+- id: agent_inspection_only_30
+  initial_position:
+    x: 2911.07
+    y: 977.0
+    z: 71.34
+  properties:
+    battery_capacity: 5000.0
+    battery_level: 100.0
+    components:
+    - inspection
+    payload_capacity: 5.0
+    weight: 2.5
+  type: drone
+scenario_description: 用于task clustering的数据收集场景 - 30 agents, 150 workflows
+scenario_name: workflow_decouple_data_collection
+workflows:
+- agent_id: agent_inspection_only_22
+  id: workflow_1
+  name: 巡检workflow_1
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4284.74
+      y: 1193.1
+      z: 81.51
+    - x: 3408.68
+      y: 4902.95
+      z: 123.01
+    - x: 1599.33
+      y: 1816.83
+      z: 89.47
+    - x: 4403.34
+      y: 3024.16
+      z: 95.08
+  start_delay: 0
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_2
+  name: 物流workflow_2
+  properties:
+    delivery_location:
+      x: 766.16
+      y: 3342.92
+      z: 50.0
+    payload_id: payload_2
+    payload_weight: 1.3
+    payloads: []
+    pickup_location:
+      x: 921.68
+      y: 4656.79
+      z: 50.0
+  start_delay: 24
+  type: logistics
+- agent_id: agent_logistics_inspection_4
+  id: workflow_3
+  name: 巡检workflow_3
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4005.11
+      y: 3376.81
+      z: 108.84
+    - x: 1141.05
+      y: 4431.16
+      z: 85.3
+    - x: 3570.96
+      y: 2582.29
+      z: 86.94
+    - x: 2377.62
+      y: 1299.34
+      z: 56.67
+    - x: 4657.03
+      y: 1537.83
+      z: 100.72
+    - x: 3084.96
+      y: 3101.1
+      z: 91.73
+    - x: 1655.0
+      y: 3894.78
+      z: 146.07
+    - x: 4817.09
+      y: 4529.1
+      z: 65.57
+  start_delay: 48
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_4
+  name: 物流workflow_4
+  properties:
+    delivery_location:
+      x: 3694.21
+      y: 2476.97
+      z: 50.0
+    payload_id: payload_4
+    payload_weight: 1.0
+    payloads: []
+    pickup_location:
+      x: 4308.88
+      y: 1670.7
+      z: 50.0
+  start_delay: 72
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_5
+  name: 巡检workflow_5
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3132.64
+      y: 508.76
+      z: 76.25
+    - x: 4207.14
+      y: 3071.21
+      z: 135.37
+    - x: 36.09
+      y: 2921.37
+      z: 130.93
+    - x: 2957.89
+      y: 4766.82
+      z: 125.75
+    - x: 1127.34
+      y: 1308.81
+      z: 76.9
+    - x: 3198.94
+      y: 3264.31
+      z: 105.68
+    - x: 2165.15
+      y: 3872.77
+      z: 106.18
+  start_delay: 96
+  type: inspection
+- agent_id: agent_logistics_inspection_7
+  id: workflow_6
+  name: 物流workflow_6
+  properties:
+    delivery_location:
+      x: 1384.46
+      y: 3125.62
+      z: 50.0
+    payload_id: payload_6
+    payload_weight: 2.1
+    payloads: []
+    pickup_location:
+      x: 3331.81
+      y: 991.04
+      z: 50.0
+  start_delay: 120
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_7
+  name: 巡检workflow_7
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 272.53
+      y: 117.16
+      z: 103.15
+    - x: 4104.31
+      y: 3552.34
+      z: 96.6
+    - x: 746.31
+      y: 4421.24
+      z: 112.98
+    - x: 4144.15
+      y: 4127.42
+      z: 89.98
+    - x: 1748.99
+      y: 244.82
+      z: 58.88
+    - x: 4223.88
+      y: 1439.41
+      z: 131.11
+    - x: 4563.32
+      y: 4662.23
+      z: 92.73
+    - x: 2718.17
+      y: 4478.47
+      z: 75.34
+  start_delay: 144
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_8
+  name: 物流workflow_8
+  properties:
+    delivery_location:
+      x: 3793.41
+      y: 137.37
+      z: 50.0
+    payload_id: payload_8
+    payload_weight: 2.6
+    payloads: []
+    pickup_location:
+      x: 1683.15
+      y: 1832.93
+      z: 50.0
+  start_delay: 168
+  type: logistics
+- agent_id: agent_logistics_inspection_10
+  id: workflow_9
+  name: 巡检workflow_9
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3490.99
+      y: 4570.33
+      z: 61.26
+    - x: 1288.05
+      y: 623.34
+      z: 98.85
+    - x: 3599.53
+      y: 3769.59
+      z: 79.72
+    - x: 1277.96
+      y: 58.02
+      z: 50.67
+    - x: 3594.73
+      y: 1516.66
+      z: 93.52
+    - x: 853.47
+      y: 3652.89
+      z: 139.38
+    - x: 2732.13
+      y: 3004.38
+      z: 114.7
+  start_delay: 192
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_10
+  name: 物流workflow_10
+  properties:
+    delivery_location:
+      x: 4075.74
+      y: 1325.0
+      z: 50.0
+    payload_id: payload_10
+    payload_weight: 2.1
+    payloads: []
+    pickup_location:
+      x: 4229.37
+      y: 765.45
+      z: 50.0
+  start_delay: 216
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_11
+  name: 巡检workflow_11
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2348.79
+      y: 923.81
+      z: 73.69
+    - x: 3952.03
+      y: 544.61
+      z: 122.66
+    - x: 1406.18
+      y: 595.35
+      z: 77.75
+    - x: 1354.12
+      y: 287.09
+      z: 131.73
+    - x: 2769.62
+      y: 1875.8
+      z: 112.75
+    - x: 1089.37
+      y: 224.77
+      z: 140.18
+  start_delay: 240
+  type: inspection
+- agent_id: agent_logistics_inspection_3
+  id: workflow_12
+  name: 物流workflow_12
+  properties:
+    delivery_location:
+      x: 1458.71
+      y: 30.35
+      z: 50.0
+    payload_id: payload_12
+    payload_weight: 2.7
+    payloads: []
+    pickup_location:
+      x: 614.29
+      y: 4358.77
+      z: 50.0
+  start_delay: 264
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_13
+  name: 巡检workflow_13
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 116.23
+      y: 1758.09
+      z: 64.82
+    - x: 1439.28
+      y: 3976.85
+      z: 51.54
+    - x: 4860.25
+      y: 4607.66
+      z: 119.07
+    - x: 696.25
+      y: 768.95
+      z: 126.1
+  start_delay: 288
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_14
+  name: 物流workflow_14
+  properties:
+    delivery_location:
+      x: 479.63
+      y: 258.08
+      z: 50.0
+    payload_id: payload_14
+    payload_weight: 2.4
+    payloads: []
+    pickup_location:
+      x: 3090.57
+      y: 4700.5
+      z: 50.0
+  start_delay: 312
+  type: logistics
+- agent_id: agent_logistics_inspection_6
+  id: workflow_15
+  name: 巡检workflow_15
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 770.53
+      y: 558.82
+      z: 127.56
+    - x: 1020.36
+      y: 1826.25
+      z: 81.39
+    - x: 3591.49
+      y: 2481.41
+      z: 66.7
+    - x: 4369.43
+      y: 970.11
+      z: 71.92
+    - x: 2694.42
+      y: 1531.24
+      z: 148.34
+    - x: 3194.71
+      y: 2833.0
+      z: 145.72
+    - x: 2177.0
+      y: 3168.03
+      z: 116.71
+  start_delay: 336
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_16
+  name: 物流workflow_16
+  properties:
+    delivery_location:
+      x: 4705.74
+      y: 238.86
+      z: 50.0
+    payload_id: payload_16
+    payload_weight: 1.3
+    payloads: []
+    pickup_location:
+      x: 4681.45
+      y: 3180.81
+      z: 50.0
+  start_delay: 360
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_17
+  name: 巡检workflow_17
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 690.34
+      y: 3506.82
+      z: 70.44
+    - x: 2532.21
+      y: 2332.32
+      z: 111.0
+    - x: 581.45
+      y: 3899.54
+      z: 82.14
+    - x: 641.03
+      y: 597.11
+      z: 67.29
+    - x: 3971.13
+      y: 566.6
+      z: 114.68
+    - x: 1692.94
+      y: 2957.8
+      z: 114.41
+    - x: 1304.25
+      y: 4192.05
+      z: 122.93
+    - x: 3435.53
+      y: 4411.1
+      z: 116.34
+  start_delay: 384
+  type: inspection
+- agent_id: agent_logistics_inspection_9
+  id: workflow_18
+  name: 物流workflow_18
+  properties:
+    delivery_location:
+      x: 22.83
+      y: 2581.28
+      z: 50.0
+    payload_id: payload_18
+    payload_weight: 2.8
+    payloads: []
+    pickup_location:
+      x: 1451.11
+      y: 681.61
+      z: 50.0
+  start_delay: 408
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_19
+  name: 巡检workflow_19
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3621.72
+      y: 1054.83
+      z: 54.22
+    - x: 3268.38
+      y: 2660.88
+      z: 101.84
+    - x: 4437.5
+      y: 3150.73
+      z: 140.81
+  start_delay: 432
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_20
+  name: 物流workflow_20
+  properties:
+    delivery_location:
+      x: 3092.64
+      y: 599.59
+      z: 50.0
+    payload_id: payload_20
+    payload_weight: 2.9
+    payloads: []
+    pickup_location:
+      x: 4564.21
+      y: 1260.1
+      z: 50.0
+  start_delay: 456
+  type: logistics
+- agent_id: agent_logistics_inspection_2
+  id: workflow_21
+  name: 巡检workflow_21
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 929.6
+      y: 4845.31
+      z: 124.05
+    - x: 1548.98
+      y: 3991.88
+      z: 131.22
+    - x: 720.02
+      y: 4605.34
+      z: 81.85
+    - x: 3744.44
+      y: 2167.84
+      z: 68.12
+    - x: 2423.9
+      y: 1414.12
+      z: 125.63
+    - x: 939.66
+      y: 833.61
+      z: 108.73
+    - x: 3190.58
+      y: 294.3
+      z: 53.81
+    - x: 3566.88
+      y: 3184.03
+      z: 64.31
+  start_delay: 480
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_22
+  name: 物流workflow_22
+  properties:
+    delivery_location:
+      x: 2965.59
+      y: 2378.09
+      z: 50.0
+    payload_id: payload_22
+    payload_weight: 0.8
+    payloads: []
+    pickup_location:
+      x: 498.68
+      y: 3753.86
+      z: 50.0
+  start_delay: 504
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_23
+  name: 巡检workflow_23
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1472.79
+      y: 4803.21
+      z: 76.79
+    - x: 3388.55
+      y: 2640.92
+      z: 59.1
+    - x: 4171.03
+      y: 1213.49
+      z: 94.01
+    - x: 2807.41
+      y: 1160.96
+      z: 66.0
+    - x: 2222.94
+      y: 4532.5
+      z: 117.0
+  start_delay: 528
+  type: inspection
+- agent_id: agent_logistics_inspection_5
+  id: workflow_24
+  name: 物流workflow_24
+  properties:
+    delivery_location:
+      x: 199.02
+      y: 1352.52
+      z: 50.0
+    payload_id: payload_24
+    payload_weight: 1.1
+    payloads: []
+    pickup_location:
+      x: 3391.98
+      y: 4860.56
+      z: 50.0
+  start_delay: 552
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_25
+  name: 巡检workflow_25
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1056.11
+      y: 2074.3
+      z: 63.89
+    - x: 1529.63
+      y: 1342.84
+      z: 80.21
+    - x: 3157.64
+      y: 1614.58
+      z: 94.71
+    - x: 3852.0
+      y: 4109.89
+      z: 101.66
+    - x: 789.21
+      y: 1830.55
+      z: 58.94
+    - x: 2124.79
+      y: 1666.95
+      z: 108.96
+    - x: 4066.7
+      y: 3377.97
+      z: 143.84
+    - x: 2796.33
+      y: 1798.8
+      z: 86.13
+  start_delay: 576
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_26
+  name: 物流workflow_26
+  properties:
+    delivery_location:
+      x: 3385.75
+      y: 41.65
+      z: 50.0
+    payload_id: payload_26
+    payload_weight: 1.5
+    payloads: []
+    pickup_location:
+      x: 2271.36
+      y: 4012.16
+      z: 50.0
+  start_delay: 600
+  type: logistics
+- agent_id: agent_logistics_inspection_8
+  id: workflow_27
+  name: 巡检workflow_27
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2923.37
+      y: 3422.89
+      z: 89.18
+    - x: 1627.11
+      y: 4719.17
+      z: 134.37
+    - x: 1881.56
+      y: 4740.46
+      z: 110.64
+    - x: 2200.88
+      y: 4632.11
+      z: 70.95
+    - x: 217.7
+      y: 1250.62
+      z: 102.2
+    - x: 4774.6
+      y: 2304.46
+      z: 124.4
+  start_delay: 624
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_28
+  name: 物流workflow_28
+  properties:
+    delivery_location:
+      x: 4985.76
+      y: 1151.04
+      z: 50.0
+    payload_id: payload_28
+    payload_weight: 1.8
+    payloads: []
+    pickup_location:
+      x: 2873.79
+      y: 548.97
+      z: 50.0
+  start_delay: 648
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_29
+  name: 巡检workflow_29
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4516.32
+      y: 2348.07
+      z: 54.38
+    - x: 1754.24
+      y: 4024.26
+      z: 121.9
+    - x: 677.73
+      y: 1248.42
+      z: 90.28
+    - x: 4620.69
+      y: 2058.17
+      z: 104.34
+    - x: 4934.66
+      y: 1983.44
+      z: 103.3
+  start_delay: 672
+  type: inspection
+- agent_id: agent_logistics_inspection_1
+  id: workflow_30
+  name: 物流workflow_30
+  properties:
+    delivery_location:
+      x: 2098.9
+      y: 2886.04
+      z: 50.0
+    payload_id: payload_30
+    payload_weight: 1.8
+    payloads: []
+    pickup_location:
+      x: 960.73
+      y: 2899.57
+      z: 50.0
+  start_delay: 696
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_31
+  name: 巡检workflow_31
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3794.28
+      y: 2529.77
+      z: 88.17
+    - x: 1996.63
+      y: 2110.64
+      z: 118.0
+    - x: 2683.12
+      y: 201.26
+      z: 118.64
+    - x: 201.95
+      y: 3756.96
+      z: 66.45
+  start_delay: 720
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_32
+  name: 物流workflow_32
+  properties:
+    delivery_location:
+      x: 4126.52
+      y: 2719.69
+      z: 50.0
+    payload_id: payload_32
+    payload_weight: 0.8
+    payloads: []
+    pickup_location:
+      x: 1912.24
+      y: 7.32
+      z: 50.0
+  start_delay: 744
+  type: logistics
+- agent_id: agent_logistics_inspection_4
+  id: workflow_33
+  name: 巡检workflow_33
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1564.04
+      y: 880.69
+      z: 108.51
+    - x: 3481.47
+      y: 4467.07
+      z: 103.81
+    - x: 1672.1
+      y: 3923.44
+      z: 78.55
+    - x: 1383.28
+      y: 4872.31
+      z: 60.52
+    - x: 1451.48
+      y: 3034.95
+      z: 112.99
+  start_delay: 768
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_34
+  name: 物流workflow_34
+  properties:
+    delivery_location:
+      x: 4668.55
+      y: 900.8
+      z: 50.0
+    payload_id: payload_34
+    payload_weight: 1.3
+    payloads: []
+    pickup_location:
+      x: 1714.77
+      y: 1500.28
+      z: 50.0
+  start_delay: 792
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_35
+  name: 巡检workflow_35
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4023.9
+      y: 3400.4
+      z: 96.38
+    - x: 379.3
+      y: 1772.7
+      z: 97.47
+    - x: 1747.64
+      y: 3820.75
+      z: 143.22
+    - x: 1787.56
+      y: 2963.52
+      z: 56.3
+    - x: 1147.8
+      y: 3235.57
+      z: 110.72
+    - x: 2803.7
+      y: 356.1
+      z: 120.34
+  start_delay: 816
+  type: inspection
+- agent_id: agent_logistics_inspection_7
+  id: workflow_36
+  name: 物流workflow_36
+  properties:
+    delivery_location:
+      x: 2984.37
+      y: 48.17
+      z: 50.0
+    payload_id: payload_36
+    payload_weight: 0.5
+    payloads: []
+    pickup_location:
+      x: 2558.3
+      y: 249.15
+      z: 50.0
+  start_delay: 840
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_37
+  name: 巡检workflow_37
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 542.17
+      y: 1051.99
+      z: 140.48
+    - x: 910.19
+      y: 2157.96
+      z: 54.89
+    - x: 1221.53
+      y: 2436.74
+      z: 85.03
+    - x: 120.57
+      y: 1806.68
+      z: 130.29
+  start_delay: 864
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_38
+  name: 物流workflow_38
+  properties:
+    delivery_location:
+      x: 521.92
+      y: 4609.64
+      z: 50.0
+    payload_id: payload_38
+    payload_weight: 0.8
+    payloads: []
+    pickup_location:
+      x: 1073.68
+      y: 2177.5
+      z: 50.0
+  start_delay: 888
+  type: logistics
+- agent_id: agent_logistics_inspection_10
+  id: workflow_39
+  name: 巡检workflow_39
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3683.89
+      y: 1834.27
+      z: 93.89
+    - x: 2988.56
+      y: 1379.74
+      z: 62.23
+    - x: 4275.27
+      y: 2976.38
+      z: 89.76
+    - x: 1348.85
+      y: 1113.98
+      z: 55.52
+    - x: 864.95
+      y: 3521.96
+      z: 90.13
+    - x: 3452.51
+      y: 1707.46
+      z: 110.4
+    - x: 2144.3
+      y: 2695.48
+      z: 133.04
+  start_delay: 912
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_40
+  name: 物流workflow_40
+  properties:
+    delivery_location:
+      x: 177.91
+      y: 2761.6
+      z: 50.0
+    payload_id: payload_40
+    payload_weight: 2.9
+    payloads: []
+    pickup_location:
+      x: 85.87
+      y: 2477.44
+      z: 50.0
+  start_delay: 936
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_41
+  name: 巡检workflow_41
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 722.19
+      y: 1493.46
+      z: 79.99
+    - x: 3842.37
+      y: 4921.82
+      z: 117.37
+    - x: 1290.46
+      y: 1562.4
+      z: 134.09
+  start_delay: 960
+  type: inspection
+- agent_id: agent_logistics_inspection_3
+  id: workflow_42
+  name: 物流workflow_42
+  properties:
+    delivery_location:
+      x: 680.81
+      y: 2400.17
+      z: 50.0
+    payload_id: payload_42
+    payload_weight: 2.1
+    payloads: []
+    pickup_location:
+      x: 358.89
+      y: 2772.46
+      z: 50.0
+  start_delay: 984
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_43
+  name: 巡检workflow_43
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3751.89
+      y: 2175.11
+      z: 126.16
+    - x: 3914.9
+      y: 4119.92
+      z: 50.26
+    - x: 439.41
+      y: 2891.39
+      z: 61.68
+    - x: 4129.05
+      y: 4169.78
+      z: 86.48
+    - x: 2107.53
+      y: 3567.14
+      z: 136.61
+    - x: 0.89
+      y: 4892.19
+      z: 98.26
+  start_delay: 1008
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_44
+  name: 物流workflow_44
+  properties:
+    delivery_location:
+      x: 4881.29
+      y: 427.84
+      z: 50.0
+    payload_id: payload_44
+    payload_weight: 2.2
+    payloads: []
+    pickup_location:
+      x: 21.39
+      y: 4459.26
+      z: 50.0
+  start_delay: 1032
+  type: logistics
+- agent_id: agent_logistics_inspection_6
+  id: workflow_45
+  name: 巡检workflow_45
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 989.89
+      y: 2422.06
+      z: 90.24
+    - x: 2653.46
+      y: 712.98
+      z: 61.52
+    - x: 1234.29
+      y: 230.27
+      z: 130.29
+  start_delay: 1056
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_46
+  name: 物流workflow_46
+  properties:
+    delivery_location:
+      x: 4913.71
+      y: 16.54
+      z: 50.0
+    payload_id: payload_46
+    payload_weight: 0.7
+    payloads: []
+    pickup_location:
+      x: 2165.57
+      y: 4791.74
+      z: 50.0
+  start_delay: 1080
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_47
+  name: 巡检workflow_47
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1469.38
+      y: 2798.52
+      z: 111.96
+    - x: 881.51
+      y: 458.65
+      z: 148.35
+    - x: 526.87
+      y: 4175.27
+      z: 112.11
+  start_delay: 1104
+  type: inspection
+- agent_id: agent_logistics_inspection_9
+  id: workflow_48
+  name: 物流workflow_48
+  properties:
+    delivery_location:
+      x: 2144.04
+      y: 2029.95
+      z: 50.0
+    payload_id: payload_48
+    payload_weight: 1.4
+    payloads: []
+    pickup_location:
+      x: 539.3
+      y: 1136.12
+      z: 50.0
+  start_delay: 1128
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_49
+  name: 巡检workflow_49
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2786.4
+      y: 1449.52
+      z: 128.67
+    - x: 4818.5
+      y: 54.03
+      z: 53.17
+    - x: 1169.39
+      y: 681.38
+      z: 112.85
+    - x: 4579.98
+      y: 2306.56
+      z: 82.4
+    - x: 1263.36
+      y: 879.27
+      z: 99.26
+    - x: 3278.9
+      y: 1462.96
+      z: 62.39
+    - x: 1464.72
+      y: 406.01
+      z: 60.33
+    - x: 2752.22
+      y: 1124.57
+      z: 58.86
+  start_delay: 1152
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_50
+  name: 物流workflow_50
+  properties:
+    delivery_location:
+      x: 2797.67
+      y: 4313.52
+      z: 50.0
+    payload_id: payload_50
+    payload_weight: 0.6
+    payloads: []
+    pickup_location:
+      x: 1125.16
+      y: 3880.72
+      z: 50.0
+  start_delay: 1176
+  type: logistics
+- agent_id: agent_logistics_inspection_2
+  id: workflow_51
+  name: 巡检workflow_51
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3573.57
+      y: 2671.02
+      z: 90.84
+    - x: 721.26
+      y: 4955.74
+      z: 64.89
+    - x: 3638.26
+      y: 1029.4
+      z: 99.56
+    - x: 1435.55
+      y: 356.17
+      z: 145.39
+  start_delay: 1200
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_52
+  name: 物流workflow_52
+  properties:
+    delivery_location:
+      x: 3604.98
+      y: 1635.16
+      z: 50.0
+    payload_id: payload_52
+    payload_weight: 0.9
+    payloads: []
+    pickup_location:
+      x: 810.36
+      y: 1.57
+      z: 50.0
+  start_delay: 1224
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_53
+  name: 巡检workflow_53
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 860.57
+      y: 46.64
+      z: 60.93
+    - x: 3464.57
+      y: 3585.05
+      z: 96.18
+    - x: 1171.04
+      y: 1296.86
+      z: 131.96
+    - x: 941.19
+      y: 3040.74
+      z: 69.32
+    - x: 2326.01
+      y: 4846.64
+      z: 101.44
+    - x: 2648.86
+      y: 4822.48
+      z: 66.1
+    - x: 2387.33
+      y: 811.01
+      z: 126.62
+    - x: 4036.17
+      y: 4494.9
+      z: 98.72
+  start_delay: 1248
+  type: inspection
+- agent_id: agent_logistics_inspection_5
+  id: workflow_54
+  name: 物流workflow_54
+  properties:
+    delivery_location:
+      x: 1535.74
+      y: 4948.73
+      z: 50.0
+    payload_id: payload_54
+    payload_weight: 1.3
+    payloads: []
+    pickup_location:
+      x: 3446.94
+      y: 3317.48
+      z: 50.0
+  start_delay: 1272
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_55
+  name: 巡检workflow_55
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2075.62
+      y: 143.7
+      z: 148.81
+    - x: 3752.59
+      y: 4826.51
+      z: 110.63
+    - x: 1683.67
+      y: 977.22
+      z: 88.04
+    - x: 2806.25
+      y: 646.14
+      z: 65.35
+    - x: 441.51
+      y: 4737.47
+      z: 95.02
+    - x: 1645.77
+      y: 1485.39
+      z: 50.52
+    - x: 4258.67
+      y: 861.99
+      z: 60.74
+  start_delay: 1296
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_56
+  name: 物流workflow_56
+  properties:
+    delivery_location:
+      x: 553.08
+      y: 3267.28
+      z: 50.0
+    payload_id: payload_56
+    payload_weight: 0.6
+    payloads: []
+    pickup_location:
+      x: 1955.92
+      y: 1253.47
+      z: 50.0
+  start_delay: 1320
+  type: logistics
+- agent_id: agent_logistics_inspection_8
+  id: workflow_57
+  name: 巡检workflow_57
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3116.0
+      y: 3503.61
+      z: 139.89
+    - x: 2467.11
+      y: 2885.72
+      z: 63.41
+    - x: 692.68
+      y: 1646.05
+      z: 115.72
+    - x: 4298.91
+      y: 3744.52
+      z: 57.53
+  start_delay: 1344
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_58
+  name: 物流workflow_58
+  properties:
+    delivery_location:
+      x: 4370.73
+      y: 1028.76
+      z: 50.0
+    payload_id: payload_58
+    payload_weight: 1.2
+    payloads: []
+    pickup_location:
+      x: 3269.49
+      y: 3420.85
+      z: 50.0
+  start_delay: 1368
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_59
+  name: 巡检workflow_59
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3119.04
+      y: 817.75
+      z: 99.11
+    - x: 4533.67
+      y: 1019.54
+      z: 112.49
+    - x: 199.06
+      y: 3183.09
+      z: 108.9
+    - x: 1467.31
+      y: 4500.78
+      z: 130.31
+    - x: 3837.98
+      y: 3578.69
+      z: 78.23
+    - x: 4148.02
+      y: 2283.46
+      z: 83.3
+  start_delay: 1392
+  type: inspection
+- agent_id: agent_logistics_inspection_1
+  id: workflow_60
+  name: 物流workflow_60
+  properties:
+    delivery_location:
+      x: 4167.97
+      y: 1373.71
+      z: 50.0
+    payload_id: payload_60
+    payload_weight: 3.0
+    payloads: []
+    pickup_location:
+      x: 2860.25
+      y: 4351.57
+      z: 50.0
+  start_delay: 1416
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_61
+  name: 巡检workflow_61
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4702.03
+      y: 2920.0
+      z: 145.52
+    - x: 816.83
+      y: 242.66
+      z: 54.29
+    - x: 4687.55
+      y: 2656.23
+      z: 137.03
+    - x: 322.22
+      y: 968.59
+      z: 98.86
+    - x: 1251.85
+      y: 2458.99
+      z: 125.18
+    - x: 2917.84
+      y: 2150.5
+      z: 142.98
+    - x: 2867.37
+      y: 2974.29
+      z: 106.35
+    - x: 594.95
+      y: 4069.65
+      z: 65.93
+  start_delay: 1440
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_62
+  name: 物流workflow_62
+  properties:
+    delivery_location:
+      x: 834.83
+      y: 2616.9
+      z: 50.0
+    payload_id: payload_62
+    payload_weight: 2.1
+    payloads: []
+    pickup_location:
+      x: 1390.29
+      y: 2589.6
+      z: 50.0
+  start_delay: 1464
+  type: logistics
+- agent_id: agent_logistics_inspection_4
+  id: workflow_63
+  name: 巡检workflow_63
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 279.5
+      y: 279.87
+      z: 101.67
+    - x: 1420.46
+      y: 92.93
+      z: 129.27
+    - x: 3845.25
+      y: 2969.77
+      z: 118.24
+  start_delay: 1488
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_64
+  name: 物流workflow_64
+  properties:
+    delivery_location:
+      x: 1282.13
+      y: 3118.94
+      z: 50.0
+    payload_id: payload_64
+    payload_weight: 1.7
+    payloads: []
+    pickup_location:
+      x: 3919.42
+      y: 3766.02
+      z: 50.0
+  start_delay: 1512
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_65
+  name: 巡检workflow_65
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1372.84
+      y: 286.97
+      z: 138.83
+    - x: 4143.9
+      y: 4037.29
+      z: 61.6
+    - x: 4770.26
+      y: 978.95
+      z: 143.93
+    - x: 3643.6
+      y: 2954.46
+      z: 104.11
+    - x: 3367.03
+      y: 1469.79
+      z: 58.61
+    - x: 4132.32
+      y: 1771.4
+      z: 105.09
+    - x: 2736.58
+      y: 1767.43
+      z: 120.65
+    - x: 367.88
+      y: 3163.02
+      z: 146.0
+  start_delay: 1536
+  type: inspection
+- agent_id: agent_logistics_inspection_7
+  id: workflow_66
+  name: 物流workflow_66
+  properties:
+    delivery_location:
+      x: 3454.33
+      y: 784.19
+      z: 50.0
+    payload_id: payload_66
+    payload_weight: 2.0
+    payloads: []
+    pickup_location:
+      x: 3105.37
+      y: 4423.29
+      z: 50.0
+  start_delay: 1560
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_67
+  name: 巡检workflow_67
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4581.14
+      y: 3813.23
+      z: 80.01
+    - x: 21.97
+      y: 4122.11
+      z: 118.43
+    - x: 657.15
+      y: 2713.08
+      z: 116.4
+    - x: 2594.1
+      y: 3117.72
+      z: 111.22
+    - x: 2004.68
+      y: 3911.95
+      z: 96.9
+    - x: 1719.19
+      y: 4763.21
+      z: 73.88
+  start_delay: 1584
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_68
+  name: 物流workflow_68
+  properties:
+    delivery_location:
+      x: 3104.94
+      y: 2884.13
+      z: 50.0
+    payload_id: payload_68
+    payload_weight: 1.7
+    payloads: []
+    pickup_location:
+      x: 3193.03
+      y: 3827.5
+      z: 50.0
+  start_delay: 1608
+  type: logistics
+- agent_id: agent_logistics_inspection_10
+  id: workflow_69
+  name: 巡检workflow_69
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3885.2
+      y: 1881.06
+      z: 103.4
+    - x: 2421.94
+      y: 4014.88
+      z: 50.66
+    - x: 1373.98
+      y: 2026.16
+      z: 75.13
+    - x: 540.6
+      y: 1112.44
+      z: 82.72
+    - x: 1974.67
+      y: 4195.61
+      z: 81.96
+    - x: 4282.77
+      y: 3400.89
+      z: 82.56
+    - x: 1323.59
+      y: 2217.41
+      z: 121.62
+    - x: 1324.19
+      y: 4610.03
+      z: 110.56
+  start_delay: 1632
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_70
+  name: 物流workflow_70
+  properties:
+    delivery_location:
+      x: 3036.94
+      y: 4062.51
+      z: 50.0
+    payload_id: payload_70
+    payload_weight: 0.7
+    payloads: []
+    pickup_location:
+      x: 270.09
+      y: 790.59
+      z: 50.0
+  start_delay: 1656
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_71
+  name: 巡检workflow_71
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4316.29
+      y: 4805.93
+      z: 137.91
+    - x: 3545.32
+      y: 3656.99
+      z: 84.01
+    - x: 2424.17
+      y: 2952.53
+      z: 110.81
+    - x: 48.92
+      y: 4068.04
+      z: 111.12
+    - x: 3078.13
+      y: 3082.07
+      z: 101.68
+    - x: 1755.43
+      y: 1862.88
+      z: 89.36
+    - x: 2200.3
+      y: 3138.22
+      z: 117.68
+    - x: 3513.76
+      y: 132.07
+      z: 102.76
+  start_delay: 1680
+  type: inspection
+- agent_id: agent_logistics_inspection_3
+  id: workflow_72
+  name: 物流workflow_72
+  properties:
+    delivery_location:
+      x: 286.09
+      y: 380.26
+      z: 50.0
+    payload_id: payload_72
+    payload_weight: 2.3
+    payloads: []
+    pickup_location:
+      x: 1945.31
+      y: 423.55
+      z: 50.0
+  start_delay: 1704
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_73
+  name: 巡检workflow_73
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3140.46
+      y: 4788.99
+      z: 58.63
+    - x: 411.68
+      y: 308.87
+      z: 62.16
+    - x: 1134.71
+      y: 858.75
+      z: 77.95
+    - x: 1055.16
+      y: 3454.54
+      z: 136.29
+  start_delay: 1728
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_74
+  name: 物流workflow_74
+  properties:
+    delivery_location:
+      x: 3635.31
+      y: 1882.6
+      z: 50.0
+    payload_id: payload_74
+    payload_weight: 0.8
+    payloads: []
+    pickup_location:
+      x: 4381.1
+      y: 3039.48
+      z: 50.0
+  start_delay: 1752
+  type: logistics
+- agent_id: agent_logistics_inspection_6
+  id: workflow_75
+  name: 巡检workflow_75
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4779.06
+      y: 3034.49
+      z: 106.92
+    - x: 4623.7
+      y: 1679.07
+      z: 121.46
+    - x: 1912.94
+      y: 4089.83
+      z: 109.03
+    - x: 2987.19
+      y: 4569.54
+      z: 118.23
+    - x: 2757.15
+      y: 4662.33
+      z: 111.72
+    - x: 601.15
+      y: 3919.33
+      z: 77.15
+    - x: 3477.13
+      y: 3440.67
+      z: 121.25
+  start_delay: 1776
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_76
+  name: 物流workflow_76
+  properties:
+    delivery_location:
+      x: 3900.56
+      y: 359.42
+      z: 50.0
+    payload_id: payload_76
+    payload_weight: 1.2
+    payloads: []
+    pickup_location:
+      x: 4285.28
+      y: 515.56
+      z: 50.0
+  start_delay: 1800
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_77
+  name: 巡检workflow_77
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3561.62
+      y: 2855.56
+      z: 59.02
+    - x: 1874.92
+      y: 412.83
+      z: 77.74
+    - x: 4061.92
+      y: 414.92
+      z: 73.87
+    - x: 3750.62
+      y: 4222.66
+      z: 111.3
+  start_delay: 1824
+  type: inspection
+- agent_id: agent_logistics_inspection_9
+  id: workflow_78
+  name: 物流workflow_78
+  properties:
+    delivery_location:
+      x: 2769.85
+      y: 2208.4
+      z: 50.0
+    payload_id: payload_78
+    payload_weight: 1.7
+    payloads: []
+    pickup_location:
+      x: 697.16
+      y: 1577.63
+      z: 50.0
+  start_delay: 1848
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_79
+  name: 巡检workflow_79
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4966.75
+      y: 2092.85
+      z: 121.33
+    - x: 2013.69
+      y: 2049.16
+      z: 141.65
+    - x: 570.98
+      y: 805.35
+      z: 75.29
+    - x: 2843.19
+      y: 4887.76
+      z: 113.49
+    - x: 1050.93
+      y: 2989.85
+      z: 80.15
+    - x: 568.55
+      y: 2775.12
+      z: 70.94
+  start_delay: 1872
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_80
+  name: 物流workflow_80
+  properties:
+    delivery_location:
+      x: 2189.32
+      y: 4166.8
+      z: 50.0
+    payload_id: payload_80
+    payload_weight: 2.9
+    payloads: []
+    pickup_location:
+      x: 4154.36
+      y: 49.36
+      z: 50.0
+  start_delay: 1896
+  type: logistics
+- agent_id: agent_logistics_inspection_2
+  id: workflow_81
+  name: 巡检workflow_81
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4211.42
+      y: 3740.67
+      z: 138.88
+    - x: 2215.45
+      y: 3356.41
+      z: 104.62
+    - x: 4069.62
+      y: 3527.84
+      z: 125.08
+    - x: 3156.44
+      y: 217.22
+      z: 93.23
+    - x: 1964.01
+      y: 2146.91
+      z: 91.06
+    - x: 1947.76
+      y: 1378.77
+      z: 55.7
+    - x: 3767.55
+      y: 3569.41
+      z: 129.32
+    - x: 3069.22
+      y: 2443.17
+      z: 136.88
+  start_delay: 1920
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_82
+  name: 物流workflow_82
+  properties:
+    delivery_location:
+      x: 3336.94
+      y: 2646.05
+      z: 50.0
+    payload_id: payload_82
+    payload_weight: 1.5
+    payloads: []
+    pickup_location:
+      x: 691.2
+      y: 813.45
+      z: 50.0
+  start_delay: 1944
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_83
+  name: 巡检workflow_83
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1386.12
+      y: 4990.77
+      z: 67.07
+    - x: 746.78
+      y: 4815.05
+      z: 65.85
+    - x: 2723.84
+      y: 970.01
+      z: 109.17
+    - x: 4349.88
+      y: 2181.78
+      z: 60.95
+    - x: 4477.16
+      y: 4207.76
+      z: 93.49
+    - x: 1992.15
+      y: 4857.82
+      z: 136.29
+  start_delay: 1968
+  type: inspection
+- agent_id: agent_logistics_inspection_5
+  id: workflow_84
+  name: 物流workflow_84
+  properties:
+    delivery_location:
+      x: 932.35
+      y: 6.84
+      z: 50.0
+    payload_id: payload_84
+    payload_weight: 2.3
+    payloads: []
+    pickup_location:
+      x: 2057.81
+      y: 4867.57
+      z: 50.0
+  start_delay: 1992
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_85
+  name: 巡检workflow_85
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1150.35
+      y: 2962.17
+      z: 141.25
+    - x: 1602.01
+      y: 1325.35
+      z: 68.76
+    - x: 3033.1
+      y: 3018.46
+      z: 99.76
+    - x: 685.78
+      y: 4946.97
+      z: 145.63
+    - x: 3348.9
+      y: 50.61
+      z: 99.78
+    - x: 90.53
+      y: 1338.77
+      z: 73.52
+    - x: 4460.85
+      y: 4219.95
+      z: 104.04
+    - x: 556.67
+      y: 3648.47
+      z: 65.91
+  start_delay: 2016
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_86
+  name: 物流workflow_86
+  properties:
+    delivery_location:
+      x: 4056.81
+      y: 977.58
+      z: 50.0
+    payload_id: payload_86
+    payload_weight: 1.7
+    payloads: []
+    pickup_location:
+      x: 919.17
+      y: 2947.32
+      z: 50.0
+  start_delay: 2040
+  type: logistics
+- agent_id: agent_logistics_inspection_8
+  id: workflow_87
+  name: 巡检workflow_87
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4745.27
+      y: 652.79
+      z: 95.98
+    - x: 1458.6
+      y: 4171.19
+      z: 139.86
+    - x: 2842.7
+      y: 2715.39
+      z: 66.91
+    - x: 2799.79
+      y: 1528.74
+      z: 137.42
+  start_delay: 2064
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_88
+  name: 物流workflow_88
+  properties:
+    delivery_location:
+      x: 2438.73
+      y: 3847.29
+      z: 50.0
+    payload_id: payload_88
+    payload_weight: 1.0
+    payloads: []
+    pickup_location:
+      x: 3722.37
+      y: 1150.46
+      z: 50.0
+  start_delay: 2088
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_89
+  name: 巡检workflow_89
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2119.78
+      y: 398.76
+      z: 78.25
+    - x: 2320.81
+      y: 4332.43
+      z: 115.8
+    - x: 2217.53
+      y: 2926.24
+      z: 102.35
+    - x: 1117.06
+      y: 2493.75
+      z: 52.93
+    - x: 2098.65
+      y: 4434.6
+      z: 74.9
+    - x: 2427.07
+      y: 1133.38
+      z: 139.92
+    - x: 3043.15
+      y: 833.71
+      z: 139.31
+  start_delay: 2112
+  type: inspection
+- agent_id: agent_logistics_inspection_1
+  id: workflow_90
+  name: 物流workflow_90
+  properties:
+    delivery_location:
+      x: 4332.37
+      y: 43.82
+      z: 50.0
+    payload_id: payload_90
+    payload_weight: 2.5
+    payloads: []
+    pickup_location:
+      x: 385.86
+      y: 2114.36
+      z: 50.0
+  start_delay: 2136
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_91
+  name: 巡检workflow_91
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3964.78
+      y: 2431.55
+      z: 87.63
+    - x: 3289.22
+      y: 2553.43
+      z: 75.05
+    - x: 4780.89
+      y: 3229.1
+      z: 79.0
+    - x: 222.99
+      y: 3638.25
+      z: 123.82
+    - x: 4645.74
+      y: 899.8
+      z: 111.6
+    - x: 1170.12
+      y: 4340.96
+      z: 149.58
+    - x: 3517.03
+      y: 172.7
+      z: 142.84
+    - x: 963.47
+      y: 1557.19
+      z: 91.55
+  start_delay: 2160
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_92
+  name: 物流workflow_92
+  properties:
+    delivery_location:
+      x: 2230.67
+      y: 2192.98
+      z: 50.0
+    payload_id: payload_92
+    payload_weight: 2.4
+    payloads: []
+    pickup_location:
+      x: 670.61
+      y: 2899.67
+      z: 50.0
+  start_delay: 2184
+  type: logistics
+- agent_id: agent_logistics_inspection_4
+  id: workflow_93
+  name: 巡检workflow_93
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3202.37
+      y: 260.69
+      z: 70.79
+    - x: 2885.32
+      y: 1643.58
+      z: 68.23
+    - x: 4643.02
+      y: 2374.42
+      z: 56.55
+    - x: 3843.51
+      y: 1047.15
+      z: 51.21
+    - x: 2243.97
+      y: 156.25
+      z: 87.72
+    - x: 3273.36
+      y: 2190.6
+      z: 121.07
+    - x: 1519.04
+      y: 4798.23
+      z: 145.38
+  start_delay: 2208
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_94
+  name: 物流workflow_94
+  properties:
+    delivery_location:
+      x: 3744.75
+      y: 3341.13
+      z: 50.0
+    payload_id: payload_94
+    payload_weight: 1.9
+    payloads: []
+    pickup_location:
+      x: 2869.34
+      y: 2168.83
+      z: 50.0
+  start_delay: 2232
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_95
+  name: 巡检workflow_95
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1664.42
+      y: 2851.83
+      z: 54.85
+    - x: 1396.81
+      y: 2908.48
+      z: 92.41
+    - x: 758.74
+      y: 1918.38
+      z: 89.03
+  start_delay: 2256
+  type: inspection
+- agent_id: agent_logistics_inspection_7
+  id: workflow_96
+  name: 物流workflow_96
+  properties:
+    delivery_location:
+      x: 1235.73
+      y: 2469.97
+      z: 50.0
+    payload_id: payload_96
+    payload_weight: 1.3
+    payloads: []
+    pickup_location:
+      x: 50.99
+      y: 2259.51
+      z: 50.0
+  start_delay: 2280
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_97
+  name: 巡检workflow_97
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1018.05
+      y: 4120.27
+      z: 63.18
+    - x: 4140.26
+      y: 2378.44
+      z: 76.45
+    - x: 4105.21
+      y: 3375.57
+      z: 77.94
+    - x: 1276.94
+      y: 3660.08
+      z: 149.31
+    - x: 4959.67
+      y: 1755.56
+      z: 146.15
+    - x: 3679.36
+      y: 400.86
+      z: 109.36
+    - x: 1887.18
+      y: 3545.76
+      z: 145.46
+    - x: 459.34
+      y: 2405.95
+      z: 52.91
+  start_delay: 2304
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_98
+  name: 物流workflow_98
+  properties:
+    delivery_location:
+      x: 3647.6
+      y: 3196.73
+      z: 50.0
+    payload_id: payload_98
+    payload_weight: 1.6
+    payloads: []
+    pickup_location:
+      x: 4788.74
+      y: 1648.74
+      z: 50.0
+  start_delay: 2328
+  type: logistics
+- agent_id: agent_logistics_inspection_10
+  id: workflow_99
+  name: 巡检workflow_99
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2092.84
+      y: 323.27
+      z: 59.8
+    - x: 2141.47
+      y: 2961.15
+      z: 74.89
+    - x: 802.7
+      y: 4719.69
+      z: 61.09
+  start_delay: 2352
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_100
+  name: 物流workflow_100
+  properties:
+    delivery_location:
+      x: 2267.61
+      y: 4649.45
+      z: 50.0
+    payload_id: payload_100
+    payload_weight: 1.9
+    payloads: []
+    pickup_location:
+      x: 764.39
+      y: 1846.18
+      z: 50.0
+  start_delay: 2376
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_101
+  name: 巡检workflow_101
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 384.15
+      y: 2732.86
+      z: 90.22
+    - x: 174.9
+      y: 81.36
+      z: 145.52
+    - x: 1237.14
+      y: 4656.68
+      z: 69.65
+    - x: 707.77
+      y: 1951.43
+      z: 139.64
+    - x: 945.44
+      y: 3393.0
+      z: 85.98
+    - x: 147.66
+      y: 2358.93
+      z: 114.99
+    - x: 1536.24
+      y: 4258.87
+      z: 91.27
+    - x: 4108.93
+      y: 82.26
+      z: 66.47
+  start_delay: 2400
+  type: inspection
+- agent_id: agent_logistics_inspection_3
+  id: workflow_102
+  name: 物流workflow_102
+  properties:
+    delivery_location:
+      x: 1427.56
+      y: 1390.76
+      z: 50.0
+    payload_id: payload_102
+    payload_weight: 1.6
+    payloads: []
+    pickup_location:
+      x: 1844.67
+      y: 1042.6
+      z: 50.0
+  start_delay: 2424
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_103
+  name: 巡检workflow_103
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4007.66
+      y: 1705.94
+      z: 134.05
+    - x: 969.4
+      y: 2704.07
+      z: 68.7
+    - x: 17.98
+      y: 2729.74
+      z: 110.76
+  start_delay: 2448
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_104
+  name: 物流workflow_104
+  properties:
+    delivery_location:
+      x: 3321.07
+      y: 3279.83
+      z: 50.0
+    payload_id: payload_104
+    payload_weight: 2.2
+    payloads: []
+    pickup_location:
+      x: 3042.62
+      y: 2914.1
+      z: 50.0
+  start_delay: 2472
+  type: logistics
+- agent_id: agent_logistics_inspection_6
+  id: workflow_105
+  name: 巡检workflow_105
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3419.72
+      y: 4845.15
+      z: 120.72
+    - x: 3817.88
+      y: 1257.75
+      z: 127.65
+    - x: 464.12
+      y: 4480.48
+      z: 148.3
+    - x: 685.64
+      y: 698.51
+      z: 56.99
+  start_delay: 2496
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_106
+  name: 物流workflow_106
+  properties:
+    delivery_location:
+      x: 140.15
+      y: 2451.85
+      z: 50.0
+    payload_id: payload_106
+    payload_weight: 2.3
+    payloads: []
+    pickup_location:
+      x: 4693.82
+      y: 2630.7
+      z: 50.0
+  start_delay: 2520
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_107
+  name: 巡检workflow_107
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1624.47
+      y: 1629.76
+      z: 80.4
+    - x: 1861.08
+      y: 946.1
+      z: 88.47
+    - x: 2830.37
+      y: 4523.96
+      z: 96.33
+    - x: 3307.82
+      y: 2799.28
+      z: 52.42
+    - x: 717.66
+      y: 4689.24
+      z: 117.29
+    - x: 4371.66
+      y: 1928.46
+      z: 126.1
+    - x: 4760.89
+      y: 182.59
+      z: 56.79
+  start_delay: 2544
+  type: inspection
+- agent_id: agent_logistics_inspection_9
+  id: workflow_108
+  name: 物流workflow_108
+  properties:
+    delivery_location:
+      x: 1897.5
+      y: 3194.98
+      z: 50.0
+    payload_id: payload_108
+    payload_weight: 2.2
+    payloads: []
+    pickup_location:
+      x: 2759.84
+      y: 91.21
+      z: 50.0
+  start_delay: 2568
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_109
+  name: 巡检workflow_109
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4074.07
+      y: 986.01
+      z: 113.39
+    - x: 2668.61
+      y: 1287.15
+      z: 58.1
+    - x: 2818.1
+      y: 682.25
+      z: 100.97
+  start_delay: 2592
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_110
+  name: 物流workflow_110
+  properties:
+    delivery_location:
+      x: 3348.23
+      y: 3569.64
+      z: 50.0
+    payload_id: payload_110
+    payload_weight: 0.8
+    payloads: []
+    pickup_location:
+      x: 247.15
+      y: 414.08
+      z: 50.0
+  start_delay: 2616
+  type: logistics
+- agent_id: agent_logistics_inspection_2
+  id: workflow_111
+  name: 巡检workflow_111
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3037.78
+      y: 1648.43
+      z: 104.87
+    - x: 3974.69
+      y: 341.73
+      z: 124.47
+    - x: 951.09
+      y: 946.24
+      z: 94.41
+    - x: 222.02
+      y: 4833.43
+      z: 93.53
+    - x: 1420.4
+      y: 3682.38
+      z: 82.74
+    - x: 4912.99
+      y: 3989.22
+      z: 125.8
+    - x: 556.75
+      y: 1491.57
+      z: 103.12
+  start_delay: 2640
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_112
+  name: 物流workflow_112
+  properties:
+    delivery_location:
+      x: 1059.92
+      y: 2732.48
+      z: 50.0
+    payload_id: payload_112
+    payload_weight: 1.5
+    payloads: []
+    pickup_location:
+      x: 1420.89
+      y: 3493.64
+      z: 50.0
+  start_delay: 2664
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_113
+  name: 巡检workflow_113
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 643.79
+      y: 3692.37
+      z: 74.28
+    - x: 2528.07
+      y: 3956.44
+      z: 62.32
+    - x: 1089.48
+      y: 4772.49
+      z: 71.49
+    - x: 235.46
+      y: 4981.87
+      z: 99.92
+    - x: 1941.46
+      y: 1912.67
+      z: 145.84
+    - x: 1847.37
+      y: 3822.09
+      z: 58.48
+  start_delay: 2688
+  type: inspection
+- agent_id: agent_logistics_inspection_5
+  id: workflow_114
+  name: 物流workflow_114
+  properties:
+    delivery_location:
+      x: 3028.15
+      y: 1310.67
+      z: 50.0
+    payload_id: payload_114
+    payload_weight: 1.5
+    payloads: []
+    pickup_location:
+      x: 172.08
+      y: 1840.16
+      z: 50.0
+  start_delay: 2712
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_115
+  name: 巡检workflow_115
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1825.08
+      y: 2825.0
+      z: 102.4
+    - x: 1861.03
+      y: 2072.27
+      z: 86.16
+    - x: 821.78
+      y: 1200.92
+      z: 99.04
+    - x: 2756.0
+      y: 1039.06
+      z: 111.17
+    - x: 431.65
+      y: 3514.91
+      z: 68.44
+    - x: 4946.23
+      y: 1221.71
+      z: 76.01
+    - x: 3635.83
+      y: 604.3
+      z: 85.44
+  start_delay: 2736
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_116
+  name: 物流workflow_116
+  properties:
+    delivery_location:
+      x: 2003.51
+      y: 2005.19
+      z: 50.0
+    payload_id: payload_116
+    payload_weight: 2.1
+    payloads: []
+    pickup_location:
+      x: 2276.01
+      y: 3931.67
+      z: 50.0
+  start_delay: 2760
+  type: logistics
+- agent_id: agent_logistics_inspection_8
+  id: workflow_117
+  name: 巡检workflow_117
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 479.28
+      y: 191.8
+      z: 90.38
+    - x: 1163.15
+      y: 1408.7
+      z: 122.69
+    - x: 1328.47
+      y: 263.73
+      z: 66.67
+    - x: 1805.36
+      y: 622.96
+      z: 62.69
+    - x: 3658.93
+      y: 3183.71
+      z: 50.78
+    - x: 4333.41
+      y: 831.72
+      z: 129.72
+    - x: 3443.32
+      y: 4399.32
+      z: 130.98
+  start_delay: 2784
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_118
+  name: 物流workflow_118
+  properties:
+    delivery_location:
+      x: 2494.05
+      y: 2993.53
+      z: 50.0
+    payload_id: payload_118
+    payload_weight: 2.2
+    payloads: []
+    pickup_location:
+      x: 1643.77
+      y: 45.48
+      z: 50.0
+  start_delay: 2808
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_119
+  name: 巡检workflow_119
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2894.18
+      y: 2077.27
+      z: 57.53
+    - x: 537.63
+      y: 1948.63
+      z: 53.24
+    - x: 3799.42
+      y: 4197.98
+      z: 86.98
+    - x: 3519.34
+      y: 2014.54
+      z: 78.58
+    - x: 3989.29
+      y: 4374.56
+      z: 108.97
+  start_delay: 2832
+  type: inspection
+- agent_id: agent_logistics_inspection_1
+  id: workflow_120
+  name: 物流workflow_120
+  properties:
+    delivery_location:
+      x: 1434.12
+      y: 1888.75
+      z: 50.0
+    payload_id: payload_120
+    payload_weight: 1.6
+    payloads: []
+    pickup_location:
+      x: 1973.44
+      y: 147.51
+      z: 50.0
+  start_delay: 2856
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_121
+  name: 巡检workflow_121
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 3208.41
+      y: 2698.07
+      z: 69.75
+    - x: 3595.11
+      y: 4999.58
+      z: 71.61
+    - x: 4054.94
+      y: 3363.48
+      z: 88.52
+    - x: 4928.29
+      y: 969.8
+      z: 90.0
+    - x: 3431.7
+      y: 1390.92
+      z: 145.86
+    - x: 4207.36
+      y: 383.9
+      z: 106.75
+  start_delay: 2880
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_122
+  name: 物流workflow_122
+  properties:
+    delivery_location:
+      x: 2916.08
+      y: 4648.74
+      z: 50.0
+    payload_id: payload_122
+    payload_weight: 0.5
+    payloads: []
+    pickup_location:
+      x: 7.96
+      y: 1617.35
+      z: 50.0
+  start_delay: 2904
+  type: logistics
+- agent_id: agent_logistics_inspection_4
+  id: workflow_123
+  name: 巡检workflow_123
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4986.57
+      y: 1903.4
+      z: 121.25
+    - x: 1784.29
+      y: 964.12
+      z: 58.6
+    - x: 2298.46
+      y: 2469.72
+      z: 73.71
+    - x: 4073.33
+      y: 2160.15
+      z: 124.05
+    - x: 955.59
+      y: 3627.9
+      z: 51.33
+  start_delay: 2928
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_124
+  name: 物流workflow_124
+  properties:
+    delivery_location:
+      x: 2893.5
+      y: 2658.09
+      z: 50.0
+    payload_id: payload_124
+    payload_weight: 1.6
+    payloads: []
+    pickup_location:
+      x: 2806.58
+      y: 722.77
+      z: 50.0
+  start_delay: 2952
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_125
+  name: 巡检workflow_125
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4143.59
+      y: 2276.46
+      z: 149.96
+    - x: 4553.75
+      y: 2641.6
+      z: 90.93
+    - x: 4402.33
+      y: 4891.74
+      z: 65.42
+    - x: 1078.44
+      y: 3735.82
+      z: 122.12
+    - x: 4947.13
+      y: 695.21
+      z: 149.24
+  start_delay: 2976
+  type: inspection
+- agent_id: agent_logistics_inspection_7
+  id: workflow_126
+  name: 物流workflow_126
+  properties:
+    delivery_location:
+      x: 3063.93
+      y: 2674.81
+      z: 50.0
+    payload_id: payload_126
+    payload_weight: 2.9
+    payloads: []
+    pickup_location:
+      x: 3227.68
+      y: 2048.62
+      z: 50.0
+  start_delay: 3000
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_127
+  name: 巡检workflow_127
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4588.9
+      y: 3198.65
+      z: 136.26
+    - x: 497.64
+      y: 4080.49
+      z: 127.76
+    - x: 365.46
+      y: 3095.44
+      z: 145.81
+    - x: 4101.07
+      y: 1112.99
+      z: 59.07
+  start_delay: 3024
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_128
+  name: 物流workflow_128
+  properties:
+    delivery_location:
+      x: 197.49
+      y: 41.33
+      z: 50.0
+    payload_id: payload_128
+    payload_weight: 2.3
+    payloads: []
+    pickup_location:
+      x: 1857.05
+      y: 4572.23
+      z: 50.0
+  start_delay: 3048
+  type: logistics
+- agent_id: agent_logistics_inspection_10
+  id: workflow_129
+  name: 巡检workflow_129
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2991.39
+      y: 2459.35
+      z: 62.61
+    - x: 3199.14
+      y: 1134.14
+      z: 137.22
+    - x: 1716.53
+      y: 3532.66
+      z: 120.37
+    - x: 3349.85
+      y: 566.61
+      z: 111.21
+    - x: 1290.85
+      y: 4721.61
+      z: 102.19
+    - x: 2201.61
+      y: 4116.77
+      z: 71.29
+    - x: 2671.57
+      y: 2336.9
+      z: 95.7
+    - x: 4803.08
+      y: 2778.58
+      z: 117.39
+  start_delay: 3072
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_130
+  name: 物流workflow_130
+  properties:
+    delivery_location:
+      x: 2526.0
+      y: 3531.44
+      z: 50.0
+    payload_id: payload_130
+    payload_weight: 1.9
+    payloads: []
+    pickup_location:
+      x: 3524.73
+      y: 3229.0
+      z: 50.0
+  start_delay: 3096
+  type: logistics
+- agent_id: agent_inspection_only_22
+  id: workflow_131
+  name: 巡检workflow_131
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1585.16
+      y: 2680.2
+      z: 70.46
+    - x: 2253.54
+      y: 1161.48
+      z: 137.42
+    - x: 4988.01
+      y: 438.63
+      z: 115.42
+    - x: 2395.01
+      y: 3207.48
+      z: 147.07
+    - x: 2477.91
+      y: 2841.86
+      z: 120.7
+  start_delay: 3120
+  type: inspection
+- agent_id: agent_logistics_inspection_3
+  id: workflow_132
+  name: 物流workflow_132
+  properties:
+    delivery_location:
+      x: 69.5
+      y: 2318.28
+      z: 50.0
+    payload_id: payload_132
+    payload_weight: 1.5
+    payloads: []
+    pickup_location:
+      x: 1086.38
+      y: 1220.58
+      z: 50.0
+  start_delay: 3144
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_133
+  name: 巡检workflow_133
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2242.94
+      y: 2591.8
+      z: 144.05
+    - x: 1886.12
+      y: 3511.89
+      z: 73.6
+    - x: 55.27
+      y: 98.01
+      z: 142.79
+    - x: 3253.54
+      y: 260.27
+      z: 138.48
+  start_delay: 3168
+  type: inspection
+- agent_id: agent_logistics_only_15
+  id: workflow_134
+  name: 物流workflow_134
+  properties:
+    delivery_location:
+      x: 4225.88
+      y: 2431.11
+      z: 50.0
+    payload_id: payload_134
+    payload_weight: 1.8
+    payloads: []
+    pickup_location:
+      x: 2839.71
+      y: 886.37
+      z: 50.0
+  start_delay: 3192
+  type: logistics
+- agent_id: agent_logistics_inspection_6
+  id: workflow_135
+  name: 巡检workflow_135
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 2891.72
+      y: 3547.41
+      z: 103.65
+    - x: 2290.45
+      y: 3781.55
+      z: 63.48
+    - x: 3360.84
+      y: 2512.7
+      z: 133.51
+  start_delay: 3216
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_136
+  name: 物流workflow_136
+  properties:
+    delivery_location:
+      x: 308.85
+      y: 1517.58
+      z: 50.0
+    payload_id: payload_136
+    payload_weight: 1.3
+    payloads: []
+    pickup_location:
+      x: 747.14
+      y: 4890.75
+      z: 50.0
+  start_delay: 3240
+  type: logistics
+- agent_id: agent_inspection_only_28
+  id: workflow_137
+  name: 巡检workflow_137
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4184.52
+      y: 1909.41
+      z: 128.01
+    - x: 1269.05
+      y: 2382.47
+      z: 55.66
+    - x: 3914.22
+      y: 2954.0
+      z: 139.18
+    - x: 840.54
+      y: 4010.96
+      z: 138.03
+    - x: 1191.12
+      y: 1798.53
+      z: 144.87
+    - x: 4348.18
+      y: 1049.97
+      z: 62.07
+    - x: 2525.79
+      y: 3717.09
+      z: 111.79
+    - x: 4619.94
+      y: 4706.33
+      z: 118.82
+  start_delay: 3264
+  type: inspection
+- agent_id: agent_logistics_inspection_9
+  id: workflow_138
+  name: 物流workflow_138
+  properties:
+    delivery_location:
+      x: 4883.2
+      y: 636.99
+      z: 50.0
+    payload_id: payload_138
+    payload_weight: 2.0
+    payloads: []
+    pickup_location:
+      x: 3964.14
+      y: 4200.01
+      z: 50.0
+  start_delay: 3288
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_139
+  name: 巡检workflow_139
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4771.91
+      y: 3192.6
+      z: 83.46
+    - x: 1327.62
+      y: 786.02
+      z: 61.91
+    - x: 4613.46
+      y: 2398.66
+      z: 144.31
+    - x: 4399.94
+      y: 4972.86
+      z: 117.27
+  start_delay: 3312
+  type: inspection
+- agent_id: agent_logistics_only_11
+  id: workflow_140
+  name: 物流workflow_140
+  properties:
+    delivery_location:
+      x: 3093.21
+      y: 1307.68
+      z: 50.0
+    payload_id: payload_140
+    payload_weight: 1.1
+    payloads: []
+    pickup_location:
+      x: 414.59
+      y: 3323.4
+      z: 50.0
+  start_delay: 3336
+  type: logistics
+- agent_id: agent_logistics_inspection_2
+  id: workflow_141
+  name: 巡检workflow_141
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4061.88
+      y: 3681.66
+      z: 137.79
+    - x: 2551.92
+      y: 3276.16
+      z: 134.45
+    - x: 3438.08
+      y: 2335.69
+      z: 55.61
+    - x: 4573.98
+      y: 2369.54
+      z: 60.94
+  start_delay: 3360
+  type: inspection
+- agent_id: agent_logistics_only_13
+  id: workflow_142
+  name: 物流workflow_142
+  properties:
+    delivery_location:
+      x: 3438.74
+      y: 2551.08
+      z: 50.0
+    payload_id: payload_142
+    payload_weight: 2.1
+    payloads: []
+    pickup_location:
+      x: 3174.28
+      y: 2543.34
+      z: 50.0
+  start_delay: 3384
+  type: logistics
+- agent_id: agent_inspection_only_24
+  id: workflow_143
+  name: 巡检workflow_143
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 4796.85
+      y: 3032.48
+      z: 90.32
+    - x: 3133.07
+      y: 1619.75
+      z: 104.0
+    - x: 2058.33
+      y: 1375.39
+      z: 129.68
+    - x: 229.51
+      y: 4824.35
+      z: 141.62
+    - x: 4625.46
+      y: 1435.09
+      z: 113.13
+    - x: 4896.18
+      y: 4039.1
+      z: 98.33
+    - x: 4465.8
+      y: 1035.79
+      z: 104.62
+  start_delay: 3408
+  type: inspection
+- agent_id: agent_logistics_inspection_5
+  id: workflow_144
+  name: 物流workflow_144
+  properties:
+    delivery_location:
+      x: 447.43
+      y: 2242.65
+      z: 50.0
+    payload_id: payload_144
+    payload_weight: 0.5
+    payloads: []
+    pickup_location:
+      x: 1712.94
+      y: 4498.94
+      z: 50.0
+  start_delay: 3432
+  type: logistics
+- agent_id: agent_inspection_only_26
+  id: workflow_145
+  name: 巡检workflow_145
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 603.57
+      y: 1604.12
+      z: 52.28
+    - x: 2248.73
+      y: 4301.12
+      z: 55.9
+    - x: 1082.07
+      y: 162.23
+      z: 145.87
+    - x: 3256.59
+      y: 2210.93
+      z: 62.33
+    - x: 179.31
+      y: 567.91
+      z: 123.55
+  start_delay: 3456
+  type: inspection
+- agent_id: agent_logistics_only_17
+  id: workflow_146
+  name: 物流workflow_146
+  properties:
+    delivery_location:
+      x: 4652.67
+      y: 1450.32
+      z: 50.0
+    payload_id: payload_146
+    payload_weight: 0.7
+    payloads: []
+    pickup_location:
+      x: 289.36
+      y: 2574.19
+      z: 50.0
+  start_delay: 3480
+  type: logistics
+- agent_id: agent_logistics_inspection_8
+  id: workflow_147
+  name: 巡检workflow_147
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 676.83
+      y: 1916.21
+      z: 135.59
+    - x: 2035.2
+      y: 788.71
+      z: 129.98
+    - x: 3818.8
+      y: 4005.67
+      z: 142.27
+    - x: 2523.35
+      y: 4332.14
+      z: 78.08
+  start_delay: 3504
+  type: inspection
+- agent_id: agent_logistics_only_19
+  id: workflow_148
+  name: 物流workflow_148
+  properties:
+    delivery_location:
+      x: 1755.24
+      y: 4781.31
+      z: 50.0
+    payload_id: payload_148
+    payload_weight: 0.8
+    payloads: []
+    pickup_location:
+      x: 4738.16
+      y: 1514.95
+      z: 50.0
+  start_delay: 3528
+  type: logistics
+- agent_id: agent_inspection_only_30
+  id: workflow_149
+  name: 巡检workflow_149
+  properties:
+    data_collection_type: image
+    inspection_mode: sequential
+    inspection_points:
+    - x: 1748.83
+      y: 4501.16
+      z: 63.24
+    - x: 4525.72
+      y: 440.17
+      z: 136.86
+    - x: 4168.95
+      y: 4408.75
+      z: 73.8
+    - x: 2786.63
+      y: 1422.13
+      z: 103.32
+    - x: 3139.38
+      y: 4610.09
+      z: 113.52
+    - x: 1545.92
+      y: 341.78
+      z: 126.9
+  start_delay: 3552
+  type: inspection
+- agent_id: agent_logistics_inspection_1
+  id: workflow_150
+  name: 物流workflow_150
+  properties:
+    delivery_location:
+      x: 568.44
+      y: 487.01
+      z: 50.0
+    payload_id: payload_150
+    payload_weight: 2.4
+    payloads: []
+    pickup_location:
+      x: 1884.12
+      y: 1993.76
+      z: 50.0
+  start_delay: 3576
+  type: logistics

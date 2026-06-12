@@ -1,0 +1,40 @@
+{
+  "name": "smoke_test",
+  "duration_s": 30,
+  "uav_count": 4,
+  "area": {
+    "width": 1200,
+    "height": 800
+  },
+  "altitude_range": [
+    20,
+    40
+  ],
+  "speed_mps": {
+    "min": 10,
+    "max": 18
+  },
+  "trace_step_s": 1.0,
+  "max_waypoints": 6,
+  "canyon_entry_probability": 0.45,
+  "hotspot_crossing_probability": 0.3,
+  "plan_start_window_s": [
+    1.0,
+    4.0
+  ],
+  "plan_interval_s": 10.0,
+  "plan_priority": 2,
+  "replan_rate_per_uav_per_min": 4,
+  "replan_priority_weights": {
+    "1": 0.5,
+    "2": 0.35,
+    "3": 0.15
+  },
+  "decouple_rate_per_uav_per_min": 1.0,
+  "decouple_priority_weights": {
+    "2": 0.45,
+    "3": 0.55
+  },
+  "background_sta_count": 2,
+  "seed": 20260413
+}

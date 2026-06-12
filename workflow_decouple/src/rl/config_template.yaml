@@ -1,0 +1,44 @@
+# RL训练配置模板
+
+# 数据配置
+data:
+  root: "data/multi_seed_runs"
+  train_runs: [42, 43, 44, 45, 46, 47, 48]  # 训练run IDs
+  val_runs: [49, 50]                        # 验证run IDs
+
+# 观测编码配置
+observation:
+  dim: 120                                  # 观测维度（自动计算）
+  normalize: true                           # 是否归一化
+  aggregator: "stats"                       # 聚合方式（stats/deepsets）
+
+# 策略网络配置
+policy:
+  weight_dim: 26                            # 权重维度（特征维度）
+  hidden_dims: [256, 256]                   # 隐藏层维度
+  dropout: 0.1                              # Dropout比例
+  cluster_choices: [20, 30, 40, 50, 60, 70, 80, 90, 100]  # 簇数候选
+
+# 训练配置
+training:
+  n_epochs: 100                             # 训练轮数
+  learning_rate: 0.001                      # 学习率
+  baseline_momentum: 0.9                    # 基线动量
+  entropy_coef: 0.01                        # 熵正则化系数
+  eval_every: 10                            # 评估间隔
+  early_stopping_patience: 20               # 早停patience
+  
+# 聚类配置
+clustering:
+  random_state: 42                          # 随机种子
+  n_init: 10                                # KMeans初始化次数
+  w_min: 0.001                              # 权重下界
+
+# 输出配置
+output:
+  dir: "data/bandit_results"                # 输出目录
+  save_best: true                           # 保存最佳模型
+  save_history: true                        # 保存训练历史
+
+# 设备配置
+device: null                                # cuda/cpu/null(自动)

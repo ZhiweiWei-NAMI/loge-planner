@@ -1,0 +1,79 @@
+# 通信任务场景配置文件
+# 用于配置通信无人机、工作流和仿真参数
+
+# 场景基本信息
+scenario_name: "通信任务场景"
+description: "展示如何使用框架实现无人机通信和数据传输场景"
+
+# 引用公共配置
+common_config: "common_config.yaml"
+
+# 智能体配置
+agents:
+  - id: "CommDrone_A"
+    type: "communication_drone"
+    description: "主要通信中继无人机"
+    properties:
+      battery_level: 100.0
+      battery_capacity: 5000.0
+      payload_capacity: 1.5
+      weight: 2.0
+      max_speed: 18.0  # m/s
+      communication_range: 1500.0  # 米
+      interference_signal_strength: -80.0  # dBm
+      frequency_band: 2.4  # GHz
+      transmission_power: 20.0  # dBm
+      cell_id: 'unknown'
+    initial_position:
+      x: 100.0  # 米
+      y: 200.0  # 米
+      z: 150.0  # 米
+    initial_state:
+      battery_level: 100.0
+
+  - id: "CommDrone_B"
+    type: "communication_drone"
+    description: "辅助通信无人机"
+    properties:
+      battery_level: 100.0
+      battery_capacity: 5000.0
+      payload_capacity: 1.5
+      weight: 2.0
+      max_speed: 18.0  # m/s
+      communication_range: 1500.0  # 米
+      interference_signal_strength: -80.0  # dBm
+      frequency_band: 2.4  # GHz
+      transmission_power: 20.0  # dBm
+      cell_id: 'unknown'
+    initial_position:
+      x: 250.0  # 米
+      y: 300.0  # 米
+      z: 120.0  # 米
+    initial_state:
+      battery_level: 100.0
+      
+# 工作流配置
+workflows:
+  - id: "relay_workflow_high_priority"
+    name: "中继实时侦察视频流"
+    type: "communication" 
+    description: "由CommDrone_B执行，将实时视频流数据块中继给指挥中心。"
+    agent_id: "CommDrone_B" # 执行中继任务的无人机
+    properties:
+      data_id: "live_stream_chunk_112"
+      data_size_mb: 25.0
+      target_location: [100.0, 200.0, 50.0]  # 目标位置 (x, y, z 米)
+      max_end_to_end_latency_s: 1.5         # 严格的端到端延迟要求
+    start_delay: 5 # 5秒后启动
+
+  - id: "relay_workflow_bulk_data"
+    name: "回传高清地图数据"
+    type: "communication" # 类型明确为“中继”
+    description: "由CommDrone_A执行，将采集的高清地图数据分块回传至数据中心。"
+    agent_id: "CommDrone_A" # 执行中继任务的无人机
+    properties:
+      data_id: "map_tile_block_042"
+      data_size_mb: 500.0                   # 数据量大
+      target_location: [100.0, 200.0, 50.0]  # 目标位置 (x, y, z 米)
+      max_end_to_end_latency_s: 3.0       # 延迟要求宽松
+    start_delay: 120 # 2分钟后启动

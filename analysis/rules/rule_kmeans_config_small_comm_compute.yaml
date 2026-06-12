@@ -1,0 +1,176 @@
+metadata:
+  scenario: small_comm_compute
+  version: 1
+  source: rule_weight_summarizer
+  n_features: 26
+features:
+- name: spatial_variance
+  source: S_ctx.geo_var
+- name: temporal_density
+  source: S_ctx.time_var
+- name: task_diversity
+  source: S_ctx.task_diversity
+- name: n_samples
+  source: S_ctx.n_samples
+weight_mapping:
+  spatial:
+  - 0
+  - 1
+  - 2
+  operation_type:
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  requirement:
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  resource:
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  qos:
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+feature_names:
+- location_x
+- location_y
+- location_z
+- op_pickup
+- op_transport
+- op_delivery
+- op_inspection
+- op_compute
+- op_communication
+- op_completion
+- op_empty
+- req_mobility
+- req_logistics
+- req_inspection
+- req_communication
+- req_compute
+- payload_weight
+- compute_gflops
+- cpu_intensity
+- memory_intensity
+- io_intensity
+- comm_bandwidth_mb
+- max_latency_s
+- quality_threshold
+- inspection_interval
+- n_inspection_points
+rules:
+- id: R_compute_comm
+  priority: 10
+  if: []
+  then:
+    weights:
+    - 0.5
+    - 0.5
+    - 0.4
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.3
+    - 0.95
+    - 0.95
+    - 0.4
+    - 0.2
+    - 0.3
+    - 0.2
+    - 0.3
+    - 0.9
+    - 0.9
+    - 0.2
+    - 0.95
+    - 0.9
+    - 0.9
+    - 0.9
+    - 0.95
+    - 0.95
+    - 0.7
+    - 0.3
+    - 0.3
+    n_clusters_per_run: 25
+  notes: 通信/计算场景：强调计算和通信资源需求
+- id: R_latency_critical
+  priority: 12
+  if:
+  - feature: temporal_density
+    op: '>'
+    value: 0.18
+  then:
+    weights:
+    - 0.4
+    - 0.4
+    - 0.3
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.3
+    - 0.9
+    - 0.95
+    - 0.4
+    - 0.2
+    - 0.3
+    - 0.2
+    - 0.3
+    - 0.95
+    - 0.9
+    - 0.2
+    - 0.9
+    - 0.9
+    - 0.9
+    - 0.9
+    - 1.0
+    - 1.0
+    - 0.8
+    - 0.4
+    - 0.4
+    n_clusters_per_run: 25
+  notes: 高时延敏感场景：强调通信带宽和时延约束
+- id: R_balanced_default
+  priority: 0
+  default: true
+  then:
+    weights:
+    - 0.7
+    - 0.7
+    - 0.7
+    - 0.6
+    - 0.6
+    - 0.6
+    - 0.6
+    - 0.8
+    - 0.8
+    - 0.6
+    - 0.5
+    - 0.6
+    - 0.6
+    - 0.6
+    - 0.8
+    - 0.8
+    - 0.6
+    - 0.8
+    - 0.8
+    - 0.8
+    - 0.8
+    - 0.8
+    - 0.8
+    - 0.7
+    - 0.6
+    - 0.6
+    n_clusters_per_run: 30
+  notes: 默认平衡规则，适用于一般场景

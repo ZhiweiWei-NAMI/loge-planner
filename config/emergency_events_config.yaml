@@ -1,0 +1,118 @@
+# 突发事件配置文件
+# 用于配置气象环境和不明飞行物的突发事件
+
+# 场景基本信息
+scenario_name: "突发事件场景"
+description: "展示气象环境控制器和不明飞行物生成器的突发事件模拟"
+
+# 引用公共配置
+common_config: "common_config.yaml"
+
+# 气象环境控制器配置
+weather_controller:
+  # 初始天气条件
+  initial_wind_speed: 5.0      # m/s
+  initial_wind_direction: 0.0   # degrees
+  initial_visibility: 10000.0   # meters
+  initial_temperature: 20.0     # celsius
+  initial_humidity: 60.0        # percentage
+  initial_precipitation: 0.0    # mm/h
+  initial_pressure: 1013.25     # hPa
+  
+  # 天气更新间隔
+  update_interval: 1.0         # seconds
+  
+  # 天气变化范围
+  weather_ranges:
+    wind_speed: [0, 30]         # m/s
+    visibility: [100, 15000]    # meters
+    temperature: [-20, 45]      # celsius
+    humidity: [20, 100]         # percentage
+    precipitation: [0, 50]      # mm/h
+    pressure: [980, 1050]       # hPa
+  
+  # 天气事件配置
+  weather_events:
+    - trigger_time: 300         # 5分钟后
+      type: "high_wind"
+      parameters:
+        center: [400, 300, 150]   # 区域中心坐标
+        radius: 600.0             # 影响半径（米）
+        duration: 900.0           # 持续时间（秒）
+        wind_speed: 20.0
+        wind_direction: 45.0
+
+    - trigger_time: 600         # 10分钟后
+      type: "fog"
+      parameters:
+        center: [600, 700, 100]   # 低空雾区
+        radius: 800.0
+        duration: 1200.0          # 20分钟
+        visibility: 300.0
+        humidity: 98.0
+
+    - trigger_time: 900         # 15分钟后
+      type: "storm"
+      parameters:
+        center: [200, 500, 200]   # 暴风雨区域
+        radius: 1000.0
+        duration: 1800.0          # 30分钟
+        wind_speed: 28.0
+        precipitation: 25.0
+        visibility: 800.0
+
+    - trigger_time: 1200        # 20分钟后
+      type: "temperature_extreme"
+      parameters:
+        center: [800, 400, 180]   # 极端温度区域
+        radius: 700.0
+        duration: 2400.0          # 40分钟
+        temperature: -15.0
+
+    - trigger_time: 1500        # 25分钟后
+      type: "weather_zone"      # 自定义天气区域
+      parameters:
+        zone_id: "complex_weather_1"
+        center: [500, 500, 250]
+        radius: 500.0
+        duration: 1800.0          # 30分钟
+        wind_speed: 18.0
+        wind_direction: 180.0
+        visibility: 1500.0
+        temperature: 5.0
+        humidity: 85.0
+        precipitation: 8.0
+
+# 事件影响配置
+event_effects:
+  # 天气事件对agent的影响
+  weather_effects:
+    high_wind:
+      # 风速超过15m/s时的影响
+      external_force_factor: 0.1    # 风力影响系数
+      max_speed_reduction: 0.7      # 最大速度降低到70%
+      
+    low_visibility:
+      # 能见度低于1000m时的影响
+      sensor_accuracy: 0.5          # 传感器精度降低到50%
+      
+    extreme_temperature:
+      # 极端温度时的影响
+      battery_efficiency_cold: 0.8  # 低温时电池效率80%
+      battery_efficiency_hot: 0.9   # 高温时电池效率90%
+      
+  # UFO事件对agent的影响
+  ufo_effects:
+    threat_levels:
+      low:
+        sensor_accuracy_reduction: 0.2    # 传感器精度降低20%
+        communication_interference: 0.0   # 无通信干扰
+        
+      medium:
+        sensor_accuracy_reduction: 0.5    # 传感器精度降低50%
+        communication_interference: 0.5   # 通信干扰50%
+        
+      high:
+        sensor_accuracy_reduction: 0.9    # 传感器精度降低90%
+        communication_interference: 1.0   # 完全通信干扰
+        navigation_error_range: 10        # 导航误差范围（米）

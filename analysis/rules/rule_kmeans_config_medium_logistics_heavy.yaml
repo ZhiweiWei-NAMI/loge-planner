@@ -1,0 +1,197 @@
+metadata:
+  scenario: medium_logistics_heavy
+  version: 1
+  source: rule_weight_summarizer
+  n_features: 26
+features:
+- name: spatial_variance
+  source: S_ctx.geo_var
+- name: temporal_density
+  source: S_ctx.time_var
+- name: task_diversity
+  source: S_ctx.task_diversity
+- name: n_samples
+  source: S_ctx.n_samples
+weight_mapping:
+  spatial:
+  - 0
+  - 1
+  - 2
+  operation_type:
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  requirement:
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  resource:
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  qos:
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+feature_names:
+- location_x
+- location_y
+- location_z
+- op_pickup
+- op_transport
+- op_delivery
+- op_inspection
+- op_compute
+- op_communication
+- op_completion
+- op_empty
+- req_mobility
+- req_logistics
+- req_inspection
+- req_communication
+- req_compute
+- payload_weight
+- compute_gflops
+- cpu_intensity
+- memory_intensity
+- io_intensity
+- comm_bandwidth_mb
+- max_latency_s
+- quality_threshold
+- inspection_interval
+- n_inspection_points
+
+# 递归HtT分解树参数 (htt_recursive方法使用)
+recursive_params:
+  max_depth: 3
+  min_samples: 8
+  max_leaf_size: 40000
+  spatial_var_threshold: null
+  max_workflows_per_cluster: null
+  min_variance: 0.008
+  bisection_method: kmeans
+  
+  agent_matching:
+    k_neighbors: 2
+    cooldown: 20.0
+    max_clusters_per_agent: 5
+    max_checkpoints_per_agent: 50
+    prefer_owner: false
+
+rules:
+- id: R_logistics_spatial
+  priority: 10
+  if:
+  - feature: spatial_variance
+    op: '>'
+    value: 0.15
+  then:
+    weights:
+    - 0.96  # location_x - 极高空间权重
+    - 0.96  # location_y
+    - 0.90  # location_z
+    - 0.80  # op_pickup
+    - 0.80  # op_transport
+    - 0.80  # op_delivery
+    - 0.40  # op_inspection
+    - 0.35  # op_compute
+    - 0.40  # op_communication
+    - 0.28  # op_completion
+    - 0.18  # op_empty
+    - 0.70  # req_mobility
+    - 0.80  # req_logistics
+    - 0.40  # req_inspection
+    - 0.40  # req_communication
+    - 0.35  # req_compute
+    - 0.75  # payload_weight
+    - 0.35  # compute_gflops
+    - 0.35  # cpu_intensity
+    - 0.35  # memory_intensity
+    - 0.40  # io_intensity
+    - 0.45  # comm_bandwidth_mb
+    - 0.50  # max_latency_s
+    - 0.40  # quality_threshold
+    - 0.30  # inspection_interval
+    - 0.30  # n_inspection_points
+    n_clusters_per_run: 10
+  notes: 物流场景：极强空间聚合，减少cluster数
+- id: R_logistics_compact
+  priority: 8
+  if:
+  - feature: spatial_variance
+    op: <=
+    value: 0.15
+  then:
+    weights:
+    - 0.94  # location_x - 高空间权重
+    - 0.94  # location_y
+    - 0.88  # location_z
+    - 0.85  # op_pickup
+    - 0.85  # op_transport
+    - 0.85  # op_delivery
+    - 0.45  # op_inspection
+    - 0.38  # op_compute
+    - 0.42  # op_communication
+    - 0.28  # op_completion
+    - 0.18  # op_empty
+    - 0.65  # req_mobility
+    - 0.80  # req_logistics
+    - 0.42  # req_inspection
+    - 0.42  # req_communication
+    - 0.38  # req_compute
+    - 0.75  # payload_weight
+    - 0.40  # compute_gflops
+    - 0.40  # cpu_intensity
+    - 0.40  # memory_intensity
+    - 0.42  # io_intensity
+    - 0.48  # comm_bandwidth_mb
+    - 0.52  # max_latency_s
+    - 0.45  # quality_threshold
+    - 0.35  # inspection_interval
+    - 0.35  # n_inspection_points
+    n_clusters_per_run: 10
+  notes: 物流场景：空间紧凑时也用强空间聚合
+- id: R_balanced_default
+  priority: 0
+  default: true
+  then:
+    weights:
+    - 0.95  # location_x - 极强空间聚合
+    - 0.95  # location_y
+    - 0.88  # location_z
+    - 0.75  # op_pickup
+    - 0.75  # op_transport
+    - 0.75  # op_delivery
+    - 0.45  # op_inspection
+    - 0.40  # op_compute
+    - 0.42  # op_communication
+    - 0.30  # op_completion
+    - 0.20  # op_empty
+    - 0.58  # req_mobility
+    - 0.72  # req_logistics
+    - 0.45  # req_inspection
+    - 0.42  # req_communication
+    - 0.40  # req_compute
+    - 0.68  # payload_weight
+    - 0.45  # compute_gflops
+    - 0.45  # cpu_intensity
+    - 0.45  # memory_intensity
+    - 0.45  # io_intensity
+    - 0.50  # comm_bandwidth_mb
+    - 0.55  # max_latency_s
+    - 0.50  # quality_threshold
+    - 0.45  # inspection_interval
+    - 0.45  # n_inspection_points
+    n_clusters_per_run: 10
+  notes: 默认规则：极强空间聚合，减少cluster数

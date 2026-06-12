@@ -1,0 +1,217 @@
+# 场景生成配置 - 用于动态生成agents和workflows
+
+scenario_name: "dynamic_data_collection"
+scenario_description: "动态生成UAV和工作流的数据收集场景"
+
+# 仿真空间设置
+simulation_space:
+  x_min: 0
+  x_max: 5000
+  y_min: 0
+  y_max: 5000
+  z_min: 50
+  z_max: 150
+
+# 热点区域配置 - 任务点位将优先在热点区域内生成
+hotspot_regions:
+  enable: true  # 启用热点区域
+  hotspot_probability: 0.8  # 80%概率在热点内生成，20%随机分布
+  regions:
+    # 区域1: 商业中心 (物流配送热点)
+    - name: "商业中心"
+      center: [1200, 1200, 100]
+      radius: 600  # 米
+      types: ["logistics", "communication"]  # 适用的任务类型
+      weight: 2.0  # 权重（泊松分布的lambda参数）
+    
+    # 区域2: 工业区 (巡检+计算热点)
+    - name: "工业区"
+      center: [3800, 1500, 120]
+      radius: 500
+      types: ["inspection", "computation"]
+      weight: 1.5
+    
+    # 区域3: 居住区 (物流配送热点)
+    - name: "居住区"
+      center: [1500, 3500, 80]
+      radius: 700
+      types: ["logistics", "communication"]
+      weight: 2.5
+    
+    # 区域4: 科技园 (计算+通信热点)
+    - name: "科技园"
+      center: [3500, 3800, 100]
+      radius: 550
+      types: ["computation", "communication"]
+      weight: 2.0
+    
+    # 区域5: 基础设施带 (巡检热点)
+    - name: "基础设施带"
+      center: [2500, 2500, 90]
+      radius: 800
+      types: ["inspection"]
+      weight: 1.8
+    
+    # 区域6: 物流枢纽
+    - name: "物流枢纽"
+      center: [500, 500, 110]
+      radius: 400
+      types: ["logistics"]
+      weight: 3.0
+
+# 测试场景配置 - 5个不同业务特色的场景
+test_scenarios:
+  # 场景1: 小规模-物流巡检混合 (城市配送+基础设施巡检)
+  small_logistics_inspection:
+    description: "城市配送与基础设施巡检混合场景"
+    agents:
+      logistics_inspection: 20  # 多功能为主
+      logistics_only: 5
+      inspection_only: 5
+    workflows:
+      logistics: 
+        count: 15
+        start_delay_min: 0
+        start_delay_max: 200
+        start_delay_step: 2
+        payload_weight_min: 0.5
+        payload_weight_max: 3.0
+      inspection:
+        count: 15
+        inspection_points_min: 3
+        inspection_points_max: 6
+        start_delay_min: 0
+        start_delay_max: 200
+        start_delay_step: 2
+        data_collection_type: 'image'
+        inspection_mode: 'sequential'
+  
+  # 场景2: 小规模-通信计算混合 (物联网数据采集+边缘计算)
+  small_comm_compute:
+    description: "物联网数据中继与边缘计算混合场景"
+    agents:
+      communication_only: 15  # 通信专用
+      compute_only: 10        # 计算专用
+      comm_compute: 5         # 通信计算混合
+    workflows:
+      communication:
+        count: 16
+        data_size_min_mb: 10
+        data_size_max_mb: 100
+        start_delay_min: 0
+        start_delay_max: 200
+        start_delay_step: 2
+      computation:
+        count: 14
+        gflops_min: 100
+        gflops_max: 1000
+        start_delay_min: 0
+        start_delay_max: 200
+        start_delay_step: 2
+  
+  # 场景3: 中规模-物流主导 (电商配送高峰)
+  medium_logistics_heavy:
+    description: "电商配送高峰场景，物流为主、巡检通信为辅"
+    agents:
+      logistics_only: 40       # 物流专用
+      logistics_inspection: 25 # 多功能
+      communication_only: 15   # 通信辅助
+    workflows:
+      logistics:
+        count: 48  # 60%
+        start_delay_min: 0
+        start_delay_max: 300
+        start_delay_step: 2
+        payload_weight_min: 0.5
+        payload_weight_max: 3.0
+      inspection:
+        count: 16  # 20%
+        inspection_points_min: 3
+        inspection_points_max: 6
+        start_delay_min: 0
+        start_delay_max: 300
+        start_delay_step: 2
+        data_collection_type: 'image'
+        inspection_mode: 'sequential'
+      communication:
+        count: 16  # 20%
+        data_size_min_mb: 20
+        data_size_max_mb: 150
+        start_delay_min: 0
+        start_delay_max: 300
+        start_delay_step: 2
+  
+  # 场景4: 中规模-巡检主导 (基础设施全面巡检+数据分析)
+  medium_inspection_heavy:
+    description: "基础设施全面巡检场景，巡检为主、物流计算为辅"
+    agents:
+      inspection_only: 40      # 巡检专用
+      logistics_inspection: 25 # 多功能
+      compute_only: 15         # 计算辅助
+    workflows:
+      inspection:
+        count: 48  # 60%
+        inspection_points_min: 4
+        inspection_points_max: 8
+        start_delay_min: 0
+        start_delay_max: 300
+        start_delay_step: 2
+        data_collection_type: 'image'
+        inspection_mode: 'sequential'
+      logistics:
+        count: 16  # 20%
+        start_delay_min: 0
+        start_delay_max: 300
+        start_delay_step: 2
+        payload_weight_min: 0.5
+        payload_weight_max: 3.0
+      computation:
+        count: 16  # 20%
+        gflops_min: 200
+        gflops_max: 1500
+        start_delay_min: 0
+        start_delay_max: 300
+        start_delay_step: 2
+  
+  # 场景5: 大规模-全业务混合 (智慧城市综合运营)
+  large_mixed:
+    description: "智慧城市综合运营场景，四种业务均衡分布"
+    agents:
+      logistics_inspection: 40  # 多功能
+      logistics_only: 25
+      inspection_only: 25
+      communication_only: 25
+      compute_only: 20
+      comm_compute: 15         # 通信计算混合
+    workflows:
+      logistics:
+        count: 38  # 25%
+        start_delay_min: 0
+        start_delay_max: 400
+        start_delay_step: 2
+        payload_weight_min: 0.5
+        payload_weight_max: 3.0
+      inspection:
+        count: 38  # 25%
+        inspection_points_min: 4
+        inspection_points_max: 8
+        start_delay_min: 0
+        start_delay_max: 400
+        start_delay_step: 2
+        data_collection_type: 'image'
+        inspection_mode: 'sequential'
+      communication:
+        count: 37  # 25%
+        data_size_min_mb: 10
+        data_size_max_mb: 200
+        start_delay_min: 0
+        start_delay_max: 400
+        start_delay_step: 2
+      computation:
+        count: 37  # 25%
+        gflops_min: 100
+        gflops_max: 2000
+        start_delay_min: 0
+        start_delay_max: 400
+        start_delay_step: 2
+        

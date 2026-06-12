@@ -1,0 +1,40 @@
+{
+  "name": "core_baseline",
+  "duration_s": 120,
+  "uav_count": 12,
+  "area": {
+    "width": 2400,
+    "height": 1600
+  },
+  "altitude_range": [
+    25,
+    60
+  ],
+  "speed_mps": {
+    "min": 12,
+    "max": 24
+  },
+  "trace_step_s": 1.0,
+  "max_waypoints": 10,
+  "canyon_entry_probability": 0.5,
+  "hotspot_crossing_probability": 0.35,
+  "plan_start_window_s": [
+    1.0,
+    8.0
+  ],
+  "plan_interval_s": 30.0,
+  "plan_priority": 2,
+  "replan_rate_per_uav_per_min": 6,
+  "replan_priority_weights": {
+    "1": 0.45,
+    "2": 0.35,
+    "3": 0.2
+  },
+  "decouple_rate_per_uav_per_min": 1.0,
+  "decouple_priority_weights": {
+    "2": 0.4,
+    "3": 0.6
+  },
+  "background_sta_count": 6,
+  "seed": 20260413
+}

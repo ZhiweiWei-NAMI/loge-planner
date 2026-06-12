@@ -1,0 +1,18 @@
+{
+  "name": "wifi_5ghz_fixed",
+  "standard": "80211n",
+  "ssid": "UavControlNet",
+  "phy_mode": "HtMcs3",
+  "control_mode": "HtMcs0",
+  "channel_width_mhz": 20,
+  "frequency_hz": 5000000000.0,
+  "tx_power_dbm": 18.0,
+  "edge_ap_height_m": 25.0,
+  "cloud_backhaul_delay_ms": 12.0,
+  "cloud_backhaul_rate_mbps": 1000,
+  "cloud_backhaul_packet_error_rate": 0.05,
+  "pcap": false,
+  "netanim": true,
+  "netanim_packet_metadata": false,
+  "netanim_mobility_poll_interval_ms": 500.0
+}

@@ -1,0 +1,9 @@
+{
+  "name": "cloud_edge",
+  "plan_target": "edge",
+  "replan_target": "edge",
+  "decouple_target": "cloud",
+  "plan_response_source": "edge",
+  "replan_response_source": "edge",
+  "decouple_response_source": "cloud"
+}

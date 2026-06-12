@@ -1,0 +1,101 @@
+# 拓扑与飞行走廊配置
+# 基于中国低空空域管理规定和UAV飞行规范
+
+# 空域拓扑参数
+topology:
+  # 节点数量配置
+  n_vertiports: 40       # 起降场数量
+  n_waypoints: 120       # 空中航点数量
+  n_charging: 10         # 充电站数量
+  k_neighbors: 5         # K近邻连接数
+  
+  # 节点高度配置 (米)
+  waypoint_altitude:
+    min: 40.0            # 最低飞行高度 (避开建筑物)
+    max: 120.0           # 最高飞行高度 (低空空域上限)
+  
+  # 节点容量
+  vertiport_capacity: 5  # 每个起降场可容纳的无人机数
+  waypoint_capacity: 3   # 每个航点可容纳的无人机数
+  charging_capacity: 2   # 每个充电站可容纳的无人机数
+
+# 飞行走廊 (Edge) 配置
+corridor:
+  # 速度限制 (m/s) - 基于UAV型号和空域管理规定
+  # 小型多旋翼无人机典型巡航速度: 10-20 m/s
+  # 城市低空空域限速通常为 15-20 m/s
+  base_velocity: 15.0    # 基准速度限制 (m/s)
+  
+  # 不同区域的速度限制系数
+  speed_zones:
+    urban_core: 0.8      # 城市核心区 (12 m/s)
+    urban_normal: 1.0    # 城市普通区 (15 m/s)
+    suburban: 1.2        # 郊区 (18 m/s)
+    industrial: 1.0      # 工业区 (15 m/s)
+  
+  # 拥堵模型参数
+  rho_jam: 0.5           # 拥堵密度阈值 (0-1)
+  capacity: 10           # 走廊容量 (同时通过的无人机数)
+  
+  # 天气影响系数
+  weather_factors:
+    clear: 1.0           # 晴天
+    cloudy: 0.95         # 多云
+    light_rain: 0.8      # 小雨
+    heavy_rain: 0.5      # 大雨 (建议停飞)
+    fog: 0.6             # 雾天
+    strong_wind: 0.7     # 强风 (>10 m/s)
+
+# 无人机参数 (Agent)
+agent:
+  # 速度配置 (m/s)
+  max_speed: 15.0        # 最大飞行速度 (与走廊限速匹配)
+  cruise_speed: 12.0     # 巡航速度 (经济速度)
+  min_speed: 2.0         # 最小飞行速度
+  
+  # 加速度 (m/s²)
+  max_acceleration: 3.0  # 最大加速度
+  max_deceleration: 5.0  # 最大减速度 (刹车)
+
+# 速度监控与事故模型配置
+speed_monitoring:
+  # 超速容差
+  tolerance: 1.1         # 允许超速10% (1.1倍限速)
+  
+  # 超速事故概率模型 (基于超速程度)
+  # P(accident) = base_rate * (1 + severity_factor * (speed/limit - 1))²
+  # 超速越多，事故概率呈指数增长
+  accident_model:
+    enabled: true
+    base_accident_rate: 0.001     # 正常飞行事故率 (0.1%)
+    severity_factor: 50.0         # 超速严重性系数
+    # 示例计算:
+    # - 超速10%: P = 0.001 * (1 + 50 * 0.1)² = 0.001 * 36 = 3.6%
+    # - 超速20%: P = 0.001 * (1 + 50 * 0.2)² = 0.001 * 121 = 12.1%
+    # - 超速50%: P = 0.001 * (1 + 50 * 0.5)² = 0.001 * 676 = 67.6%
+    
+    # 超速严重程度阈值
+    thresholds:
+      warning: 1.05      # 5% 超速: 警告
+      minor: 1.10        # 10% 超速: 轻微违规
+      moderate: 1.20     # 20% 超速: 中度违规
+      severe: 1.50       # 50% 超速: 严重违规 (强制停飞)
+    
+    # 各级别处罚
+    penalties:
+      warning: "log_only"           # 仅记录
+      minor: "speed_reduction"      # 强制降速
+      moderate: "task_suspension"   # 暂停任务
+      severe: "agent_failure"       # 无人机失效
+
+# 实时监控配置
+monitoring:
+  polling_interval: 1.0           # 状态轮询间隔 (秒)
+  deadline_check_interval: 5.0    # 超时检查间隔 (秒)
+  speed_check_interval: 0.5       # 速度检查间隔 (秒)
+  
+  # 日志输出
+  output:
+    replan_triggers: "data/results/replan_triggers.csv"
+    speed_violations: "data/results/speed_violations.csv"
+    accidents: "data/results/accidents.csv"

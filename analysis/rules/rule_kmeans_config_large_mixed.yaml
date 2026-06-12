@@ -1,0 +1,422 @@
+metadata:
+  scenario: large_mixed
+  version: 1
+  source: rule_weight_summarizer
+  n_features: 26
+features:
+- name: spatial_variance
+  source: ctx.spatial_variance
+- name: temporal_density
+  source: ctx.temporal_density
+- name: task_diversity
+  source: ctx.task_diversity
+- name: n_samples
+  source: ctx.n_samples
+- name: depth
+  source: ctx.depth
+- name: n_workflows
+  source: ctx.n_workflows
+- name: inspection_ratio
+  source: ctx.inspection_ratio
+- name: inspection_move_ratio
+  source: ctx.inspection_move_ratio
+weight_mapping:
+  spatial:
+  - 0
+  - 1
+  - 2
+  operation_type:
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  requirement:
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  resource:
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  qos:
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+feature_names:
+- location_x
+- location_y
+- location_z
+- op_pickup
+- op_transport
+- op_delivery
+- op_inspection
+- op_compute
+- op_communication
+- op_completion
+- op_empty
+- req_mobility
+- req_logistics
+- req_inspection
+- req_communication
+- req_compute
+- payload_weight
+- compute_gflops
+- cpu_intensity
+- memory_intensity
+- io_intensity
+- comm_bandwidth_mb
+- max_latency_s
+- quality_threshold
+- inspection_interval
+- n_inspection_points
+
+# 递归HtT分解树参数 (htt_recursive方法使用)
+recursive_params:
+  max_depth: 4
+  min_samples: 8
+  max_leaf_size: 60000
+  spatial_var_threshold: null
+  max_workflows_per_cluster: null
+  min_variance: 0.006
+  bisection_method: kmeans
+  
+  agent_matching:
+    k_neighbors: 2
+    cooldown: 25.0
+    max_clusters_per_agent: 5
+    max_checkpoints_per_agent: 45
+    prefer_owner: false
+
+rules:
+- id: R_depth0_tasktype_split
+  priority: 50
+  if:
+  - feature: depth
+    op: '=='
+    value: 0
+  - feature: n_workflows
+    op: '>='
+    value: 80
+  then:
+    # 根节点：强空间聚合，减少workflow拆分
+    weights:
+    - 0.92  # location_x - 高空间权重
+    - 0.92  # location_y
+    - 0.85  # location_z
+    - 0.75  # op_pickup
+    - 0.75  # op_transport
+    - 0.75  # op_delivery
+    - 0.70  # op_inspection
+    - 0.65  # op_compute
+    - 0.70  # op_communication
+    - 0.35  # op_completion
+    - 0.25  # op_empty
+    - 0.70  # req_mobility
+    - 0.70  # req_logistics
+    - 0.68  # req_inspection
+    - 0.70  # req_communication
+    - 0.65  # req_compute
+    - 0.55  # payload_weight
+    - 0.55  # compute_gflops
+    - 0.55  # cpu_intensity
+    - 0.55  # memory_intensity
+    - 0.55  # io_intensity
+    - 0.60  # comm_bandwidth_mb
+    - 0.60  # max_latency_s
+    - 0.55  # quality_threshold
+    - 0.50  # inspection_interval
+    - 0.50  # n_inspection_points
+    n_clusters_per_run: 18
+  notes: 深度0根节点：强空间聚合，减少cluster数
+
+- id: R_depth1_3_spatial_multi_workflows
+  priority: 40
+  if:
+  - feature: depth
+    op: '>='
+    value: 1
+  - feature: depth
+    op: '<='
+    value: 3
+  - feature: n_workflows
+    op: '>='
+    value: 10
+  - feature: spatial_variance
+    op: '>'
+    value: 300000
+  then:
+    # 中浅层：极强空间聚合
+    weights:
+    - 0.96  # location_x - 极高空间权重
+    - 0.96  # location_y
+    - 0.90  # location_z
+    - 0.40  # op_pickup
+    - 0.40  # op_transport
+    - 0.40  # op_delivery
+    - 0.42  # op_inspection
+    - 0.38  # op_compute
+    - 0.42  # op_communication
+    - 0.28  # op_completion
+    - 0.18  # op_empty
+    - 0.55  # req_mobility
+    - 0.50  # req_logistics
+    - 0.52  # req_inspection
+    - 0.52  # req_communication
+    - 0.48  # req_compute
+    - 0.58  # payload_weight
+    - 0.48  # compute_gflops
+    - 0.48  # cpu_intensity
+    - 0.48  # memory_intensity
+    - 0.48  # io_intensity
+    - 0.52  # comm_bandwidth_mb
+    - 0.55  # max_latency_s
+    - 0.55  # quality_threshold
+    - 0.52  # inspection_interval
+    - 0.52  # n_inspection_points
+    n_clusters_per_run: 14
+  notes: 中浅层：极强空间聚合，减少cluster数
+
+- id: R_compact_and_large
+  priority: 20
+  if:
+  - feature: n_checkpoints
+    op: '>='
+    value: 40
+  - feature: spatial_variance
+    op: '<='
+    value: 300000
+  then:
+    # 紧凑且样本数大的簇：降低空间权重，提升操作/需求权重，鼓励按任务逻辑拆
+    weights:
+    - 0.60  # location_x
+    - 0.60  # location_y
+    - 0.55  # location_z
+    - 0.95  # op_pickup
+    - 0.95  # op_transport
+    - 0.95  # op_delivery
+    - 0.95  # op_inspection
+    - 0.80  # op_compute
+    - 0.80  # op_communication
+    - 0.40  # op_completion
+    - 0.30  # op_empty
+    - 0.90  # req_mobility
+    - 0.90  # req_logistics
+    - 0.85  # req_inspection
+    - 0.80  # req_communication
+    - 0.80  # req_compute
+    - 0.55  # payload_weight
+    - 0.60  # compute_gflops
+    - 0.60  # cpu_intensity
+    - 0.55  # memory_intensity
+    - 0.55  # io_intensity
+    - 0.60  # comm_bandwidth_mb
+    - 0.65  # max_latency_s
+    - 0.65  # quality_threshold
+    - 0.65  # inspection_interval
+    - 0.65  # n_inspection_points
+    n_clusters_per_run: 24
+  notes: 紧凑大簇优先按任务逻辑细分，降低单簇内目标数量，缓解PDDL上限
+
+- id: R_dispersed_and_large
+  priority: 18
+  if:
+  - feature: n_checkpoints
+    op: '>='
+    value: 40
+  - feature: spatial_variance
+    op: '>'
+    value: 1000000
+  then:
+    # 分散且样本数大的簇：增强空间权重，鼓励按空间再分，减少跨区域路径开销
+    weights:
+    - 0.98  # location_x
+    - 0.98  # location_y
+    - 0.92  # location_z
+    - 0.40  # op_pickup
+    - 0.40  # op_transport
+    - 0.40  # op_delivery
+    - 0.40  # op_inspection
+    - 0.35  # op_compute
+    - 0.35  # op_communication
+    - 0.25  # op_completion
+    - 0.20  # op_empty
+    - 0.55  # req_mobility
+    - 0.50  # req_logistics
+    - 0.50  # req_inspection
+    - 0.45  # req_communication
+    - 0.45  # req_compute
+    - 0.60  # payload_weight
+    - 0.45  # compute_gflops
+    - 0.45  # cpu_intensity
+    - 0.45  # memory_intensity
+    - 0.45  # io_intensity
+    - 0.50  # comm_bandwidth_mb
+    - 0.55  # max_latency_s
+    - 0.55  # quality_threshold
+    - 0.55  # inspection_interval
+    - 0.55  # n_inspection_points
+    n_clusters_per_run: 22
+  notes: 分散大簇优先按空间再分，减少长距离路径与资源竞争
+
+- id: R_depth1_3_inspection_dominant
+  priority: 48
+  if:
+  - feature: depth
+    op: '>='
+    value: 1
+  - feature: depth
+    op: '<='
+    value: 3
+  - feature: inspection_move_ratio
+    op: '>='
+    value: 0.6
+  then:
+    # depth 1-3 且巡检/移动到巡检操作占多数的节点：
+    # 强化巡检相关特征和空间局部性，压低非巡检操作和非巡检需求
+    weights:
+    - 0.90  # location_x
+    - 0.90  # location_y
+    - 0.85  # location_z
+    - 0.30  # op_pickup
+    - 0.30  # op_transport
+    - 0.30  # op_delivery
+    - 1.00  # op_inspection
+    - 0.40  # op_compute
+    - 0.40  # op_communication
+    - 0.30  # op_completion
+    - 0.20  # op_empty
+    - 0.30  # req_mobility
+    - 0.30  # req_logistics
+    - 1.00  # req_inspection
+    - 0.40  # req_communication
+    - 0.40  # req_compute
+    - 0.50  # payload_weight
+    - 0.40  # compute_gflops
+    - 0.40  # cpu_intensity
+    - 0.40  # memory_intensity
+    - 0.40  # io_intensity
+    - 0.50  # comm_bandwidth_mb
+    - 0.50  # max_latency_s
+    - 1.00  # quality_threshold
+    - 1.00  # inspection_interval
+    - 1.00  # n_inspection_points
+    n_clusters_per_run: 18
+  notes: 中浅层巡检主导节点，优先按巡检参数和空间聚合，减少异类任务干扰
+
+- id: R_high_spatial_variance
+  priority: 12
+  if:
+  - feature: spatial_variance
+    op: '>'
+    value: 0.2  # high dispersion
+  then:
+    weights:
+    - 0.95  # location_x - 极高空间权重减少workflow拆分
+    - 0.95  # location_y
+    - 0.90  # location_z
+    - 0.40  # op_pickup - 降低操作权重避免按类型切分
+    - 0.40  # op_transport
+    - 0.40  # op_delivery
+    - 0.40  # op_inspection
+    - 0.35  # op_compute
+    - 0.35  # op_communication
+    - 0.25  # op_completion
+    - 0.15  # op_empty
+    - 0.50  # req_mobility
+    - 0.45  # req_logistics
+    - 0.45  # req_inspection
+    - 0.40  # req_communication
+    - 0.40  # req_compute
+    - 0.55  # payload_weight
+    - 0.40  # compute_gflops
+    - 0.40  # cpu_intensity
+    - 0.40  # memory_intensity
+    - 0.40  # io_intensity
+    - 0.45  # comm_bandwidth_mb
+    - 0.50  # max_latency_s
+    - 0.50  # quality_threshold
+    - 0.50  # inspection_interval
+    - 0.50  # n_inspection_points
+    n_clusters_per_run: 18
+  notes: 大幅减少簇数+强空间聚合，避免workflow被拆分到多个cluster
+
+- id: R_moderate_spatial_variance
+  priority: 10
+  if:
+  - feature: spatial_variance
+    op: '<='
+    value: 0.2
+  then:
+    weights:
+    - 0.92  # location_x - 高空间权重
+    - 0.92  # location_y
+    - 0.85  # location_z
+    - 0.45  # op_pickup
+    - 0.45  # op_transport
+    - 0.45  # op_delivery
+    - 0.45  # op_inspection
+    - 0.40  # op_compute
+    - 0.40  # op_communication
+    - 0.30  # op_completion
+    - 0.20  # op_empty
+    - 0.55  # req_mobility
+    - 0.50  # req_logistics
+    - 0.50  # req_inspection
+    - 0.45  # req_communication
+    - 0.45  # req_compute
+    - 0.60  # payload_weight
+    - 0.45  # compute_gflops
+    - 0.45  # cpu_intensity
+    - 0.45  # memory_intensity
+    - 0.45  # io_intensity
+    - 0.50  # comm_bandwidth_mb
+    - 0.55  # max_latency_s
+    - 0.55  # quality_threshold
+    - 0.55  # inspection_interval
+    - 0.55  # n_inspection_points
+    n_clusters_per_run: 20
+  notes: 中等簇数+强空间聚合
+
+- id: R_balanced_default
+  priority: 0
+  default: true
+  then:
+    weights:
+    - 0.90  # location_x
+    - 0.90  # location_y
+    - 0.82  # location_z
+    - 0.50  # op_pickup
+    - 0.50  # op_transport
+    - 0.50  # op_delivery
+    - 0.50  # op_inspection
+    - 0.45  # op_compute
+    - 0.45  # op_communication
+    - 0.35  # op_completion
+    - 0.25  # op_empty
+    - 0.60  # req_mobility
+    - 0.55  # req_logistics
+    - 0.55  # req_inspection
+    - 0.50  # req_communication
+    - 0.50  # req_compute
+    - 0.65  # payload_weight
+    - 0.50  # compute_gflops
+    - 0.50  # cpu_intensity
+    - 0.50  # memory_intensity
+    - 0.50  # io_intensity
+    - 0.55  # comm_bandwidth_mb
+    - 0.60  # max_latency_s
+    - 0.60  # quality_threshold
+    - 0.60  # inspection_interval
+    - 0.60  # n_inspection_points
+    n_clusters_per_run: 22
+  notes: 默认规则：减少簇数+强空间聚合避免workflow拆分

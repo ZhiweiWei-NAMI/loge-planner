@@ -1,0 +1,34 @@
+{
+  "name": "city_canyon",
+  "background_contention_load_mbps": 6.0,
+  "regions": [
+    {
+      "region_id": "canyon_main",
+      "type": "canyon_region",
+      "x_min": 320,
+      "x_max": 680,
+      "y_min": 180,
+      "y_max": 620,
+      "z_min": 0,
+      "z_max": 120,
+      "extra_loss_db": 8.0,
+      "extra_jitter_ms": 24.0,
+      "drop_probability": 0.12,
+      "building_height": 35.0
+    },
+    {
+      "region_id": "hotspot_core",
+      "type": "hotspot_region",
+      "x_min": 720,
+      "x_max": 960,
+      "y_min": 220,
+      "y_max": 580,
+      "z_min": 0,
+      "z_max": 120,
+      "extra_loss_db": 3.0,
+      "extra_jitter_ms": 10.0,
+      "drop_probability": 0.06,
+      "building_height": 0.0
+    }
+  ]
+}
