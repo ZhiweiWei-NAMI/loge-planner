@@ -794,7 +794,8 @@ def run_stage3_planning(
         logger.info(f"Generated sequential plans for {len(workflow_agent_map)} workflows -> {len(set(workflow_agent_map.values()))} agents")
     else:
         # Multi-agent PDDL planning for other methods
-        domain_file = project_root / "data" / "pddl" / "domain" / "tccn_domain.pddl"
+        tracked_domain = project_root / "config" / "pddl" / "tccn_domain.pddl"
+        domain_file = tracked_domain if tracked_domain.exists() else (project_root / "data" / "pddl" / "domain" / "tccn_domain.pddl")
         
         # Build agent positions
         agent_positions: Dict[str, Tuple[float, float, float]] = {}

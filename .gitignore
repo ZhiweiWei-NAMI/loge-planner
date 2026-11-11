@@ -20,6 +20,7 @@
 !*.toml
 !*.ini
 !*.cfg
+!*.pddl
 !ns3_comm_sim/configs/**/*.json
 
 # Local secrets, editor state, and caches

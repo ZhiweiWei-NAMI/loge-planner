@@ -468,9 +468,10 @@ class PDDLSolver:
         
         # 设置domain文件路径
         if domain_file is None:
-            # 使用默认的domain文件
             current_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-            domain_file = os.path.join(current_dir, "data", "pddl", "domain", "tccn_domain.pddl")
+            tracked_domain = os.path.join(current_dir, "config", "pddl", "tccn_domain.pddl")
+            legacy_domain = os.path.join(current_dir, "data", "pddl", "domain", "tccn_domain.pddl")
+            domain_file = tracked_domain if os.path.exists(tracked_domain) else legacy_domain
 
         self.domain_file = domain_file
         if not os.path.exists(self.domain_file):
