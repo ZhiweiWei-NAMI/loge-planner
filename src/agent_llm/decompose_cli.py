@@ -1,4 +1,4 @@
-"""CLI: real OpenAI-compatible macro-task decomposition for LoGe Planner.
+"""CLI: OpenAI-compatible macro-task decomposition for LoGe Planner.
 
 Produces ``checkpoint_clusters_<method>.csv`` -- the exact input Stage 2
 (``stage2_plan_from_clusters``) and Stage 3 (``stage3_plan_with_pddl``) expect
@@ -12,7 +12,7 @@ Dry run (no API call, prints the exact prompt that would be sent)::
         --run-dir data/offline_init/large_mixed/run_seed_42 \\
         --model gpt-4o-mini --dry-run
 
-Real cloud call and in-place cluster file for Stage 2/3::
+Cloud call and in-place cluster file for Stage 2/3::
 
     export OPENAI_API_KEY=...
     python -m src.agent_llm.decompose_cli \\
@@ -29,9 +29,9 @@ Re-validate / re-emit a saved decomposition without calling the API::
         --from-json data/offline_init/large_mixed/run_seed_42/llm_decomposition/llm_decomposition_gpt-4o-mini.json \\
         --cluster-method llm --inplace
 
-The CLI never fabricates a decomposition: API failures, non-JSON responses,
-missing checkpoints, duplicate assignments, and causal-order violations exit
-non-zero without writing a cluster CSV.
+The CLI validates the decomposition and exits non-zero without writing a
+cluster CSV when it encounters API failures, non-JSON responses, missing
+checkpoints, duplicate assignments, or causal-order violations.
 """
 
 from __future__ import annotations

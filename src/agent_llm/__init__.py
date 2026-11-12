@@ -1,8 +1,8 @@
 """LLM-assisted components of LoGe Planner (``v1.1.0``).
 
-This package implements the *executable* LLM paths referenced by the manuscript:
+This package implements the LLM paths referenced by the manuscript:
 
-* :mod:`src.agent_llm.decompose_cli` -- real OpenAI-compatible cloud macro-task
+* :mod:`src.agent_llm.decompose_cli` -- OpenAI-compatible cloud macro-task
   decomposition that emits a ``checkpoint_clusters_<method>.csv`` file directly
   consumable by Stage 2 (``stage2_plan_from_clusters``) and Stage 3
   (``stage3_plan_with_pddl``).

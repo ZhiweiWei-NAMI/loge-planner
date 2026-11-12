@@ -1,10 +1,9 @@
-"""Real local Qwen2.5-0.5B (+PEFT/LoRA) inference for the terminal monitor.
+"""Local Qwen2.5-0.5B (+PEFT/LoRA) inference for the terminal monitor.
 
-This module is the only place where the terminal-monitor LLM is executed.  It
-loads a real base model with ``transformers`` and a real adapter with ``peft``,
-runs greedy generation, and parses the emitted label.  There is no fallback
-path: a missing adapter, a missing dependency, or an unparsable generation is
-reported as such and never replaced by a guess.
+This module runs the terminal-monitor LLM.  It loads the base model with
+``transformers`` and applies the adapter with ``peft``, runs greedy generation,
+and parses the emitted label.  A missing adapter, a missing dependency, or an
+unparsable generation is reported as an error.
 
 Dependencies (see ``requirements-llm.txt``): ``transformers``, ``peft``,
 ``accelerate``, optional ``bitsandbytes`` for 4-bit loading.  ``torch`` is
@@ -155,7 +154,7 @@ class TerminalLoRAInference:
         batch_size: int = 8,
         trust_remote_code: bool = False,
     ):
-        """Load a real base model, and a real LoRA adapter when one is given.
+        """Load the base model, and a LoRA adapter when one is given.
 
         ``adapter_dir=None`` means base-model-only inference (the paper's
         "Base Tiny-LLM without LoRA" condition); it is never a silent fallback

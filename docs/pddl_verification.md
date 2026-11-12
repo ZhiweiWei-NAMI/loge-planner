@@ -9,7 +9,7 @@ replanning path (`src/validation/scoped_replanner.py`,
 All commands assume:
 
 ```bash
-export PROJECT_ROOT=/path/to/SCIS_auto_planner   # repository root
+export PROJECT_ROOT=/path/to/loge-planner   # repository root
 cd "$PROJECT_ROOT"
 ```
 
