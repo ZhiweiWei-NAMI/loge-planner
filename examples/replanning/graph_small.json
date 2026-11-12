@@ -1,0 +1,350 @@
+{
+  "name": "demo_small_airspace",
+  "note": "Synthetic 3x4 waypoint grid used only by the scoped-replanning demo fixtures.",
+  "bounds": {
+    "x_min": 0.0,
+    "x_max": 3000.0,
+    "y_min": 0.0,
+    "y_max": 2000.0,
+    "z_min": 0.0,
+    "z_max": 200.0
+  },
+  "nodes": [
+    {
+      "id": "wp_0_0",
+      "type": "waypoint",
+      "x": 0.0,
+      "y": 0.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_0_1",
+      "type": "waypoint",
+      "x": 1000.0,
+      "y": 0.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_0_2",
+      "type": "waypoint",
+      "x": 2000.0,
+      "y": 0.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_0_3",
+      "type": "waypoint",
+      "x": 3000.0,
+      "y": 0.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_1_0",
+      "type": "waypoint",
+      "x": 0.0,
+      "y": 1000.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_1_1",
+      "type": "waypoint",
+      "x": 1000.0,
+      "y": 1000.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_1_2",
+      "type": "waypoint",
+      "x": 2000.0,
+      "y": 1000.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_1_3",
+      "type": "waypoint",
+      "x": 3000.0,
+      "y": 1000.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_2_0",
+      "type": "waypoint",
+      "x": 0.0,
+      "y": 2000.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_2_1",
+      "type": "waypoint",
+      "x": 1000.0,
+      "y": 2000.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_2_2",
+      "type": "waypoint",
+      "x": 2000.0,
+      "y": 2000.0,
+      "z": 100.0,
+      "capacity": 2
+    },
+    {
+      "id": "wp_2_3",
+      "type": "waypoint",
+      "x": 3000.0,
+      "y": 2000.0,
+      "z": 100.0,
+      "capacity": 2
+    }
+  ],
+  "edges": [
+    {
+      "u": "wp_0_0",
+      "v": "wp_0_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_1",
+      "v": "wp_0_0",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_0",
+      "v": "wp_1_0",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_0",
+      "v": "wp_0_0",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_1",
+      "v": "wp_0_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_2",
+      "v": "wp_0_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_1",
+      "v": "wp_1_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_1",
+      "v": "wp_0_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_2",
+      "v": "wp_0_3",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_3",
+      "v": "wp_0_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_2",
+      "v": "wp_1_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_2",
+      "v": "wp_0_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_0_3",
+      "v": "wp_1_3",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_3",
+      "v": "wp_0_3",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_0",
+      "v": "wp_1_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_1",
+      "v": "wp_1_0",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_0",
+      "v": "wp_2_0",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_0",
+      "v": "wp_1_0",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_1",
+      "v": "wp_1_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_2",
+      "v": "wp_1_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_1",
+      "v": "wp_2_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_1",
+      "v": "wp_1_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_2",
+      "v": "wp_1_3",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_3",
+      "v": "wp_1_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_2",
+      "v": "wp_2_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_2",
+      "v": "wp_1_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_1_3",
+      "v": "wp_2_3",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_3",
+      "v": "wp_1_3",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_0",
+      "v": "wp_2_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_1",
+      "v": "wp_2_0",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_1",
+      "v": "wp_2_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_2",
+      "v": "wp_2_1",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_2",
+      "v": "wp_2_3",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    },
+    {
+      "u": "wp_2_3",
+      "v": "wp_2_2",
+      "base_velocity": 15.0,
+      "rho_jam": 0.5,
+      "capacity": 2
+    }
+  ]
+}

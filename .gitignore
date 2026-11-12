@@ -23,20 +23,44 @@ build/
 dist/
 *.egg-info/
 
-# Runtime outputs, generated artifacts, and experiment data
-# (data/replan_prediction keeps the replan-prediction evidence JSONs)
-data/*
-!data/replan_prediction/
+# Runtime outputs and generated experiment data
+# Historical numbers without generating code are not published: they would be
+# unreproducible evidence. See docs/reproducibility.md for the published boundary.
+data/
 workflow_decouple/data/
 plot/figures/
 plot/*.csv
 plot/*.json
+reproducibility/
 revision_eval/results/
 revision_eval/plots/
-ns3_comm_sim/inputs/
-ns3_comm_sim/results/
 ns3_comm_sim/plots/
+# Generated ns-3 scenario traces/events/regions are small (~100 KB) and are the
+# actual inputs of the published core-baseline runs, so they are kept.
+!ns3_comm_sim/inputs/
+ns3_comm_sim/inputs/*/smoke_test.csv
+
+# ns-3 benchmark evidence: only the core-baseline package is published —
+# the explanation, the summary + per-architecture parsed metrics, and the
+# per-run transactions/flow/manifest records that regenerate them.
+ns3_comm_sim/results/*
+!ns3_comm_sim/results/parsed/
+!ns3_comm_sim/results/tables/
+!ns3_comm_sim/results/raw/
+# (the results-level explanation *.md is re-allowed after the global *.md rule)
+# Out of scope: the smoke test, duplicate per-run JSON, figures, SNR dumps,
+# netanim dumps, machine-specific logs and install probes.
+ns3_comm_sim/results/parsed/*.json
+ns3_comm_sim/results/parsed/smoke_test*
+ns3_comm_sim/results/raw/smoke_test/
+ns3_comm_sim/results/raw/**/snr_samples.csv
+ns3_comm_sim/results/raw/**/netanim.xml
+ns3_comm_sim/results/raw/**/flow_monitor.xml
+ns3_comm_sim/results/raw/**/build.log
+ns3_comm_sim/results/raw/**/configure.log
 src/tools/logs/
+# Solver outputs written by the PDDL helper scripts
+src/tools/pddl/*_solution.txt
 logs/
 runtime/
 tmp/
@@ -73,6 +97,12 @@ old_interfaces/
 *.pptx
 *.md
 !/README.md
+# Public documentation under docs/ and the example READMEs are deliverables
+!/docs/
+!/docs/**/*.md
+!/examples/**/*.md
+# Published ns-3 benchmark explanation
+!/ns3_comm_sim/results/*.md
 
 # Model weights, model caches, learned adapters, and prediction artifacts
 model_cache/

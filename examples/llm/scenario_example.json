@@ -1,0 +1,63 @@
+{
+  "scenario_name": "example_scenario",
+  "scenario_description": "EXAMPLE ONLY: three agents and three workflows for CLI demos.",
+  "agents": [
+    {
+      "id": "agent_logistics_1",
+      "type": "drone",
+      "uav_type": "logistics_inspection",
+      "properties": {
+        "components": [
+          "logistics",
+          "inspection"
+        ],
+        "battery_level": 100.0
+      }
+    },
+    {
+      "id": "agent_inspection_1",
+      "type": "drone",
+      "uav_type": "inspection",
+      "properties": {
+        "components": [
+          "inspection"
+        ],
+        "battery_level": 100.0
+      }
+    },
+    {
+      "id": "agent_compute_1",
+      "type": "drone",
+      "uav_type": "computation",
+      "properties": {
+        "components": [
+          "computation"
+        ],
+        "battery_level": 100.0
+      }
+    }
+  ],
+  "workflows": [
+    {
+      "id": "workflow_1",
+      "type": "logistics",
+      "agent_id": "agent_logistics_1",
+      "start_delay": 1
+    },
+    {
+      "id": "workflow_2",
+      "type": "inspection",
+      "agent_id": "agent_inspection_1",
+      "start_delay": 5
+    },
+    {
+      "id": "workflow_3",
+      "type": "computation",
+      "agent_id": "agent_compute_1",
+      "start_delay": 9
+    }
+  ],
+  "simulation": {
+    "duration": 300
+  }
+}

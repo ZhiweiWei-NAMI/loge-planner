@@ -198,6 +198,14 @@ def _load_cluster_assignments(assignment_path: Path) -> pd.DataFrame:
     return pd.read_csv(assignment_path)
 
 
+#: operation category -> PDDL action name (see config/pddl/tccn_domain.pddl)
+OP_CATEGORY_TO_ACTION = {
+    "compute": "assistcompute",
+    "communicate": "assistcommunicate",
+    "inspect": "inspect",
+}
+
+
 def _get_operation_category(op_type: str) -> Optional[str]:
     """Map operation_type to PDDL goal category.
     
@@ -439,10 +447,6 @@ def solve_pddl_for_cluster(
     if not candidate_drones or not checkpoints:
         return {d: [] for d in candidate_drones}
     
-    # Build locations set (drone home positions + checkpoint locations)
-    locations_set = set()
-    loc_coords: Dict[str, Tuple[float, float, float]] = {}
-    
     # Add drone home positions
     drone_locations: Dict[str, str] = {}
     for drone_id in candidate_drones:
@@ -453,13 +457,13 @@ def solve_pddl_for_cluster(
         node_id = _snap_to_topo_node(pos[0], pos[1], pos[2], topo)
         if not node_id:
             continue
-        loc_label = _make_topo_node_label(node_id)
-        locations_set.add(loc_label)
-        loc_coords[loc_label] = pos
-        drone_locations[drone_id] = loc_label
+        drone_locations[drone_id] = _make_topo_node_label(node_id)
     
     if not drone_locations:
-        return {}
+        raise RuntimeError(
+            f"cluster {cluster_id}: no candidate drone could be snapped to a topology node "
+            f"(drones={candidate_drones})"
+        )
     
     # Add checkpoint locations and categorize goals
     compute_locations: List[str] = []
@@ -472,8 +476,6 @@ def solve_pddl_for_cluster(
         if not node_id:
             continue
         loc_label = _make_topo_node_label(node_id)
-        locations_set.add(loc_label)
-        loc_coords[loc_label] = (ckp["x"], ckp["y"], ckp["z"])
         
         category = _get_operation_category(ckp["operation_type"])
         if category == "compute" and loc_label not in compute_locations:
@@ -483,16 +485,21 @@ def solve_pddl_for_cluster(
         elif category == "inspect" and loc_label not in inspect_locations:
             inspect_locations.append(loc_label)
     
-    # Build distance matrix
-    locations = list(locations_set)
-    distance_matrix: Dict[Tuple[str, str], float] = {}
-    for loc1 in locations:
-        for loc2 in locations:
-            if loc1 != loc2:
-                p1 = loc_coords.get(loc1, (0, 0, 0))
-                p2 = loc_coords.get(loc2, (0, 0, 0))
-                dist = np.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2 + (p1[2]-p2[2])**2)
-                distance_matrix[(loc1, loc2)] = float(dist)
+    # Build the solver's connectivity from the REAL airspace graph: the location
+    # universe is the whole topology and the distance matrix contains only
+    # existing corridors.  PDDLSolver derives `connected` from this matrix (plus
+    # an MST over it), so no corridor that does not exist can be flown.  This is
+    # the same graph the A* router in EdgePlanner uses.
+    if topo is None:
+        raise RuntimeError(
+            f"cluster {cluster_id}: topology is required to build the PDDL connectivity graph"
+        )
+    locations = [_make_topo_node_label(node_id) for node_id in topo.nodes]
+    distance_matrix: Dict[Tuple[str, str], float] = {
+        (_make_topo_node_label(u), _make_topo_node_label(v)): float(edge.length)
+        for (u, v), edge in topo.edges.items()
+        if u in topo.nodes and v in topo.nodes
+    }
     
     # Build solver params
     solver_init_params = {
@@ -517,14 +524,21 @@ def solve_pddl_for_cluster(
     
     # Solve with PDDL (带超时)
     solver = PDDLSolver(str(domain_file))
-    result = solver.solve(solver_init_params, solver_goal_params, timeout=pddl_timeout)
+    # only real corridors may be `connected`: no pair outside the matrix is added
+    connectivity_threshold = max(distance_matrix.values(), default=1.0) + 1.0
+    result = solver.solve(
+        solver_init_params,
+        solver_goal_params,
+        distance_threshold=connectivity_threshold,
+        timeout=pddl_timeout,
+    )
     
     if not result.get("success"):
         error_msg = result.get('error', 'Unknown error')
-        logger.warning(f"PDDL planning failed for cluster {cluster_id}: {error_msg}")
-        logger.warning(f"  Drones: {candidate_drones}, Goals: {total_goals}")
-        # Return empty solutions instead of raising error
-        return {d: [] for d in candidate_drones}
+        raise RuntimeError(
+            f"cluster {cluster_id}: PDDL planning failed ({error_msg}); "
+            f"drones={candidate_drones}, goals={total_goals}"
+        )
     
     # Parse solution and split by drone
     raw_solution = result.get("solution") or []
@@ -681,35 +695,13 @@ def run_stage3_planning(
             topo.traffic_profiles = {}
             logger.info("Non-topo-aware mode: planning with static topology (runtime will use traffic)")
     else:
-        # Auto-generate topology if not found (required for topo-based planning)
-        logger.warning("Topology file not found, auto-generating grid topology...")
-        
-        # Extract bounds from scenario environment or use defaults
-        env_cfg = scenario.get("environment", {}) or {}
-        sim_space = env_cfg.get("simulation_space", {}) or {}
-        bounds = {
-            "x_min": float(sim_space.get("x_min", 0.0)),
-            "x_max": float(sim_space.get("x_max", 5000.0)),
-            "y_min": float(sim_space.get("y_min", 0.0)),
-            "y_max": float(sim_space.get("y_max", 5000.0)),
-            "z_min": float(sim_space.get("z_min", 0.0)),
-            "z_max": float(sim_space.get("z_max", 200.0)),
-        }
-        
-        topo = TopologyManager(bounds=bounds, scale_factor=1.0)
-        topo.generate_grid_topology(
-            n_vertiports=40,
-            n_waypoints=120,
-            n_charging=10,
-            k_neighbors=5,
-            seed=seed,
+        # Never invent an airspace: topology generation is Stage 1's explicit job.
+        raise FileNotFoundError(
+            "Stage 3 requires a topology graph, but none was found "
+            f"(looked for scenario.environment.graph_topology_file and {run_dir_in / 'graph_topology.json'}). "
+            "Generate it explicitly in Stage 1 (src.offline_pipeline.stage1_precluster_from_config) "
+            "or pass --topology-file."
         )
-        
-        # Save generated topology to run_dir for future use
-        topology_path = run_dir_in / "graph_topology.json"
-        topo.save_to_file(str(topology_path))
-        logger.info("Generated and saved topology to %s (%d nodes, %d edges)", 
-                    topology_path, len(topo.nodes), len(topo.edges))
 
     # Build agent plans with topo snap-to-node
     agents_plans = build_agent_plans(
@@ -794,8 +786,9 @@ def run_stage3_planning(
         logger.info(f"Generated sequential plans for {len(workflow_agent_map)} workflows -> {len(set(workflow_agent_map.values()))} agents")
     else:
         # Multi-agent PDDL planning for other methods
-        tracked_domain = project_root / "config" / "pddl" / "tccn_domain.pddl"
-        domain_file = tracked_domain if tracked_domain.exists() else (project_root / "data" / "pddl" / "domain" / "tccn_domain.pddl")
+        domain_file = project_root / "config" / "pddl" / "tccn_domain.pddl"
+        if not domain_file.exists():
+            raise FileNotFoundError(f"PDDL domain file not found: {domain_file}")
         
         # Build agent positions
         agent_positions: Dict[str, Tuple[float, float, float]] = {}
@@ -844,6 +837,7 @@ def run_stage3_planning(
         # Solve PDDL per cluster (multi-agent planning)
         agent_solutions: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
         total_goals = 0
+        cluster_failures: List[str] = []
         
         for cg, ckps in cluster_checkpoints.items():
             candidate_drones = cluster_to_agents.get(cg, [])
@@ -859,24 +853,62 @@ def run_stage3_planning(
                     goal_labels.add(_make_topo_node_label(node_id))
             n_goals = len(goal_labels)
             total_goals += n_goals
+            expected_goals = set()
+            for c in ckps:
+                node_id = _snap_to_topo_node(c["x"], c["y"], c["z"], topo)
+                category = _get_operation_category(str(c["operation_type"]))
+                if node_id and category in OP_CATEGORY_TO_ACTION:
+                    expected_goals.add(
+                        (OP_CATEGORY_TO_ACTION[category], _make_topo_node_label(node_id))
+                    )
             
-            # Solve multi-agent PDDL for this cluster
-            drone_solutions = solve_pddl_for_cluster(
-                cluster_id=cg,
-                candidate_drones=candidate_drones,
-                drone_positions=agent_positions,
-                checkpoints=ckps,
-                domain_file=domain_file,
-                topo=topo,
-                pddl_timeout=pddl_timeout,
+            # Solve multi-agent PDDL for this cluster (failure propagates, never masked)
+            try:
+                drone_solutions = solve_pddl_for_cluster(
+                    cluster_id=cg,
+                    candidate_drones=candidate_drones,
+                    drone_positions=agent_positions,
+                    checkpoints=ckps,
+                    domain_file=domain_file,
+                    topo=topo,
+                    pddl_timeout=pddl_timeout,
+                )
+            except RuntimeError as exc:
+                logger.error("Stage 3 PDDL failure: %s", exc)
+                cluster_failures.append(str(exc))
+                continue
+            
+            # An idle candidate drone is legitimate (the solver may hand the whole
+            # cluster to one drone), so check the returned plan actually satisfies
+            # every goal instead of demanding steps from every drone.
+            achieved = set()
+            for steps in drone_solutions.values():
+                for step in steps:
+                    params = [str(p) for p in (step.get("parameters") or [])]
+                    name = str(step.get("action_name") or "").lower()
+                    if name in OP_CATEGORY_TO_ACTION.values() and len(params) >= 2:
+                        achieved.add((name, params[1]))
+            missing_goals = sorted(
+                goal for goal in expected_goals if goal not in achieved
             )
-            
+            if missing_goals:
+                cluster_failures.append(
+                    f"cluster {cg}: PDDL plan does not satisfy goals {missing_goals}"
+                )
+                continue
+
             # Aggregate solutions by agent
             for drone_id, solution_steps in drone_solutions.items():
                 agent_solutions[drone_id].extend(solution_steps)
             
             logger.debug(f"Cluster {cg}: {len(candidate_drones)} drones, {n_goals} goals")
         
+        if cluster_failures:
+            raise RuntimeError(
+                f"Stage 3 PDDL planning failed for {len(cluster_failures)} cluster(s); "
+                f"refusing to emit a plan file. First failure: {cluster_failures[0]}"
+            )
+
         # Update agents_plans with aggregated solutions
         for agent_id, agent_plan in agents_plans.items():
             solution = agent_solutions.get(agent_id, [])

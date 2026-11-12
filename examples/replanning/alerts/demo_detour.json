@@ -1,0 +1,19 @@
+{
+  "severity": "high",
+  "window": [
+    0.0,
+    300.0
+  ],
+  "workflow_id": "wf1",
+  "node": "wp_1_1",
+  "note": "Demonstration fixture only; not a manuscript S1-S5 scenario. Corridors close both directions unless \"directional\": true.",
+  "case_id": "demo_detour",
+  "category": "corridor_blocked",
+  "expect_status": "splice_accepted",
+  "blocked_edges": [
+    [
+      "wp_0_1",
+      "wp_1_1"
+    ]
+  ]
+}

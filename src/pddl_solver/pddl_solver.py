@@ -13,19 +13,13 @@ PDDLSolver能解析并生成对应的problem对象，进而求解。
 5. 返回解决方案
 """
 
-import numpy as np
 import os
 import tempfile
 from typing import Dict, List, Any, Optional, Tuple
-import networkx as nx
 
-try:
-    from unified_planning.shortcuts import *
-    from unified_planning.io import PDDLReader
-    UP_AVAILABLE = True
-except ImportError:
-    UP_AVAILABLE = False
-    print("Warning: unified_planning library not found. Please install with: pip install unified-planning[tamer]")
+# unified_planning 是硬依赖：缺失即导入失败，不存在静默降级路径
+from unified_planning.shortcuts import *
+from unified_planning.io import PDDLReader
 
 
 def convert_planner_output_to_pddl_params(logger, planner_output: Dict) -> tuple:
@@ -451,27 +445,32 @@ def _resolve_location_reference(logger, location_ref, locations_dict):
 
 
 class PDDLSolver:
-    """TCCN PDDL求解器"""
-    
+    """TCCN PDDL求解器
+
+    只执行真实 PDDL 求解路径（unified_planning + fast-downward）。
+    unified_planning 缺失时在 import 阶段直接 ImportError，不存在静默降级或
+    启发式回退路径。
+    """
+
     def __init__(self, domain_file: Optional[str] = None):
         """
         初始化PDDLSolver
-        
+
         Args:
-            domain_file: PDDL domain文件路径，如果为None则使用默认路径
+            domain_file: PDDL domain文件路径，如果为None则使用 config/pddl/tccn_domain.pddl
+
+        Raises:
+            FileNotFoundError: domain 文件不存在
         """
-        if not UP_AVAILABLE:
-            raise ImportError("unified_planning library not found. Please install with: pip install unified-planning[tamer]")
-        
         # 禁用credits输出
         get_environment().credits_stream = None
-        
-        # 设置domain文件路径
+
+        # 设置domain文件路径（只认受版本控制的 config/pddl 路径）
         if domain_file is None:
-            current_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-            tracked_domain = os.path.join(current_dir, "config", "pddl", "tccn_domain.pddl")
-            legacy_domain = os.path.join(current_dir, "data", "pddl", "domain", "tccn_domain.pddl")
-            domain_file = tracked_domain if os.path.exists(tracked_domain) else legacy_domain
+            project_root = os.path.dirname(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            )
+            domain_file = os.path.join(project_root, "config", "pddl", "tccn_domain.pddl")
 
         self.domain_file = domain_file
         if not os.path.exists(self.domain_file):
@@ -531,7 +530,7 @@ class PDDLSolver:
                 - drone_final_locations: Dict[str, str] - 无人机最终位置（可选）
             distance_threshold: 距离阈值，小于此值的地点视为connected
             solver_name: 求解器名称
-            
+
         Returns:
             Dict包含求解结果
         """
@@ -610,45 +609,26 @@ class PDDLSolver:
                 os.remove(temp_problem_file)
             elif debug and 'temp_problem_file' in locals() and os.path.exists(temp_problem_file):
                 print(f"🔍 Debug mode: Temporary problem file saved at: {temp_problem_file}")
-    
-    def _build_connectivity_graph(self, locations: List[str], 
+
+    def _build_connectivity_graph(self, locations: List[str],
                                  distance_matrix: Dict[Tuple[str, str], float],
                                  threshold: float) -> List[Tuple[str, str]]:
         """
         基于距离矩阵和阈值构建连通图
-        
-        使用最小生成树确保所有节点连通，同时添加距离小于阈值的边
+
+        连通关系严格等于调用方给出的**有向**走廊集合：不做最小生成树，也不做
+        双向对称化。两者都会凭空造出调用方图上不存在的航路（或把单向走廊变成
+        双向），使 PDDL 规划出一条路由器根本无法执行的路线。持有真实图的调用方
+        应把它的有向边直接放进 distance_matrix。
         """
-        # 创建图
-        G = nx.Graph()
-        G.add_nodes_from(locations)
-        
-        # 添加所有边（用于构建最小生成树）
-        edges_with_weights = []
-        for (loc1, loc2), distance in distance_matrix.items():
-            if loc1 != loc2:
-                edges_with_weights.append((loc1, loc2, distance))
-        
-        # 构建最小生成树确保连通性
-        G.add_weighted_edges_from(edges_with_weights)
-        mst = nx.minimum_spanning_tree(G)
-        
-        # 获取MST的边
-        connected_pairs = list(mst.edges())
-        
-        # 添加距离小于阈值的额外边
-        for (loc1, loc2), distance in distance_matrix.items():
-            if loc1 != loc2 and distance < threshold:
-                if (loc1, loc2) not in connected_pairs and (loc2, loc1) not in connected_pairs:
-                    connected_pairs.append((loc1, loc2))
-        
-        # 确保双向连接
-        bidirectional_pairs = []
-        for loc1, loc2 in connected_pairs:
-            bidirectional_pairs.extend([(loc1, loc2), (loc2, loc1)])
-        
-        print(f"✓ Built connectivity graph with {len(bidirectional_pairs)} connections")
-        return bidirectional_pairs
+        known = set(locations)
+        pairs = [
+            (loc1, loc2)
+            for (loc1, loc2), distance in distance_matrix.items()
+            if loc1 != loc2 and loc1 in known and loc2 in known and distance < threshold
+        ]
+        print(f"✓ Built connectivity graph with {len(pairs)} directed connections")
+        return pairs
 
     def _generate_problem_content(self, init_params: Dict[str, Any],
                                  goal_params: Dict[str, Any],

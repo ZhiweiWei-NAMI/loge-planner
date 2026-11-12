@@ -1,0 +1,30 @@
+{
+  "packet_size_bytes": 1024,
+  "attempt_timeout_ms": 120,
+  "inter_request_spacing_ms": 5,
+  "processing_ms": {
+    "local": 8,
+    "edge": 20,
+    "cloud": 60
+  },
+  "task_profiles": {
+    "plan": {
+      "request_packets": 2,
+      "response_packets": 3,
+      "deadline_ms": 320,
+      "max_retries": 2
+    },
+    "replan": {
+      "request_packets": 1,
+      "response_packets": 2,
+      "deadline_ms": 180,
+      "max_retries": 2
+    },
+    "decouple": {
+      "request_packets": 3,
+      "response_packets": 4,
+      "deadline_ms": 520,
+      "max_retries": 1
+    }
+  }
+}

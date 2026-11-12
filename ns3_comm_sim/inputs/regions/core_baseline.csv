@@ -1,0 +1,3 @@
+region_id,type,x_min,x_max,y_min,y_max,z_min,z_max,extra_loss_db,extra_jitter_ms,drop_probability,building_height
+canyon_main,canyon_region,320,680,180,620,0,120,8.0,24.0,0.12,35.0
+hotspot_core,hotspot_region,720,960,220,580,0,120,3.0,10.0,0.06,0.0

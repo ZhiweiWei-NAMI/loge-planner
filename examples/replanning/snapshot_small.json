@@ -1,0 +1,123 @@
+{
+  "name": "demo_small_snapshot",
+  "note": "Hand-written 8-task / 4-drone demonstration snapshot (not a paper S1-S5 scenario).",
+  "t0": 0.0,
+  "agents": {
+    "drone_a": {
+      "node": "wp_0_0"
+    },
+    "drone_b": {
+      "node": "wp_2_3"
+    },
+    "drone_c": {
+      "node": "wp_2_0"
+    },
+    "drone_d": {
+      "node": "wp_0_3"
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "T0",
+      "workflow_id": "wf1",
+      "agent_id": "drone_a",
+      "node": "wp_1_1",
+      "op_type": "inspect",
+      "release": 0.0,
+      "deadline": 600.0,
+      "service_s": 60.0
+    },
+    {
+      "task_id": "T1",
+      "workflow_id": "wf1",
+      "agent_id": "drone_a",
+      "node": "wp_1_2",
+      "op_type": "compute",
+      "release": 0.0,
+      "deadline": 900.0,
+      "service_s": 60.0
+    },
+    {
+      "task_id": "T2",
+      "workflow_id": "wf2",
+      "agent_id": "drone_b",
+      "node": "wp_0_2",
+      "op_type": "communicate",
+      "release": 0.0,
+      "deadline": 900.0,
+      "service_s": 60.0
+    },
+    {
+      "task_id": "T3",
+      "workflow_id": "wf2",
+      "agent_id": "drone_b",
+      "node": "wp_1_0",
+      "op_type": "inspect",
+      "release": 0.0,
+      "deadline": 1200.0,
+      "service_s": 60.0
+    },
+    {
+      "task_id": "T4",
+      "workflow_id": "wf3",
+      "agent_id": "drone_c",
+      "node": "wp_2_2",
+      "op_type": "inspect",
+      "release": 0.0,
+      "deadline": 900.0,
+      "service_s": 60.0
+    },
+    {
+      "task_id": "T5",
+      "workflow_id": "wf3",
+      "agent_id": "drone_c",
+      "node": "wp_0_1",
+      "op_type": "communicate",
+      "release": 0.0,
+      "deadline": 1500.0,
+      "service_s": 60.0
+    },
+    {
+      "task_id": "T6",
+      "workflow_id": "wf4",
+      "agent_id": "drone_d",
+      "node": "wp_2_1",
+      "op_type": "compute",
+      "release": 0.0,
+      "deadline": 900.0,
+      "service_s": 60.0
+    },
+    {
+      "task_id": "T7",
+      "workflow_id": "wf4",
+      "agent_id": "drone_d",
+      "node": "wp_1_3",
+      "op_type": "inspect",
+      "release": 0.0,
+      "deadline": 1500.0,
+      "service_s": 60.0
+    }
+  ],
+  "dependencies": [
+    [
+      "T0",
+      "T1"
+    ],
+    [
+      "T2",
+      "T3"
+    ],
+    [
+      "T4",
+      "T5"
+    ],
+    [
+      "T1",
+      "T5"
+    ],
+    [
+      "T6",
+      "T7"
+    ]
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "scenario": "example_scenario",
+  "macro_tasks": [
+    {
+      "cluster_group": 0,
+      "operation": "pickup",
+      "causal_anchor": "workflow_1:picking_up",
+      "checkpoints": [
+        {
+          "workflow_id": "workflow_1",
+          "checkpoint_idx": 0
+        },
+        {
+          "workflow_id": "workflow_1",
+          "checkpoint_idx": 1
+        }
+      ],
+      "rationale": "EXAMPLE: pickup and its transport leg are spatially adjacent logistics steps."
+    },
+    {
+      "cluster_group": 1,
+      "operation": "delivery",
+      "causal_anchor": "workflow_1:delivering",
+      "checkpoints": [
+        {
+          "workflow_id": "workflow_1",
+          "checkpoint_idx": 2
+        }
+      ],
+      "rationale": "EXAMPLE: delivery is far from the pickup corridor."
+    },
+    {
+      "cluster_group": 2,
+      "operation": "inspection",
+      "causal_anchor": "workflow_2:move_to_inspection",
+      "checkpoints": [
+        {
+          "workflow_id": "workflow_2",
+          "checkpoint_idx": 0
+        },
+        {
+          "workflow_id": "workflow_2",
+          "checkpoint_idx": 1
+        }
+      ],
+      "rationale": "EXAMPLE: move and inspect share one location."
+    },
+    {
+      "cluster_group": 3,
+      "operation": "compute",
+      "causal_anchor": "workflow_3:move_to_compute",
+      "checkpoints": [
+        {
+          "workflow_id": "workflow_3",
+          "checkpoint_idx": 0
+        },
+        {
+          "workflow_id": "workflow_3",
+          "checkpoint_idx": 1
+        },
+        {
+          "workflow_id": "workflow_3",
+          "checkpoint_idx": 2
+        }
+      ],
+      "rationale": "EXAMPLE: the compute workflow is colocated at one node."
+    }
+  ]
+}

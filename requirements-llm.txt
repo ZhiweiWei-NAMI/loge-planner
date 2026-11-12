@@ -1,0 +1,42 @@
+# LoGe Planner v1.1.0 -- OPTIONAL LLM dependency set
+#
+# These packages are required ONLY for the LLM paths:
+#   * src.agent_llm.terminal_llm      (local Qwen2.5-0.5B + PEFT/LoRA inference)
+#   * src.agent_llm.train_lora        (LoRA supervised fine-tuning)
+#   * src.validation.terminal_monitor_eval --adapter-dir
+#
+# The cloud decomposition path (src.agent_llm.decompose_cli) needs only the
+# core dependencies: `openai` (already in requirements.txt).
+#
+# The symbolic planning pipeline (Stages 1-4, PDDL, baselines) does NOT need
+# these packages; install them in a separate environment if you want to keep
+# the planning environment minimal:
+#
+#   python3 -m venv .venv-llm && source .venv-llm/bin/activate
+#   pip install -r requirements.txt -r requirements-llm.txt
+#
+# torch is already pinned in requirements.txt (torch>=2.4) and is NOT repeated
+# here on purpose, to avoid a second, conflicting torch resolution.
+#
+# Verified versions in the reference environment: transformers 4.57.6,
+# peft 0.19.0, torch 2.4.0.
+
+# Hugging Face model loading and generation (Qwen2.5 tokenizer/chat template).
+transformers>=4.45,<5.0
+# PEFT / LoRA adapters (load + train).
+peft>=0.13,<1.0
+# Device placement / mixed precision helpers used by transformers Trainer.
+accelerate>=1.0
+# Safetensors adapter serialisation.
+safetensors>=0.4
+
+# ---------------------------------------------------------------------------
+# Optional: 4-bit QLoRA / 4-bit inference (--load-in-4bit).
+# Requires a CUDA device; on CPU, omit this and use float32.
+# ---------------------------------------------------------------------------
+# bitsandbytes>=0.44
+
+# ---------------------------------------------------------------------------
+# Optional: faster attention kernels on CUDA (not required, safe to omit).
+# ---------------------------------------------------------------------------
+# flash-attn>=2.6

@@ -1,0 +1,9 @@
+workflow_id,checkpoint_idx,state_name,description,location,operation_type,requirements,next_states,payload_weight,workflow_type,quality_threshold,inspection_interval,n_inspection_points,comm_bandwidth_mb,max_latency_s,compute_gflops,cpu_intensity,memory_intensity,io_intensity,source_run_id
+workflow_1,0,picking_up,EXAMPLE: pick up payload_1,"[1506.18, 3856.32, 50.0]",pickup,"['mobility_component', 'logistics_component']",['transporting'],1.2,LogisticsWorkflow,0,0,0,0,0,0,0,0,0,42
+workflow_1,1,transporting,EXAMPLE: transport payload_1,"[1200.0, 3000.0, 50.0]",transport,"['mobility_component', 'logistics_component']",['delivering'],1.2,LogisticsWorkflow,0,0,0,0,0,0,0,0,0,42
+workflow_1,2,delivering,EXAMPLE: deliver payload_1,"[298.04, 293.55, 50.0]",delivery,"['mobility_component', 'logistics_component']",['completion'],1.2,LogisticsWorkflow,0,0,0,0,0,0,0,0,0,42
+workflow_2,0,move_to_inspection,EXAMPLE: fly to inspection point,"[500.0, 500.0, 80.0]",move_to_inspection,"['mobility_component', 'inspection_component']",['inspecting'],0.0,InspectionWorkflow,0,0,1,0,0,0,0,0,0,42
+workflow_2,1,inspecting,EXAMPLE: inspect structure,"[500.0, 500.0, 80.0]",inspection,['inspection_component'],['completion'],0.0,InspectionWorkflow,0.85,10,1,0,0,0,0,0,0,42
+workflow_3,0,move_to_compute,EXAMPLE: fly to compute node,"[900.0, 900.0, 60.0]",move_to_compute,"['mobility_component', 'computation_component']",['computing'],0.0,ComputeWorkflow,0,0,0,0,0,0,2.5,0,0,42
+workflow_3,1,computing,EXAMPLE: run compute job,"[900.0, 900.0, 60.0]",compute,['computation_component'],['completion'],0.0,ComputeWorkflow,0,0,0,0,0,2.5,0,0,0,42
+workflow_3,2,completion,EXAMPLE: compute workflow done,"[900.0, 900.0, 60.0]",completion,['computation_component'],[],0.0,ComputeWorkflow,0,0,0,0,0,0,0,0,0,42
