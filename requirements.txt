@@ -1,0 +1,35 @@
+# LoGe Planner runtime dependencies (Python >= 3.10)
+# Versions are the minimum set verified with the v1.1.0 pipeline.
+
+# Core numerics and data handling
+numpy>=1.26
+pandas>=2.2
+scipy>=1.15
+scikit-learn>=1.6
+
+# Symbolic planning (src/pddl_solver, src/offline_pipeline, src/baselines)
+unified-planning>=1.2.0
+up-fast-downward>=0.5.2
+pyperplan>=2.1
+
+# Simulation and configuration
+simpy>=4.1
+networkx>=3.3
+PyYAML>=6.0
+
+# Learning-based decomposition and replanning prediction
+torch>=2.4
+
+# LLM planner client
+openai>=1.72
+
+# Reporting, figures, and video artifacts
+matplotlib>=3.10
+seaborn>=0.13
+tqdm>=4.67
+pillow>=12.1
+imageio>=2.37
+imageio-ffmpeg>=0.6
+
+# Not on PyPI: the simulator is installed from the sibling checkout
+#   pip install -e ../airfogsim-project

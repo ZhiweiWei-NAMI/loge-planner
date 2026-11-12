@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-09T17:27:37.818431",
+    "scenario": "medium_logistics_heavy",
+    "data_sources": {
+      "offline_init": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/offline_init",
+      "offline_plans": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/offline_plans",
+      "results": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/results"
+    },
+    "n_records_analyzed": 1350,
+    "n_rules_generated": 3,
+    "effective_rules": 3
+  },
+  "rules": [
+    {
+      "rule_id": "R001",
+      "feature_name": "spatial_spread",
+      "condition": "spatial_spread <= 524.5974",
+      "threshold": 524.5974420044048,
+      "operator": "<=",
+      "confidence": 1.0,
+      "effect": "negative",
+      "diff_percent": -22.97146936120469,
+      "t_statistic": -7.631551298389745,
+      "p_value": 4.3659675507483865e-14
+    },
+    {
+      "rule_id": "R002",
+      "feature_name": "mean_pairwise_dist",
+      "condition": "mean_pairwise_dist <= 728.2399",
+      "threshold": 728.2398688669191,
+      "operator": "<=",
+      "confidence": 1.0,
+      "effect": "negative",
+      "diff_percent": -21.494291418633978,
+      "t_statistic": -6.935875069340152,
+      "p_value": 6.2473718180318775e-12
+    },
+    {
+      "rule_id": "R003",
+      "feature_name": "synergy_score",
+      "condition": "synergy_score >= 0.8424",
+      "threshold": 0.8424410345100627,
+      "operator": ">=",
+      "confidence": 1.0,
+      "effect": "positive",
+      "diff_percent": 3.136646668586091,
+      "t_statistic": 6.6451076123904125,
+      "p_value": 4.3860283180925596e-11
+    }
+  ],
+  "scoring_function": {
+    "version": "1.0",
+    "description": "Checkpoint-to-Cluster scoring based on mined rules",
+    "weights": {
+      "spatial_spread": -1.0,
+      "mean_pairwise_dist": -1.0,
+      "synergy_score": 1.0
+    },
+    "normalization": {
+      "spatial_spread": {
+        "mean": 501.9066097743566,
+        "std": 315.48107514832594,
+        "min": 0.0,
+        "max": 1955.6492192210749
+      },
+      "mean_pairwise_dist": {
+        "mean": 699.0101781407008,
+        "std": 445.54145051093747,
+        "min": 0.0,
+        "max": 3482.0493968351457
+      },
+      "synergy_score": {
+        "mean": 0.8467770974635999,
+        "std": 0.0688880104569113,
+        "min": 0.6691675712897246,
+        "max": 1.0
+      }
+    },
+    "usage": "score = sum(weight[f] * (value[f] - mean[f]) / std[f] for f in features)"
+  },
+  "validation": {
+    "R001": {
+      "rule_id": "R001",
+      "feature": "spatial_spread",
+      "n_satisfying": 799,
+      "n_violating": 551,
+      "avg_completion_satisfying": 0.8387,
+      "avg_completion_violating": 0.8371,
+      "improvement": 0.0016,
+      "effective": "True"
+    },
+    "R002": {
+      "rule_id": "R002",
+      "feature": "mean_pairwise_dist",
+      "n_satisfying": 809,
+      "n_violating": 541,
+      "avg_completion_satisfying": 0.8389,
+      "avg_completion_violating": 0.8367,
+      "improvement": 0.0021,
+      "effective": "True"
+    },
+    "R003": {
+      "rule_id": "R003",
+      "feature": "synergy_score",
+      "n_satisfying": 686,
+      "n_violating": 664,
+      "avg_completion_satisfying": 0.8389,
+      "avg_completion_violating": 0.8371,
+      "improvement": 0.0018,
+      "effective": "True"
+    }
+  }
+}

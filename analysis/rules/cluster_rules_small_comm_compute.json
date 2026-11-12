@@ -1,0 +1,284 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-09T17:27:37.869243",
+    "scenario": "small_comm_compute",
+    "data_sources": {
+      "offline_init": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/offline_init",
+      "offline_plans": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/offline_plans",
+      "results": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/results"
+    },
+    "n_records_analyzed": 1080,
+    "n_rules_generated": 10,
+    "effective_rules": 10
+  },
+  "rules": [
+    {
+      "rule_id": "R001",
+      "feature_name": "n_checkpoints",
+      "condition": "n_checkpoints <= 2.1000",
+      "threshold": 2.1,
+      "operator": "<=",
+      "confidence": 1.0,
+      "effect": "negative",
+      "diff_percent": -60.0,
+      "t_statistic": -25.09376646469428,
+      "p_value": 8.195030342307019e-110
+    },
+    {
+      "rule_id": "R002",
+      "feature_name": "spatial_spread",
+      "condition": "spatial_spread <= 235.0015",
+      "threshold": 235.0014864694034,
+      "operator": "<=",
+      "confidence": 1.0,
+      "effect": "negative",
+      "diff_percent": -89.0016415842693,
+      "t_statistic": -19.285051851009435,
+      "p_value": 1.986050932959049e-71
+    },
+    {
+      "rule_id": "R003",
+      "feature_name": "mean_pairwise_dist",
+      "condition": "mean_pairwise_dist <= 385.5987",
+      "threshold": 385.5986752633337,
+      "operator": "<=",
+      "confidence": 1.0,
+      "effect": "negative",
+      "diff_percent": -87.39993499315449,
+      "t_statistic": -17.19900574539098,
+      "p_value": 9.063314365486307e-59
+    },
+    {
+      "rule_id": "R004",
+      "feature_name": "cluster_density",
+      "condition": "cluster_density >= 0.5895",
+      "threshold": 0.5894739731010548,
+      "operator": ">=",
+      "confidence": 1.0,
+      "effect": "positive",
+      "diff_percent": 159.6466738259938,
+      "t_statistic": 16.061905139998288,
+      "p_value": 3.276908214800004e-52
+    },
+    {
+      "rule_id": "R005",
+      "feature_name": "synergy_score",
+      "condition": "synergy_score >= 0.9331",
+      "threshold": 0.9331220968374483,
+      "operator": ">=",
+      "confidence": 1.0,
+      "effect": "positive",
+      "diff_percent": 11.573975361276133,
+      "t_statistic": 21.8603089807803,
+      "p_value": 5.602608483284916e-88
+    },
+    {
+      "rule_id": "R006",
+      "feature_name": "synergy_score",
+      "condition": "Prefer higher synergy_score",
+      "threshold": null,
+      "operator": "maximize",
+      "confidence": 1.0,
+      "effect": "positive_correlation",
+      "pearson_r": 0.9999768870250269,
+      "p_value": 0.004328365052021036
+    },
+    {
+      "rule_id": "R007",
+      "feature_name": "spatial_compactness",
+      "condition": "Prefer higher spatial_compactness",
+      "threshold": null,
+      "operator": "maximize",
+      "confidence": 1.0,
+      "effect": "positive_correlation",
+      "pearson_r": 0.9999768870250267,
+      "p_value": 0.004328365052041826
+    },
+    {
+      "rule_id": "R008",
+      "feature_name": "spatial_spread",
+      "condition": "Prefer lower spatial_spread",
+      "threshold": null,
+      "operator": "minimize",
+      "confidence": 1.0,
+      "effect": "negative_correlation",
+      "pearson_r": -0.9999176757358511,
+      "p_value": 0.008168870832927735
+    },
+    {
+      "rule_id": "R009",
+      "feature_name": "mean_pairwise_dist",
+      "condition": "Prefer lower mean_pairwise_dist",
+      "threshold": null,
+      "operator": "minimize",
+      "confidence": 1.0,
+      "effect": "negative_correlation",
+      "pearson_r": -0.9998224102467219,
+      "p_value": 0.011998045377496632
+    },
+    {
+      "rule_id": "R010",
+      "feature_name": "n_checkpoints",
+      "condition": "Prefer lower n_checkpoints",
+      "threshold": null,
+      "operator": "minimize",
+      "confidence": 0.998,
+      "effect": "negative_correlation",
+      "pearson_r": -0.9982211666911958,
+      "p_value": 0.03797756768791064
+    }
+  ],
+  "scoring_function": {
+    "version": "1.0",
+    "description": "Checkpoint-to-Cluster scoring based on mined rules",
+    "weights": {
+      "n_checkpoints": -0.998,
+      "spatial_spread": -1.0,
+      "mean_pairwise_dist": -1.0,
+      "cluster_density": 1.0,
+      "synergy_score": 1.0,
+      "spatial_compactness": 1.0
+    },
+    "normalization": {
+      "n_checkpoints": {
+        "mean": 1.5,
+        "std": 1.1052155401441335,
+        "min": 1.0,
+        "max": 10.0
+      },
+      "spatial_spread": {
+        "mean": 109.38090151033671,
+        "std": 277.43878124249215,
+        "min": 0.0,
+        "max": 2287.0231546269924
+      },
+      "mean_pairwise_dist": {
+        "mean": 186.06475167034714,
+        "std": 480.9857782909329,
+        "min": 0.0,
+        "max": 4574.046309253985
+      },
+      "cluster_density": {
+        "mean": 0.7639184412628045,
+        "std": 0.44403485843375035,
+        "min": 3.823744563333494e-07,
+        "max": 2.0
+      },
+      "synergy_score": {
+        "mean": 0.9671525335185739,
+        "std": 0.06868382533736639,
+        "min": 0.6521133184888499,
+        "max": 1.0
+      },
+      "spatial_compactness": {
+        "mean": 0.934305067037148,
+        "std": 0.13736765067473275,
+        "min": 0.3042266369776999,
+        "max": 1.0
+      }
+    },
+    "usage": "score = sum(weight[f] * (value[f] - mean[f]) / std[f] for f in features)"
+  },
+  "validation": {
+    "R001": {
+      "rule_id": "R001",
+      "feature": "n_checkpoints",
+      "n_satisfying": 945,
+      "n_violating": 135,
+      "avg_completion_satisfying": 0.9825,
+      "avg_completion_violating": 0.9472,
+      "improvement": 0.0353,
+      "effective": "True"
+    },
+    "R002": {
+      "rule_id": "R002",
+      "feature": "spatial_spread",
+      "n_satisfying": 918,
+      "n_violating": 162,
+      "avg_completion_satisfying": 0.9828,
+      "avg_completion_violating": 0.9513,
+      "improvement": 0.0315,
+      "effective": "True"
+    },
+    "R003": {
+      "rule_id": "R003",
+      "feature": "mean_pairwise_dist",
+      "n_satisfying": 906,
+      "n_violating": 174,
+      "avg_completion_satisfying": 0.9827,
+      "avg_completion_violating": 0.9538,
+      "improvement": 0.0289,
+      "effective": "True"
+    },
+    "R004": {
+      "rule_id": "R004",
+      "feature": "cluster_density",
+      "n_satisfying": 816,
+      "n_violating": 264,
+      "avg_completion_satisfying": 0.9835,
+      "avg_completion_violating": 0.9613,
+      "improvement": 0.0223,
+      "effective": "True"
+    },
+    "R005": {
+      "rule_id": "R005",
+      "feature": "synergy_score",
+      "n_satisfying": 859,
+      "n_violating": 221,
+      "avg_completion_satisfying": 0.983,
+      "avg_completion_violating": 0.9588,
+      "improvement": 0.0242,
+      "effective": "True"
+    },
+    "R006": {
+      "rule_id": "R006",
+      "feature": "synergy_score",
+      "n_satisfying": 816,
+      "n_violating": 264,
+      "avg_completion_satisfying": 0.9835,
+      "avg_completion_violating": 0.9613,
+      "improvement": 0.0223,
+      "effective": "True"
+    },
+    "R007": {
+      "rule_id": "R007",
+      "feature": "spatial_compactness",
+      "n_satisfying": 816,
+      "n_violating": 264,
+      "avg_completion_satisfying": 0.9835,
+      "avg_completion_violating": 0.9613,
+      "improvement": 0.0223,
+      "effective": "True"
+    },
+    "R008": {
+      "rule_id": "R008",
+      "feature": "spatial_spread",
+      "n_satisfying": 816,
+      "n_violating": 264,
+      "avg_completion_satisfying": 0.9835,
+      "avg_completion_violating": 0.9613,
+      "improvement": 0.0223,
+      "effective": "True"
+    },
+    "R009": {
+      "rule_id": "R009",
+      "feature": "mean_pairwise_dist",
+      "n_satisfying": 816,
+      "n_violating": 264,
+      "avg_completion_satisfying": 0.9835,
+      "avg_completion_violating": 0.9613,
+      "improvement": 0.0223,
+      "effective": "True"
+    },
+    "R010": {
+      "rule_id": "R010",
+      "feature": "n_checkpoints",
+      "n_satisfying": 807,
+      "n_violating": 273,
+      "avg_completion_satisfying": 0.9839,
+      "avg_completion_violating": 0.9609,
+      "improvement": 0.023,
+      "effective": "True"
+    }
+  }
+}

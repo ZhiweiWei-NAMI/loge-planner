@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-09T17:27:37.721692",
+    "scenario": "large_mixed",
+    "data_sources": {
+      "offline_init": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/offline_init",
+      "offline_plans": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/offline_plans",
+      "results": "/mnt/data2/weizhiwei/airfogsim/airfogsim-project/TCCN_auto_planner/data/results"
+    },
+    "n_records_analyzed": 900,
+    "n_rules_generated": 2,
+    "effective_rules": 2
+  },
+  "rules": [
+    {
+      "rule_id": "R001",
+      "feature_name": "spatial_spread",
+      "condition": "spatial_spread <= 685.8290",
+      "threshold": 685.8289736230422,
+      "operator": "<=",
+      "confidence": 1.0,
+      "effect": "negative",
+      "diff_percent": -12.791672584509545,
+      "t_statistic": -3.8667218807593726,
+      "p_value": 0.00011826260442471335
+    },
+    {
+      "rule_id": "R002",
+      "feature_name": "mean_pairwise_dist",
+      "condition": "mean_pairwise_dist <= 904.0074",
+      "threshold": 904.0074478104146,
+      "operator": "<=",
+      "confidence": 1.0,
+      "effect": "negative",
+      "diff_percent": -13.693186232875895,
+      "t_statistic": -3.6538273159363546,
+      "p_value": 0.00027333423650604757
+    }
+  ],
+  "scoring_function": {
+    "version": "1.0",
+    "description": "Checkpoint-to-Cluster scoring based on mined rules",
+    "weights": {
+      "spatial_spread": -1.0,
+      "mean_pairwise_dist": -1.0
+    },
+    "normalization": {
+      "spatial_spread": {
+        "mean": 685.8289736230423,
+        "std": 366.38723567628983,
+        "min": 0.0,
+        "max": 2405.932347294911
+      },
+      "mean_pairwise_dist": {
+        "mean": 904.0074478104146,
+        "std": 549.2674743975982,
+        "min": 0.0,
+        "max": 3731.6094717159244
+      }
+    },
+    "usage": "score = sum(weight[f] * (value[f] - mean[f]) / std[f] for f in features)"
+  },
+  "validation": {
+    "R001": {
+      "rule_id": "R001",
+      "feature": "spatial_spread",
+      "n_satisfying": 566,
+      "n_violating": 334,
+      "avg_completion_satisfying": 0.8971,
+      "avg_completion_violating": 0.8912,
+      "improvement": 0.0059,
+      "effective": "True"
+    },
+    "R002": {
+      "rule_id": "R002",
+      "feature": "mean_pairwise_dist",
+      "n_satisfying": 582,
+      "n_violating": 318,
+      "avg_completion_satisfying": 0.897,
+      "avg_completion_violating": 0.8912,
+      "improvement": 0.0058,
+      "effective": "True"
+    }
+  }
+}

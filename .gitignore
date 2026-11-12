@@ -1,27 +1,6 @@
-# Default-deny open-source export policy.
-# Only source code, runnable configuration, and the root README are allowed.
-
-*
-!*/
-!/.gitignore
-!/README.md
-
-# Source code and executable scripts
-!*.py
-!*.sh
-!*.cc
-!*.c
-!*.h
-!*.hpp
-
-# Runnable configuration files
-!*.yaml
-!*.yml
-!*.toml
-!*.ini
-!*.cfg
-!*.pddl
-!ns3_comm_sim/configs/**/*.json
+# Open-source export policy: track everything unless explicitly excluded below.
+# Source code, runnable configuration, PDDL domains, the root README, and
+# dependency manifests are tracked; generated data, weights, and caches are not.
 
 # Local secrets, editor state, and caches
 .env
@@ -45,13 +24,13 @@ dist/
 *.egg-info/
 
 # Runtime outputs, generated artifacts, and experiment data
-data/
+# (data/replan_prediction keeps the replan-prediction evidence JSONs)
+data/*
+!data/replan_prediction/
 workflow_decouple/data/
-analysis/rules/* *
 plot/figures/
 plot/*.csv
 plot/*.json
-reproducibility/
 revision_eval/results/
 revision_eval/plots/
 ns3_comm_sim/inputs/
@@ -100,7 +79,6 @@ model_cache/
 **/model_cache/
 **/lora_model/
 **/lora_model_dr/
-src/replan_prediction/
 revision_eval/
 config/advanced_logging_config.yaml
 config/*agents_config.yaml
@@ -118,6 +96,12 @@ plot/plot_lora.py
 *.onnx
 *.pkl
 *.joblib
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.avi
 
 # Excluded internal paths
 src/offline_pipeline/stage3_plan_*_e2e.py
