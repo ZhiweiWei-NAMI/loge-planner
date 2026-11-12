@@ -1,10 +1,9 @@
-"""Validator-gated scoped-replanning benchmark with real PDDL + real A*.
+"""Validator-gated scoped-replanning benchmark with PDDL + A*.
 
 Entry point for the scoped-repair / splice-validation / bounded scope-expansion
-procedure.  Every task order comes from a real PDDL solve (unified_planning +
-fast-downward) and every leg is routed by the time-varying A* in
-``src/offline_pipeline/edge_planner.py``; nothing is resampled, shifted or
-skipped -- every reported case is a real solve.
+procedure.  Task order comes from a PDDL solve (unified_planning + fast-downward)
+and every leg is routed by the time-varying A* in
+``src/offline_pipeline/edge_planner.py``.
 
 Three modes:
 
@@ -12,10 +11,10 @@ Three modes:
   **deterministically generated benchmark instances** (a fixed
   ``(scenario, seed)`` pair reproduces the identical graph, schedule and alert
   set) whose scale grows from S1 (small) to S5 (large), synthesises ``N``
-  alerts per pair and runs the real scoped repair on each of them.  Pass
-  ``--schedule-dir`` to read real schedule files (graph + snapshot + alerts)
+  alerts per pair and runs the scoped repair on each of them.  Pass
+  ``--schedule-dir`` to read schedule files (graph + snapshot + alerts)
   instead of the generator.
-* ``--demo`` runs the bundled smoke fixtures in ``examples/replanning/`` and
+* ``--demo`` runs the bundled fixtures in ``examples/replanning/`` and
   checks each case against its declared expectation.
 * ``--graph/--snapshot/--alert`` runs user-supplied external inputs.  An alert
   file may carry its own ``graph``/``snapshot`` paths (resolved relative to the
@@ -45,7 +44,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 FIXTURE_DIR = PROJECT_ROOT / "examples" / "replanning"
 DEFAULT_DOMAIN = PROJECT_ROOT / "config" / "pddl" / "tccn_domain.pddl"
 
-#: fixture -> declared expectation (verified by --demo)
+#: fixture -> declared expectation (checked by --demo)
 DEMO_CASES = {
     "demo_success": "splice_accepted",
     "demo_detour": "splice_accepted",
@@ -56,7 +55,7 @@ DEMO_CASES = {
 
 # --------------------------------------------------------------------- generator
 #: benchmark scale per scenario label: S1 is the smallest instance, S5 the largest.
-#: The numbers only set the instance *size*; every case is still solved for real.
+#: The numbers only set the instance *size*.
 SCENARIO_SPECS: Dict[str, Dict[str, int]] = {
     "S1": {"rows": 3, "cols": 4, "drones": 4, "tasks": 8, "workflows": 2},
     "S2": {"rows": 4, "cols": 5, "drones": 6, "tasks": 12, "workflows": 3},
@@ -76,13 +75,13 @@ ALERT_CLASSES = ("corridor_blocked", "corridor_lost", "battery_insufficient")
 ALERT_WEIGHTS = (0.45, 0.35, 0.20)
 #: fraction of generated cases that run with rho_max=0.1 (global-recovery path)
 GLOBAL_RECOVERY_FRACTION = 0.2
-#: fraction of corridor_lost cases that isolate the anchor node (real infeasibility)
+#: fraction of corridor_lost cases that isolate the anchor node (infeasible instance)
 NODE_ISOLATION_FRACTION = 0.2
 
 GENERATOR_NOTE = (
     "deterministically generated benchmark instances: the same (scenario, seed) "
     "pair reproduces an identical graph, schedule and alert set; pass "
-    "--schedule-dir to evaluate real schedule files instead"
+    "--schedule-dir to evaluate schedule files instead"
 )
 
 
@@ -130,7 +129,7 @@ def build_graph(scenario: str) -> Dict[str, Any]:
             if r + 1 < rows:
                 add_edge(_grid_id(r, c), _grid_id(r + 1, c))
                 add_edge(_grid_id(r + 1, c), _grid_id(r, c))
-            # checkerboard diagonal shortcuts: real detour alternatives for A*
+            # checkerboard diagonal shortcuts: detour alternatives for A*
             if (r + c) % 2 == 0 and r + 1 < rows and c + 1 < cols:
                 add_edge(_grid_id(r, c), _grid_id(r + 1, c + 1))
                 add_edge(_grid_id(r + 1, c + 1), _grid_id(r, c))
@@ -193,7 +192,7 @@ def build_snapshot(scenario: str, seed: int, graph: Dict[str, Any]) -> Dict[str,
             slot = queue_pos[agent]
             queue_pos[agent] += 1
             # deadline follows the agent's queue position: satisfiable for the
-            # committed plan, still finite so real detours can violate it.
+            # committed plan, still finite so detours can violate it.
             deadline = round(release + (slot + 1.5) * diameter_t + 600.0 + 2.0 * service_s, 1)
             tasks.append(
                 {
@@ -324,7 +323,7 @@ def generate_alerts(
 def load_schedule_cases(
     schedule_dir: Path, scenario: str, seed: int, count: int
 ) -> List[Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]]:
-    """Read real schedule inputs: ``<dir>/<scenario>_seed<seed>.json``.
+    """Read schedule inputs: ``<dir>/<scenario>_seed<seed>.json``.
 
     The file carries ``graph`` / ``snapshot`` (inline object or path relative to
     the file) and an ``alerts`` list (objects or paths).
@@ -474,7 +473,7 @@ def _percentile(values: Sequence[float], fraction: float) -> float:
 
 
 def aggregate_rows(rows: Sequence[Dict[str, Any]]) -> Dict[str, Any]:
-    """Real aggregate metrics over real case outcomes (nothing imputed)."""
+    """Aggregate metrics over the case outcomes."""
     total = len(rows)
     statuses = Counter(str(row["status"]) for row in rows)
     backends: Counter = Counter()
@@ -564,7 +563,7 @@ def _print_overall(agg: Dict[str, Any], solver_logs: int, failures: Sequence[str
     print(
         f"repair latency   : mean={lat['mean']:.0f}ms median={lat['median']:.0f}ms "
         f"p95={lat['p95']:.0f}ms min={lat['min']:.0f}ms max={lat['max']:.0f}ms "
-        f"(real wall clock, replan only)"
+        f"(wall clock, replan only)"
     )
     print(
         f"case wall clock  : mean={agg['case_wall_ms']['mean']:.0f}ms "
@@ -621,7 +620,7 @@ def run_batch(args: argparse.Namespace) -> int:
     if not args.schedule_dir:
         print(f"instances        : {GENERATOR_NOTE}")
     else:
-        print(f"instances        : real schedule files from {args.schedule_dir}")
+        print(f"instances        : schedule files from {args.schedule_dir}")
 
     for scenario in args.scenarios:
         for seed in args.seeds:
@@ -633,7 +632,7 @@ def run_batch(args: argparse.Namespace) -> int:
                     snapshot = build_snapshot(scenario, seed, graph)
                     alerts = generate_alerts(scenario, seed, graph, snapshot, args.cases_per_seed)
                     cases = [(graph, snapshot, alert) for alert in alerts]
-            except Exception as exc:  # a broken instance must never look like a success
+            except Exception as exc:  # a broken instance is recorded as a failure
                 failures.append(f"{scenario}/seed{seed}: {exc}")
                 print(f"=== {scenario}/seed{seed} ===\nstatus           : error\nerror            : {exc}")
                 continue
@@ -642,7 +641,7 @@ def run_batch(args: argparse.Namespace) -> int:
                 case_begin = time.perf_counter()
                 try:
                     result = run_case(graph, snapshot, alert, args, args.artifacts_dir)
-                except Exception as exc:  # a broken case must never look like a success
+                except Exception as exc:  # a broken case is recorded as a failure
                     failures.append(f"{alert.get('case_id', 'case')}: {exc}")
                     print(f"\n=== {alert.get('case_id', 'case')} ===")
                     print("status           : error")
@@ -725,7 +724,7 @@ def run_batch(args: argparse.Namespace) -> int:
 # -------------------------------------------------------------------------- main
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Validator-gated scoped replanning benchmark (real PDDL + real A*)."
+        description="Validator-gated scoped replanning benchmark (PDDL + A*)."
     )
     parser.add_argument("--demo", action="store_true", help="Run the bundled examples/replanning fixtures.")
     parser.add_argument(
@@ -745,13 +744,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         "--cases-per-seed",
         type=int,
         default=5,
-        help="Batch mode: number of alerts (and real repairs) per (scenario, seed).",
+        help="Batch mode: number of alerts (and repairs) per (scenario, seed).",
     )
     parser.add_argument(
         "--schedule-dir",
         type=Path,
         default=None,
-        help="Batch mode: read real schedule files <dir>/<scenario>_seed<seed>.json "
+        help="Batch mode: read schedule files <dir>/<scenario>_seed<seed>.json "
         "instead of generating instances.",
     )
     parser.add_argument("--graph", type=Path, help="Airspace graph JSON.")
@@ -813,7 +812,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     for graph, snapshot, alert in cases:
         try:
             result = run_case(graph, snapshot, alert, args, args.artifacts_dir)
-        except Exception as exc:  # a broken case must never look like a success
+        except Exception as exc:  # a broken case is recorded as a failure
             failures.append(f"{alert.get('case_id', 'case')}: {exc}")
             print(f"\n=== {alert.get('case_id', 'case')} ===")
             print(f"status           : error")

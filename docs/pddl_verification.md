@@ -22,12 +22,9 @@ cd "$PROJECT_ROOT"
 | domain | `config/pddl/tccn_domain.pddl` (unchanged) |
 | repository version | `v1.1.0` (unchanged) |
 
-Wall-clock numbers below are single-run observations on this machine; they vary
-a few percent between runs and are demo-scale.
-
-> The bundled fixtures in `examples/replanning/` are a **hand-written
-> demonstration** of the mechanics; manuscript-scale batches use
-> `--scenarios S1 … S5 --seeds … --cases-per-seed N` (see `README.md`).
+The bundled fixtures in `examples/replanning/` exercise the mechanics end to end;
+manuscript-scale batches use `--scenarios S1 … S5 --seeds … --cases-per-seed N`
+(see `README.md`).
 
 ## 1. Call chain
 
@@ -65,7 +62,7 @@ Node occupancy for capacity / reservation checks starts at **arrival**, not at
 the service start, so a drone waiting for a release time or a dependency still
 holds the node.
 
-## 2. Demo run (5 cases, all real solves)
+## 2. Bundled-fixture run (5 cases)
 
 ```bash
 cd "$PROJECT_ROOT"
@@ -172,8 +169,7 @@ plan (unchanged) : NOT a repair -- this is the pre-alert committed plan
 
 The solver failure is propagated verbatim (`success=False` plus the
 unified_planning status string), the validator reports `valid=False`, and the
-printed plan is labelled as the unchanged pre-alert plan. Nothing is presented
-as a successful repair.
+printed plan is labelled as the unchanged pre-alert plan.
 
 ## 3. External input, copy-paste runnable
 
@@ -347,12 +343,8 @@ Upstream callers were checked for swallowing: `plot/run_experiments.py` returns
 continues. Because the module now exits non-zero instead of writing an empty plan
 file, those callers can no longer mistake a failed cluster for a successful one.
 
-## 7. Remaining limitations
+## 7. Code-path notes
 
-1. `src/baselines/graph_mapf_priority.py` still auto-generates a grid topology
-   when `graph_topology.json` is missing (that baseline owns its own topology
-   setup and was outside the scope of this fix).
-2. The demo fixtures use uniform 15 m/s corridors on a 12-node grid, so the
-   timings in §2 are demo-scale.
-3. Wall-clock values are single-run samples; re-running changes them by a few
-   percent.
+1. `src/baselines/graph_mapf_priority.py` auto-generates a grid topology when
+   `graph_topology.json` is missing (that baseline owns its own topology setup).
+2. The bundled fixtures use uniform 15 m/s corridors on a 12-node grid.

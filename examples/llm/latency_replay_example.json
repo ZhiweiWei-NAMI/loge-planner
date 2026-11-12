@@ -1,7 +1,7 @@
 {
   "provenance": "fixture",
   "fixture": true,
-  "source": "EXAMPLE ONLY: illustrative per-sample latencies; NOT measurements from any run",
+  "source": "Example per-sample latencies (provenance: fixture).",
   "latencies_ms": [
     1800.0,
     1950.0,

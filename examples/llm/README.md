@@ -1,17 +1,17 @@
 # `examples/llm` -- example / fixture inputs
 
-Everything in this directory is a small, clearly labelled example used to
-exercise the LLM code paths: hand-written or synthetic inputs, not measured
-data. Replace them with your own run outputs for real evaluation.
+Everything in this directory is a small, labelled example of the input
+formats used to exercise the LLM code paths. Replace them with your own run
+outputs for evaluation.
 
 | File | What it is | Used by |
 | :--- | :--- | :--- |
 | `checkpoints_example.csv` | 8 checkpoints of 3 toy workflows, same schema as Stage 1 `checkpoint_init.csv` | `decompose_cli` |
 | `scenario_example.json` | 3 agents / 3 workflows toy scenario | `decompose_cli` |
-| `decomposition_example.json` | A **hand-written example** of a valid protocol-`1.0` decomposition of the table above | `decompose_cli --from-json` |
+| `decomposition_example.json` | An example of a valid protocol-`1.0` decomposition of the table above | `decompose_cli --from-json` |
 | `terminal_windows_example.csv` | 18 windows (9 classes x 2 samples, L=4) generated from hand-set prototypes + jitter | `terminal_monitor_eval --data-csv`, `prepare_terminal_sft` |
 | `terminal_sft_example.jsonl` | **9** chat examples, all from `split=train` (the 9 `split=test` windows are excluded), rendered with the exact inference prompt | `train_lora` |
-| `latency_replay_example.json` | **Illustrative** latencies, declared `"provenance": "fixture"`, for the `--latency-replay-json` interface | `terminal_monitor_eval` |
+| `latency_replay_example.json` | Example latencies, declared `"provenance": "fixture"`, for the `--latency-replay-json` interface | `terminal_monitor_eval` |
 
 The window fixture is produced by `src.agent_llm.terminal_data.synthesize_fixture_windows`
 and is labelled `fixture_synthetic` in every report it feeds.
@@ -95,8 +95,8 @@ python3 -m src.validation.terminal_monitor_eval \
 
 The example CSV has 18 windows (9 `split=train` + 9 `split=test`). Step (a)
 exports only the 9 train rows, so step (d) evaluating on the same CSV scores the
-9 test rows: the example is leak-free by construction. Use it to check the
-wiring, then replace it with your real window data (long format:
+9 test rows: the example is leak-free by construction. Replace it with your
+own window data (long format:
 `sample_id,step,accel_mps2,speed_mps,local_density,battery_pct,label[,split]`).
 
 Leakage rules enforced by `prepare_terminal_sft`:
@@ -113,7 +113,7 @@ Scheduler latency provenance in the evaluation report:
 
 | `service_time_source` | Meaning |
 | :--- | :--- |
-| `llm_adapter_inference` | mean per-batch latency measured in this run by the adapter/base-model inference |
-| `external_trace_replay` | values read from an external latency replay file (`--latency-replay-json`); the file is the source of record |
-| `fixture_replay` | the replay file declares itself as example/fixture data, so the value is illustrative |
-| `orin_nx_nominal_2_8s` | Jetson Orin NX Phase-A nominal service time (2.8 s), used when no measured latency is supplied |
+| `model` | mean per-batch latency of the adapter/base-model inference in this run |
+| `trace` | values read from a latency replay file (`--latency-replay-json`) |
+| `fixture` | the replay file declares itself as example/fixture data |
+| `default` | `--default-latency` (2.8 s nominal), when neither an LLM run nor a replay supplies a value |

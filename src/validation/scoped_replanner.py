@@ -1,24 +1,23 @@
-"""Validator-gated scoped replanning with real PDDL solving and real A* routing.
+"""Validator-gated scoped replanning with PDDL solving and time-varying A* routing.
 
 This module is the executable form of the scoped-repair procedure used by
-``scoped_replan_benchmark.py``.  Nothing here is simulated:
+``scoped_replan_benchmark.py``:
 
-* task ordering / assignment comes from a **real PDDL solve**
+* task ordering / assignment comes from a PDDL solve
   (:class:`src.pddl_solver.pddl_solver.PDDLSolver`, unified_planning +
   fast-downward) over the airspace graph;
-* every ``movetoloc`` leg is routed by the **time-varying A*** of
-  :class:`src.offline_pipeline.edge_planner.EdgePlanner` on the real graph,
-  honouring blocked corridors;
+* every ``movetoloc`` leg is routed by the time-varying A* of
+  :class:`src.offline_pipeline.edge_planner.EdgePlanner` on the graph, honouring
+  blocked corridors;
 * the splice validator (``c_state``/``c_time``/``c_dep``/``c_res``/``c_rsv``)
   re-simulates the merged plan and rejects it when any condition fails;
 * rejected repairs expand the scope (bounded by ``k_max``, ``rho_max``,
-  ``b_rep_s``, ``c_max``) and, if the bound is hit, a **real global PDDL solve**
-  is attempted.  When that also fails the case is reported as ``infeasible`` --
-  never as a success.
+  ``b_rep_s``, ``c_max``) and, if the bound is hit, a global PDDL solve is
+  attempted.  When that also fails the case is reported as ``infeasible``.
 
 The only input is an explicit snapshot: an airspace graph, the committed task
 schedule, and a semantic alert.  See ``examples/replanning/`` for the bundled
-deterministic demonstration fixtures for smoke testing.
+deterministic fixtures.
 """
 from __future__ import annotations
 
@@ -72,7 +71,7 @@ class Task:
 class PlanStep:
     """One executed step of a grounded plan.
 
-    ``segments`` holds the real A* output for ``movetoloc`` steps:
+    ``segments`` holds the A* output for ``movetoloc`` steps:
     ``(u, v, t_start, t_end)`` per traversed edge.  For service actions the
     tuple list is empty and ``nodes`` is a single node.
     """
@@ -137,7 +136,7 @@ class ValidationReport:
 
 @dataclass
 class SolveRecord:
-    """One real PDDL solve attempt, kept for traceability."""
+    """One PDDL solve attempt, kept for traceability."""
 
     stage: str
     scope_tasks: List[str]
@@ -171,7 +170,7 @@ class ReplanResult:
 
 
 class ScopedReplanner:
-    """Algorithm-2 style scoped repair over a real PDDL + A* stack."""
+    """Algorithm-2 style scoped repair over the PDDL + A* stack."""
 
     def __init__(
         self,
@@ -276,7 +275,7 @@ class ScopedReplanner:
         return topo
 
     def apply_alert(self) -> None:
-        """Make the alert's blocked corridors real for A*, PDDL and the validator.
+        """Apply the alert's blocked corridors to A*, PDDL and the validator.
 
         A closed corridor is closed in **both** directions by default: closing
         only one direction would let another drone fly the same physical
@@ -306,7 +305,7 @@ class ScopedReplanner:
 
     # ------------------------------------------------------------------- A*
     def route(self, start: str, goal: str, t_start: float):
-        """Real time-varying A* route; ``None`` when the graph has no path."""
+        """Time-varying A* route; ``None`` when the graph has no path."""
         begin = time.perf_counter()
         result = self.planner.plan_route(start, goal, t_start, density_fn=None)
         self._astar_ms += (time.perf_counter() - begin) * 1000.0
@@ -449,7 +448,7 @@ class ScopedReplanner:
         agents: Sequence[str],
         frozen: Sequence[PlanStep],
     ) -> Tuple[Dict[str, List[str]], List[str]]:
-        """Real PDDL solve per agent; returns agent -> ordered task ids."""
+        """PDDL solve per agent; returns agent -> ordered task ids."""
         orders: Dict[str, List[str]] = {}
         errors: List[str] = []
         for agent in agents:
@@ -492,7 +491,7 @@ class ScopedReplanner:
         frozen: Sequence[PlanStep],
         task_end: Dict[str, float],
     ) -> Optional[List[PlanStep]]:
-        """Ground PDDL ordering into a timed plan using real A* routes."""
+        """Ground PDDL ordering into a timed plan using A* routes."""
         steps: List[PlanStep] = []
         for agent in sorted(agent_tasks):
             order = self._topo_reorder(agent_tasks[agent])
@@ -699,7 +698,7 @@ class ScopedReplanner:
         return sorted(grown)
 
     def baseline(self) -> Tuple[List[PlanStep], ValidationReport, str]:
-        """Committed plan: real per-agent PDDL solve on the un-alerted graph."""
+        """Committed plan: per-agent PDDL solve on the un-alerted graph."""
         task_ids = sorted(self.tasks)
         agents = sorted(self.agent_home)
         orders, errors = self._solve_agents("baseline", task_ids, agents, [])
@@ -723,7 +722,7 @@ class ScopedReplanner:
     def replan(
         self, baseline_steps: Sequence[PlanStep], baseline_end: Dict[str, float]
     ) -> ReplanResult:
-        """Run bounded scope expansion, then real global recovery."""
+        """Run bounded scope expansion, then global recovery."""
         total_start = time.perf_counter()
         window = self.alert.get("window") or [self.t0, float("inf")]
         alert_start = float(window[0])
@@ -789,7 +788,7 @@ class ScopedReplanner:
             scope = grown
 
         if status != "splice_accepted":
-            # real global recovery attempt over the full remaining problem
+            # global recovery attempt over the full remaining problem
             all_tasks = sorted(self.tasks)
             all_agents = sorted(self.agent_home)
             orders, errors = self._solve_agents("global", all_tasks, all_agents, [])
@@ -879,7 +878,7 @@ class ScopedReplanner:
     def _changed_routes(
         self, baseline: Sequence[PlanStep], repaired: Sequence[PlanStep]
     ) -> List[Dict[str, Any]]:
-        """Tasks whose real A* route or timing changed after the repair."""
+        """Tasks whose A* route or timing changed after the repair."""
         old = {s.task_id: s for s in baseline if s.task_id and s.action == "movetoloc"}
         new = {s.task_id: s for s in repaired if s.task_id and s.action == "movetoloc"}
         changed = []

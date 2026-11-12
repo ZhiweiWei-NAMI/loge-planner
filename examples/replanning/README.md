@@ -13,7 +13,7 @@ procedure. Both go through the same real stack:
 
 | mode | command | what it is |
 | --- | --- | --- |
-| smoke fixtures | `--demo` | The 5 hand-written cases in this directory, each checked against the `expect_status` declared in its alert. Fast sanity check of the mechanics. |
+| bundled fixtures | `--demo` | The 5 cases in this directory, each checked against the `expect_status` declared in its alert. |
 | batch evaluation | `--scenarios ... --seeds ... --cases-per-seed N` | Deterministically generated benchmark instances. A fixed `(scenario, seed)` pair reproduces the identical graph, schedule and alert set; scale grows from S1 (small) to S5 (large). |
 | real schedules | `--scenarios ... --schedule-dir DIR` | Same batch driver, but graph + snapshot + alerts are read from real schedule files instead of the generator. |
 | external inputs | `--graph/--snapshot/--alert` | One-off run on your own graph, snapshot and alert files. |
@@ -21,7 +21,7 @@ procedure. Both go through the same real stack:
 ## Run
 
 ```bash
-# smoke fixtures
+# bundled fixtures
 ./scripts/06_run_scoped_replanning.sh --demo
 
 # batch: 5 scenarios x 5 seeds x 20 generated alerts per pair
@@ -40,8 +40,7 @@ non-zero if any case raises (a broken case never counts as a success). Add
 
 ## Generated instances (`--scenarios`)
 
-Scale per label — the numbers set instance size only, every case is solved for
-real:
+Scale per label — the numbers set instance size only:
 
 | label | grid | drones | tasks | workflows |
 | --- | --- | --- | --- | --- |
@@ -74,7 +73,7 @@ to fall through to the real global recovery.
 
 `--output-json` writes an aggregate payload (`aggregate`, `per_scenario`,
 `per_scenario_seed`, `case_table`, full `cases`, `failures`) plus these
-quantities, all measured on real runs:
+quantities:
 
 | field | meaning |
 | --- | --- |

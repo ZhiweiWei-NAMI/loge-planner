@@ -3,23 +3,19 @@
 Implements the four-level post-estimation observation perturbation model (Table 2),
 the single-flight latest-snapshot monitor scheduler (size-1 overwrite slot),
 explicitly named non-LLM baselines (rule threshold, compact MLP, GBDT), and the
-real local Qwen2.5-0.5B (+PEFT/LoRA) inference path behind ``--adapter-dir``.
+local Qwen2.5-0.5B (+PEFT/LoRA) inference path behind ``--adapter-dir``.
 
-Measurement provenance
+Scheduler service time
 ----------------------
-* ``--adapter-dir`` loads ``transformers`` + ``peft`` and scores the adapter's
-  generations.  A missing/invalid adapter or an unparsable generation is
-  reported through ``parse_failure_rate``; nothing is substituted for it.
-* The built-in labelled windows are synthetic prototypes for smoke testing and
-  are tagged ``fixture_synthetic`` in the report.  Pass ``--data-csv`` to score
-  real windows.
-* Every report records ``service_time_source`` so the scheduler service time can
-  be traced to its origin: ``llm_adapter_inference`` (mean per-batch latency
-  measured during this run by the adapter/base-model condition),
-  ``external_trace_replay`` (latency values read from an external replay file),
-  ``fixture_replay`` (replay file declared as example/fixture data), or
-  ``orin_nx_nominal_2_8s`` (the Jetson Orin NX Phase-A nominal 2.8 s default,
-  used when no measured latency is available).
+Every report records ``service_time_source``:
+
+* ``model`` -- mean per-batch latency of the adapter/base-model inference in this run;
+* ``trace`` -- latency values read from a replay file (``--latency-replay-json``);
+* ``fixture`` -- replay file declared as example input;
+* ``default`` -- ``--default-latency`` (2.8 s nominal).
+
+The built-in labelled windows are tagged ``fixture_synthetic`` in the report;
+pass ``--data-csv`` to score recorded windows.
 """
 
 from __future__ import annotations
@@ -60,8 +56,7 @@ DISPLAY_NAMES = {
 
 FIXTURE_NOTE = (
     "Synthetic prototype windows generated from hand-set class prototypes plus "
-    "Gaussian jitter, for interface/CLI smoke tests. Pass --data-csv with real "
-    "windows for measured results."
+    "Gaussian jitter. Pass --data-csv to score recorded windows."
 )
 
 
@@ -146,18 +141,18 @@ def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
 def simulate_single_flight_schedule(
     total_duration_s: float = 30.0,
     tick_hz: float = 1.0,
-    service_time_s: float = 2.80,
-    service_time_source: str = "orin_nx_nominal_2_8s",
+    default_latency: float = 2.8,  # Default nominal latency (s)
+    service_time_source: str = "default",
 ) -> Dict[str, Any]:
     """Single-flight monitor queue: a busy worker drops to the latest snapshot.
 
-    ``service_time_s`` is a parameter: the caller passes a latency measured in
-    this run (``--adapter-dir`` / ``--include-base-model``), a value replayed
-    from ``--latency-replay-json``, or the Orin NX nominal default, and records
-    the matching ``service_time_source`` in the report.
+    ``default_latency`` is the per-inference service time: the caller passes a
+    latency from the adapter/base-model run, a value replayed from
+    ``--latency-replay-json``, or ``--default-latency``, and records the matching
+    ``service_time_source`` in the report.
     """
-    if service_time_s <= 0:
-        raise ValueError(f"service_time_s must be positive, got {service_time_s}")
+    if default_latency <= 0:
+        raise ValueError(f"default_latency must be positive, got {default_latency}")
     slot = LatestSnapshotSlot()
     dt = 1.0 / tick_hz
     t = 0.0
@@ -169,16 +164,16 @@ def simulate_single_flight_schedule(
         slot.push(np.zeros((4, 4)), timestamp_s=t)
         if t >= worker_free_at - 1e-9 and slot.window is not None:
             _, snap_ts = slot.pop_latest()
-            worker_free_at = t + service_time_s
-            if worker_free_at <= total_duration_s + service_time_s:
+            worker_free_at = t + default_latency
+            if worker_free_at <= total_duration_s + default_latency:
                 completed += 1
-                latencies.append((t - snap_ts) + service_time_s)
+                latencies.append((t - snap_ts) + default_latency)
         t = round(t + dt, 6)
 
     return {
         "duration_s": total_duration_s,
         "tick_hz": tick_hz,
-        "service_time_s": service_time_s,
+        "service_time_s": default_latency,
         "service_time_source": service_time_source,
         "completed_inferences": completed,
         "overwritten_stale_windows": slot.overwritten_count,
@@ -202,12 +197,12 @@ _FIXTURE_PROVENANCE = {"fixture", "example", "synthetic", "not_measured", "assum
 _MEASURED_PROVENANCE = {"measured", "user_supplied_measured", "user-supplied", "external_measured"}
 
 
-def _classify_latency_provenance(payload: Dict[str, Any], path: Path) -> Tuple[str, str, bool]:
-    """Classify a replayed latency file as fixture vs external measurement.
+def _classify_latency_provenance(payload: Dict[str, Any], path: Path) -> Tuple[str, str]:
+    """Classify a replayed latency file as fixture vs external trace.
 
-    Returns ``(service_time_source, note, is_measurement)``.  Values that arrive
-    from a file are attributed to that file, and an example/fixture file keeps
-    its fixture label in the report.
+    Returns ``(service_time_source, note)``.  Values that arrive from a file are
+    attributed to that file, and an example/fixture file keeps its fixture label
+    in the report.
     """
     declared = str(payload.get("source") or "").lower()
     explicit = str(payload.get("provenance") or "").strip().lower()
@@ -218,13 +213,12 @@ def _classify_latency_provenance(payload: Dict[str, Any], path: Path) -> Tuple[s
     )
     if is_fixture:
         return (
-            "fixture_replay",
+            "fixture",
             (
                 f"Latency values in {path} are declared as fixture/example data; "
-                f"the scheduler service time is taken from that replay file and is "
-                f"recorded as fixture_replay."
+                f"the scheduler service time is read from that replay file "
+                f"(service_time_source=fixture)."
             ),
-            False,
         )
     if explicit and explicit not in _MEASURED_PROVENANCE:
         raise ValueError(
@@ -232,12 +226,8 @@ def _classify_latency_provenance(payload: Dict[str, Any], path: Path) -> Tuple[s
             f"measurements or 'fixture' for example data"
         )
     return (
-        "external_trace_replay",
-        (
-            f"Latency values were read from the external replay file {path}; the "
-            f"source of those values is recorded with the file, not measured here."
-        ),
-        True,
+        "trace",
+        f"Latency values were read from the replay file {path} (service_time_source=trace).",
     )
 
 
@@ -260,7 +250,7 @@ def _load_latency_replay(path: Path) -> Tuple[float, Dict[str, Any]]:
     if not isinstance(payload, dict):
         raise ValueError(f"{path}: latency replay must be a JSON object")
 
-    source, note, is_measurement = _classify_latency_provenance(payload, path)
+    source, note = _classify_latency_provenance(payload, path)
 
     if "latencies_ms" in payload:
         values = np.asarray(payload["latencies_ms"], dtype=float)
@@ -268,7 +258,6 @@ def _load_latency_replay(path: Path) -> Tuple[float, Dict[str, Any]]:
             raise ValueError(f"{path}: 'latencies_ms' must be positive finite numbers")
         return float(values.mean()) / 1000.0, {
             "service_time_source": source,
-            "is_measurement": is_measurement,
             "source_file": str(path),
             "n_measurements": int(values.size),
             "latency_ms_mean": round(float(values.mean()), 4),
@@ -283,7 +272,6 @@ def _load_latency_replay(path: Path) -> Tuple[float, Dict[str, Any]]:
             raise ValueError(f"{path}: 'service_time_ms' must be positive")
         return value / 1000.0, {
             "service_time_source": source,
-            "is_measurement": is_measurement,
             "source_file": str(path),
             "n_measurements": payload.get("n_measurements"),
             "latency_ms_mean": round(value, 4),
@@ -444,16 +432,16 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help=(
             "Latency JSON ({'latencies_ms': [...]} or {'service_time_ms': ...}) with "
             "optional 'provenance': 'measured' (external data) or 'fixture' (example "
-            "data). Fixture files are reported as fixture_replay."
+            "data). Fixture files are reported with service_time_source=fixture."
         ),
     )
     p.add_argument(
-        "--assumed-service-time-s",
+        "--default-latency",
         type=float,
-        default=2.80,
+        default=2.8,  # Default nominal latency (s)
         help=(
-            "Jetson Orin NX Phase-A nominal service time (2.8 s), used when no "
-            "measured latency is available; reported as orin_nx_nominal_2_8s."
+            "Scheduler service time (s) used when neither an LLM run nor a "
+            "latency replay supplies one."
         ),
     )
     p.add_argument("--schedule-duration", type=float, default=30.0)
@@ -500,7 +488,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 GBDT_METHOD: DISPLAY_NAMES[GBDT_METHOD],
             },
             "notes": [
-                "Non-LLM methods are explicitly named baselines; they are not the LLM monitor.",
+                "Non-LLM methods are named baselines (rule threshold, MLP, GBDT).",
                 "Unparsable LLM generations are scored as errors and reported via parse_failure_rate.",
             ],
         },
@@ -599,13 +587,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         arr = np.asarray(measured_latencies_ms, dtype=float)
         service_time_s = float(arr.mean()) / 1000.0
         scheduler_meta: Dict[str, Any] = {
-            "service_time_source": "llm_adapter_inference",
+            "service_time_source": "model",
             "n_measurements": int(arr.size),
             "latency_ms_mean": round(float(arr.mean()), 4),
             "latency_ms_p95": round(float(np.percentile(arr, 95)), 4),
             "note": (
-                "Service time is the mean per-batch wall-clock latency measured "
-                "during this run by the LLM condition(s) above."
+                "Service time is the mean per-batch wall-clock latency of the "
+                "LLM condition(s) above."
             ),
         }
     elif args.latency_replay_json is not None:
@@ -616,22 +604,17 @@ def main(argv: Optional[List[str]] = None) -> int:
             return 2
         scheduler_meta = dict(replay_meta)
     else:
-        service_time_s = float(args.assumed_service_time_s)
+        service_time_s = float(args.default_latency)
         scheduler_meta = {
-            "service_time_source": "orin_nx_nominal_2_8s",
+            "service_time_source": "default",
             "n_measurements": 0,
-            "note": (
-                f"{service_time_s:.3f} s is the Jetson Orin NX Phase-A nominal "
-                f"service time used for the scheduling simulation. Run with "
-                f"--adapter-dir (adapter inference) or --latency-replay-json to "
-                f"replace it with measured latency."
-            ),
+            "note": f"{service_time_s:.3f} s default service time (--default-latency).",
         }
 
     report["scheduler_profile"] = simulate_single_flight_schedule(
         total_duration_s=args.schedule_duration,
         tick_hz=args.tick_hz,
-        service_time_s=service_time_s,
+        default_latency=service_time_s,
         service_time_source=scheduler_meta["service_time_source"],
     )
     report["scheduler_profile"]["provenance"] = scheduler_meta

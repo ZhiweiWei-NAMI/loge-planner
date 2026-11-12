@@ -1,6 +1,6 @@
 {
   "name": "demo_small_snapshot",
-  "note": "8-task / 4-drone demonstration snapshot.",
+  "note": "8-task / 4-drone snapshot.",
   "t0": 0.0,
   "agents": {
     "drone_a": {

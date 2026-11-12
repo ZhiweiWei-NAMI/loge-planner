@@ -46,8 +46,8 @@ ns3_comm_sim/results/*
 !ns3_comm_sim/results/tables/
 !ns3_comm_sim/results/raw/
 # (the results-level explanation *.md is re-allowed after the global *.md rule)
-# Out of scope: the smoke test, duplicate per-run JSON, figures, SNR dumps,
-# netanim dumps, machine-specific logs and install probes.
+# Ignored: duplicate per-run JSON, figures, SNR dumps, netanim dumps,
+# machine-specific logs and install probes.
 ns3_comm_sim/results/parsed/*.json
 ns3_comm_sim/results/parsed/smoke_test*
 ns3_comm_sim/results/raw/smoke_test/

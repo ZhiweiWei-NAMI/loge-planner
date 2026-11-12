@@ -1,7 +1,7 @@
 #!/bin/bash
 # Scoped replanning benchmark: real PDDL (unified_planning + Fast Downward) + real A*.
 #
-# Smoke fixtures (5 hand-written cases, each checked against its declared status):
+# Bundled fixtures (5 cases, each checked against its declared status):
 #   ./scripts/06_run_scoped_replanning.sh --demo
 #
 # Batch evaluation on deterministically generated benchmark instances
@@ -12,7 +12,7 @@
 #       --scenarios S1 S2 --seeds 42 --cases-per-seed 2 \
 #       --artifacts-dir tmp/batch --output-json tmp/batch/summary.json
 #
-# Batch evaluation on your own real schedule files
+# Batch evaluation on your own schedule files
 # (<dir>/<scenario>_seed<seed>.json with graph + snapshot + alerts):
 #   ./scripts/06_run_scoped_replanning.sh \
 #       --scenarios S1 S2 --seeds 42 --cases-per-seed 5 --schedule-dir data/schedules
@@ -23,8 +23,8 @@
 #       --snapshot examples/replanning/snapshot_small.json \
 #       --alert examples/replanning/alerts/demo_detour.json
 #
-# Every case is a real solve.  Exit code is non-zero when any case errors out or
-# misses its declared expectation in --demo mode.
+# Exit code is non-zero when any case errors out or misses its declared
+# expectation in --demo mode.
 set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 export PYTHONPATH="$PROJECT_ROOT:${PYTHONPATH:-}"

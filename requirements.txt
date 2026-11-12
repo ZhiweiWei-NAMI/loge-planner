@@ -32,7 +32,7 @@ torch>=2.4
 # LLM agents (src/agent_llm): the cloud decomposition path needs only this
 # OpenAI-compatible client. Local Qwen2.5 inference and LoRA training use the
 # optional set in requirements-llm.txt instead. Model weights and API
-# credentials are not distributed (see docs/reproducibility.md).
+# credentials are supplied by the user.
 openai>=1.72
 
 # Reporting, figures, and video artifacts
@@ -47,4 +47,4 @@ imageio-ffmpeg>=0.6
 #   pip install -e ../airfogsim-project
 # It is required by src/simulation/** (simulation and data generation). The PDDL
 # solver, stage 2/3 offline planning and the scoped-replanning demo import and run
-# without it (verified by blocking the import); see docs/reproducibility.md.
+# without it.
