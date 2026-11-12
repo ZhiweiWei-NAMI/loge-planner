@@ -7,12 +7,10 @@ It is deliberately narrower than a "fully reproducible" claim: several component
 
 ## 1. License status
 
-No `LICENSE`, `COPYING`, or `NOTICE` file exists in this repository, and no source
-file carries a copyright header. **Authorization is pending: the license is undecided
-(TBD by the author).** This is a release-metadata gap, not a runtime defect — the code
-runs. Nothing in this package should be read as granting a license, and no license
-(e.g. MIT) is implied or assigned here. A license must be selected by the author
-before public redistribution.
+LoGe Planner is released under the [MIT License](../LICENSE), as selected by the
+author. Third-party dependencies and model weights remain subject to their
+respective licenses. The license does not change the reproducibility boundaries
+or verification results documented below.
 
 Version string: `v1.1.0` (unchanged; no tag or version bump is made by this pass).
 
@@ -191,29 +189,28 @@ this documentation pass, so the committed outputs are the archived run of record
 
 ## 8. Known gaps
 
-1. **Authorization pending** — no license selected (§1); release metadata only.
-2. Stage 3 is verified on a single fixture only (170 nodes / 850 directed corridors,
+1. Stage 3 is verified on a single fixture only (170 nodes / 850 directed corridors,
    30 agents, 10 `movetoloc` legs, 0 off-corridor legs; isolated goal → `UNSOLVABLE_INCOMPLETELY`
    with no plan written; missing graph → `FileNotFoundError`). This is not a
    manuscript-scenario reproduction, and `src/baselines/graph_mapf_priority.py` still
    auto-generates a grid topology when the graph file is missing (that baseline owns
    its own topology setup).
-3. LLM paths are wired but unexecuted here: no API call, no model download, no
+2. LLM paths are wired but unexecuted here: no API call, no model download, no
    adapter training. All `examples/llm/` inputs are fixtures.
-4. **SFT split hygiene is enforced by default**: `prepare_terminal_sft --split`
+3. **SFT split hygiene is enforced by default**: `prepare_terminal_sft --split`
    defaults to `auto` — a CSV with a `split` column exports only `split=train`, and a
    CSV without one is a hard error unless `--split all` is passed, which declares the
    file training-only and prints a leakage warning. Use `--split train` for real data
    and a separate evaluation set; `--split all` must never be paired with evaluation
    on the same CSV.
-5. **Scheduler latency is labelled, never silently "measured"**. Every evaluation
+4. **Scheduler latency is labelled, never silently "measured"**. Every evaluation
    report carries `service_time_source`, one of `measured_llm_inference` (the adapter
    really ran), `replay_user_supplied_measured` (user-provided, not verified by this
    code), `replay_fixture_not_measured` (example/fixture replay file), or
    `assumed_constant_not_measured` (2.8 s default). The older
    `replay_measured_latency` label no longer exists.
-6. `config/preprocessing.yaml` is the default of
+5. `config/preprocessing.yaml` is the default of
    `workflow_decouple/src/run_multi_seed_pipeline.py` but only exists as
    `workflow_decouple/config/preprocessing.yaml`.
-7. `src/replan_prediction/` is referenced by earlier planning notes but is absent
+6. `src/replan_prediction/` is referenced by earlier planning notes but is absent
    from this checkout; no module imports it.

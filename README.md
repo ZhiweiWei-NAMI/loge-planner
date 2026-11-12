@@ -164,4 +164,4 @@ Excluded: `data/`, `workflow_decouple/data/`, `reproducibility/`, `paper_latex/`
 
 ## License
 
-**Undecided (TBD by the author).** This repository contains no `LICENSE`, `COPYING`, or `NOTICE` file and no copyright headers; nothing here grants a license. A license must be selected and added before redistribution.
+LoGe Planner is released under the [MIT License](LICENSE). Third-party dependencies and model weights remain subject to their respective licenses.
