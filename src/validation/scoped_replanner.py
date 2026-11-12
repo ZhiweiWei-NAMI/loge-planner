@@ -18,8 +18,7 @@ This module is the executable form of the scoped-repair procedure used by
 
 The only input is an explicit snapshot: an airspace graph, the committed task
 schedule, and a semantic alert.  See ``examples/replanning/`` for the bundled
-demo fixtures (small, hand-written, demonstration-only -- they are *not* the
-paper's S1-S5 scenario reproduction).
+deterministic demonstration fixtures for smoke testing.
 """
 from __future__ import annotations
 

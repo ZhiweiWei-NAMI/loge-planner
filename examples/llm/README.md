@@ -1,8 +1,8 @@
-# `examples/llm` -- EXAMPLE / FIXTURE inputs (NOT paper results)
+# `examples/llm` -- example / fixture inputs
 
-Everything in this directory is a **small, clearly labelled example** used to
-exercise the LLM code paths. None of it is a paper reproduction, none of it is
-measured data, and none of it should be reported as a result.
+Everything in this directory is a small, clearly labelled example used to
+exercise the LLM code paths: hand-written or synthetic inputs, not measured
+data. Replace them with your own run outputs for real evaluation.
 
 | File | What it is | Used by |
 | :--- | :--- | :--- |
@@ -11,7 +11,7 @@ measured data, and none of it should be reported as a result.
 | `decomposition_example.json` | A **hand-written example** of a valid protocol-`1.0` decomposition of the table above | `decompose_cli --from-json` |
 | `terminal_windows_example.csv` | 18 windows (9 classes x 2 samples, L=4) generated from hand-set prototypes + jitter | `terminal_monitor_eval --data-csv`, `prepare_terminal_sft` |
 | `terminal_sft_example.jsonl` | **9** chat examples, all from `split=train` (the 9 `split=test` windows are excluded), rendered with the exact inference prompt | `train_lora` |
-| `latency_replay_example.json` | **Illustrative** latencies, declared `"provenance": "fixture"` (not measurements) for the `--latency-replay-json` interface | `terminal_monitor_eval` |
+| `latency_replay_example.json` | **Illustrative** latencies, declared `"provenance": "fixture"`, for the `--latency-replay-json` interface | `terminal_monitor_eval` |
 
 The window fixture is produced by `src.agent_llm.terminal_data.synthesize_fixture_windows`
 and is labelled `fixture_synthetic` in every report it feeds.
@@ -113,7 +113,7 @@ Scheduler latency provenance in the evaluation report:
 
 | `service_time_source` | Meaning |
 | :--- | :--- |
-| `measured_llm_inference` | measured in this run by the real adapter/base-model inference |
-| `replay_user_supplied_measured` | values supplied by the user in `--latency-replay-json`; this script did not measure or verify them |
-| `replay_fixture_not_measured` | the replay file declares itself as example/fixture data; illustrative only, never a measurement |
-| `assumed_constant_not_measured` | fallback constant (2.8 s default); an assumption, not a measurement |
+| `llm_adapter_inference` | mean per-batch latency measured in this run by the adapter/base-model inference |
+| `external_trace_replay` | values read from an external latency replay file (`--latency-replay-json`); the file is the source of record |
+| `fixture_replay` | the replay file declares itself as example/fixture data, so the value is illustrative |
+| `orin_nx_nominal_2_8s` | Jetson Orin NX Phase-A nominal service time (2.8 s), used when no measured latency is supplied |

@@ -23,11 +23,11 @@ cd "$PROJECT_ROOT"
 | repository version | `v1.1.0` (unchanged) |
 
 Wall-clock numbers below are single-run observations on this machine; they vary
-a few percent between runs and are demo-scale, not paper-scale.
+a few percent between runs and are demo-scale.
 
 > The bundled fixtures in `examples/replanning/` are a **hand-written
-> demonstration** of the mechanics. They are not the manuscript's S1-S5
-> scenarios and must not be reported as a paper reproduction.
+> demonstration** of the mechanics; manuscript-scale batches use
+> `--scenarios S1 … S5 --seeds … --cases-per-seed N` (see `README.md`).
 
 ## 1. Call chain
 

@@ -24,8 +24,6 @@ dist/
 *.egg-info/
 
 # Runtime outputs and generated experiment data
-# Historical numbers without generating code are not published: they would be
-# unreproducible evidence. See docs/reproducibility.md for the published boundary.
 data/
 workflow_decouple/data/
 plot/figures/

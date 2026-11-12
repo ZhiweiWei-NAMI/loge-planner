@@ -3,7 +3,7 @@
 #
 # Non-LLM baselines are always reported under explicit baseline ids
 # (baseline_rule_threshold / baseline_mlp / baseline_gbdt).
-# --adapter-dir really loads Qwen2.5-0.5B + PEFT/LoRA and scores its generations.
+# --adapter-dir loads Qwen2.5-0.5B + PEFT/LoRA and scores its generations.
 #
 # Examples:
 #   bash scripts/07_run_terminal_monitor_eval.sh --levels L0 L1 L2 L3 --samples-per-class 80

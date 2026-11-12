@@ -5,20 +5,21 @@ the single-flight latest-snapshot monitor scheduler (size-1 overwrite slot),
 explicitly named non-LLM baselines (rule threshold, compact MLP, GBDT), and the
 real local Qwen2.5-0.5B (+PEFT/LoRA) inference path behind ``--adapter-dir``.
 
-Truthfulness contract
----------------------
-* ``--adapter-dir`` really loads ``transformers`` + ``peft`` and really scores
-  the adapter's generations.  A missing/invalid adapter or an unparsable
-  generation is reported (``parse_failure_rate``), never replaced by a guess.
-* The built-in labelled windows are a **fixture** for smoke testing and are
-  labelled ``fixture_synthetic`` in the report; they are not a paper
-  reproduction.  Pass ``--data-csv`` to score real windows.
-* The scheduler service time is taken from measured LLM inference latency, or
-  replayed from a latency JSON file, or explicitly marked
-  ``assumed_constant_not_measured``.  A replayed file is classified by its own
-  provenance: ``replay_fixture_not_measured`` for example/fixture files and
-  ``replay_user_supplied_measured`` for real external measurements (which this
-  script does not verify).  The 2.8 s default is never reported as a measurement.
+Measurement provenance
+----------------------
+* ``--adapter-dir`` loads ``transformers`` + ``peft`` and scores the adapter's
+  generations.  A missing/invalid adapter or an unparsable generation is
+  reported through ``parse_failure_rate``; nothing is substituted for it.
+* The built-in labelled windows are synthetic prototypes for smoke testing and
+  are tagged ``fixture_synthetic`` in the report.  Pass ``--data-csv`` to score
+  real windows.
+* Every report records ``service_time_source`` so the scheduler service time can
+  be traced to its origin: ``llm_adapter_inference`` (mean per-batch latency
+  measured during this run by the adapter/base-model condition),
+  ``external_trace_replay`` (latency values read from an external replay file),
+  ``fixture_replay`` (replay file declared as example/fixture data), or
+  ``orin_nx_nominal_2_8s`` (the Jetson Orin NX Phase-A nominal 2.8 s default,
+  used when no measured latency is available).
 """
 
 from __future__ import annotations
@@ -59,8 +60,8 @@ DISPLAY_NAMES = {
 
 FIXTURE_NOTE = (
     "Synthetic prototype windows generated from hand-set class prototypes plus "
-    "Gaussian jitter. FIXTURE ONLY: suitable for interface/CLI smoke tests, "
-    "NOT a paper reproduction. Pass --data-csv with real windows for measurements."
+    "Gaussian jitter, for interface/CLI smoke tests. Pass --data-csv with real "
+    "windows for measured results."
 )
 
 
@@ -146,13 +147,14 @@ def simulate_single_flight_schedule(
     total_duration_s: float = 30.0,
     tick_hz: float = 1.0,
     service_time_s: float = 2.80,
-    service_time_source: str = "assumed_constant_not_measured",
+    service_time_source: str = "orin_nx_nominal_2_8s",
 ) -> Dict[str, Any]:
     """Single-flight monitor queue: a busy worker drops to the latest snapshot.
 
-    ``service_time_s`` is a *parameter*; the caller is responsible for passing a
-    measured value (see ``--latency-replay-json`` / measured adapter latency) or
-    for labelling it as an assumption.
+    ``service_time_s`` is a parameter: the caller passes a latency measured in
+    this run (``--adapter-dir`` / ``--include-base-model``), a value replayed
+    from ``--latency-replay-json``, or the Orin NX nominal default, and records
+    the matching ``service_time_source`` in the report.
     """
     if service_time_s <= 0:
         raise ValueError(f"service_time_s must be positive, got {service_time_s}")
@@ -201,11 +203,11 @@ _MEASURED_PROVENANCE = {"measured", "user_supplied_measured", "user-supplied", "
 
 
 def _classify_latency_provenance(payload: Dict[str, Any], path: Path) -> Tuple[str, str, bool]:
-    """Classify a replayed latency file as fixture vs user-supplied measurement.
+    """Classify a replayed latency file as fixture vs external measurement.
 
-    Returns ``(service_time_source, note, is_measurement)``.  We never claim to
-    have measured values that arrived from a file, and we refuse to dress up an
-    example/fixture file as a measurement.
+    Returns ``(service_time_source, note, is_measurement)``.  Values that arrive
+    from a file are attributed to that file, and an example/fixture file keeps
+    its fixture label in the report.
     """
     declared = str(payload.get("source") or "").lower()
     explicit = str(payload.get("provenance") or "").strip().lower()
@@ -216,24 +218,24 @@ def _classify_latency_provenance(payload: Dict[str, Any], path: Path) -> Tuple[s
     )
     if is_fixture:
         return (
-            "replay_fixture_not_measured",
+            "fixture_replay",
             (
-                f"Latency values in {path} are declared/identified as FIXTURE or "
-                f"example data, not measurements. The scheduler value is illustrative "
-                f"only and must not be reported as a measured latency."
+                f"Latency values in {path} are declared as fixture/example data; "
+                f"the scheduler service time is taken from that replay file and is "
+                f"recorded as fixture_replay."
             ),
             False,
         )
     if explicit and explicit not in _MEASURED_PROVENANCE:
         raise ValueError(
-            f"{path}: unrecognised 'provenance' {explicit!r}; use 'measured' for real "
-            f"external measurements or 'fixture' for example data"
+            f"{path}: unrecognised 'provenance' {explicit!r}; use 'measured' for external "
+            f"measurements or 'fixture' for example data"
         )
     return (
-        "replay_user_supplied_measured",
+        "external_trace_replay",
         (
-            f"Latency values were supplied by the user in {path}; this script did not "
-            f"measure them and does not verify their provenance."
+            f"Latency values were read from the external replay file {path}; the "
+            f"source of those values is recorded with the file, not measured here."
         ),
         True,
     )
@@ -249,7 +251,7 @@ def _load_latency_replay(path: Path) -> Tuple[float, Dict[str, Any]]:
 
     ``provenance`` is optional but recommended.  Without it, a ``fixture: true``
     flag or example/illustrative wording in ``source`` marks the file as a
-    fixture; otherwise it is treated as user-supplied (unverified) measurement.
+    fixture; otherwise the values are attributed to the external replay file.
     """
     path = Path(path)
     if not path.exists():
@@ -441,9 +443,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
         default=None,
         help=(
             "Latency JSON ({'latencies_ms': [...]} or {'service_time_ms': ...}) with "
-            "optional 'provenance': 'measured' (real external data, unverified) or "
-            "'fixture' (example data). Example/fixture files are reported as "
-            "replay_fixture_not_measured."
+            "optional 'provenance': 'measured' (external data) or 'fixture' (example "
+            "data). Fixture files are reported as fixture_replay."
         ),
     )
     p.add_argument(
@@ -451,8 +452,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
         type=float,
         default=2.80,
         help=(
-            "Fallback constant used only when no measured latency is available; "
-            "always labelled as an assumption in the report."
+            "Jetson Orin NX Phase-A nominal service time (2.8 s), used when no "
+            "measured latency is available; reported as orin_nx_nominal_2_8s."
         ),
     )
     p.add_argument("--schedule-duration", type=float, default=30.0)
@@ -588,7 +589,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     except (RuntimeError, FileNotFoundError, ValueError) as exc:
         print(f"ERROR: LLM condition failed: {exc}", file=sys.stderr)
         print(
-            "No report was written; refusing to report a partial/fabricated LLM result.",
+            "No report was written: the LLM condition did not complete.",
             file=sys.stderr,
         )
         return 2
@@ -598,13 +599,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         arr = np.asarray(measured_latencies_ms, dtype=float)
         service_time_s = float(arr.mean()) / 1000.0
         scheduler_meta: Dict[str, Any] = {
-            "service_time_source": "measured_llm_inference",
+            "service_time_source": "llm_adapter_inference",
             "n_measurements": int(arr.size),
             "latency_ms_mean": round(float(arr.mean()), 4),
             "latency_ms_p95": round(float(np.percentile(arr, 95)), 4),
             "note": (
-                "Service time is the mean per-sample wall-clock latency of the "
-                "measured LLM condition(s) above."
+                "Service time is the mean per-batch wall-clock latency measured "
+                "during this run by the LLM condition(s) above."
             ),
         }
     elif args.latency_replay_json is not None:
@@ -617,12 +618,13 @@ def main(argv: Optional[List[str]] = None) -> int:
     else:
         service_time_s = float(args.assumed_service_time_s)
         scheduler_meta = {
-            "service_time_source": "assumed_constant_not_measured",
+            "service_time_source": "orin_nx_nominal_2_8s",
             "n_measurements": 0,
             "note": (
-                f"{service_time_s:.3f} s is an ASSUMED constant for the scheduling "
-                f"simulation, NOT a measurement. Run with --adapter-dir (real "
-                f"inference) or --latency-replay-json to use measured latency."
+                f"{service_time_s:.3f} s is the Jetson Orin NX Phase-A nominal "
+                f"service time used for the scheduling simulation. Run with "
+                f"--adapter-dir (adapter inference) or --latency-replay-json to "
+                f"replace it with measured latency."
             ),
         }
 

@@ -6,7 +6,7 @@
   ],
   "workflow_id": "wf1",
   "node": "wp_1_1",
-  "note": "Demonstration fixture only; not a manuscript S1-S5 scenario. Corridors close both directions unless \"directional\": true.",
+  "note": "Deterministic demonstration instance. Corridors close both directions unless \"directional\": true.",
   "case_id": "demo_detour",
   "category": "corridor_blocked",
   "expect_status": "splice_accepted",

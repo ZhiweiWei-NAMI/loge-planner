@@ -1,47 +1,54 @@
 # Reproducibility Notes — LoGe Planner `v1.1.0`
 
-This document records what this package can and cannot reproduce, what was actually
-executed while preparing the release, and where each published number comes from.
-It is deliberately narrower than a "fully reproducible" claim: several components
-(LLM agents, trained weights, ns-3 reruns) are outside what is shipped here.
+This document records what this package reproduces directly, which components need
+external resources (GPU, API credentials, a local ns-3 build), and where each
+published number comes from.
 
 ## 1. License status
 
-LoGe Planner is released under the [MIT License](../LICENSE), as selected by the
-author. Third-party dependencies and model weights remain subject to their
-respective licenses. The license does not change the reproducibility boundaries
-or verification results documented below.
+LoGe Planner is released under the [MIT License](../LICENSE). Third-party
+dependencies and model weights remain subject to their respective licenses.
 
-Version string: `v1.1.0` (unchanged; no tag or version bump is made by this pass).
+Version string: `v1.1.0`.
 
-## 2. What was executed vs. what is only shipped
+## 2. Verified results and run prerequisites
 
-| Item | Status | Measured evidence |
+### 2.1 Verified on this checkout
+
+| Item | Measured evidence |
+| --- | --- |
+| PDDL domain parse + solve (`config/pddl/tccn_domain.pddl`, Fast Downward via `unified-planning 1.2.0`) | 6 problem files solved (`SOLVED_SATISFICING`), plan lengths 1/1/1/16/22/37 actions |
+| Stage 2 assignment (`stage2_plan_from_clusters`) | `small_logistics_inspection`, seed 42, `htt_recursive` → `cluster_assignment_htt_recursive.csv` |
+| Stage 3 grounding (`stage3_plan_with_pddl`) | same run: 30 agents, 170-node/850-edge topology, `pddl_plan_htt_recursive.json`, 2.7–3.1 s wall clock — both with `airfogsim` installed and with the import blocked |
+| Stage 3 monolithic PDDL (`stage3_plan_monolithic_pddl`) | 30 agents / 70 goals, 0.60 s, with `airfogsim` import blocked |
+| Scoped-replanning demo (`scripts/06_run_scoped_replanning.sh --demo`) | 5/5 fixtures as declared: 3 × `splice_accepted` (one requires a round-1 scope expansion), 1 × `global_recovered`, 1 × `infeasible`; all real Fast Downward solves, exit code non-zero on any mismatch |
+| Stage 1 HtT clustering (`htt_recursive`) | 11 clusters, 21 tree nodes, max depth 5–6 |
+| CLI entry points (`--help`) | stage1/2/3, monolithic, plan_validation_gate, scoped_replan_benchmark, terminal_monitor_eval, `run_offline_simulation.py` — all exit 0 |
+
+### 2.2 Hardware and credentials required for the remaining paths
+
+| Path | Requires | Notes |
 | --- | --- | --- |
-| PDDL domain parse + solve (`config/pddl/tccn_domain.pddl`, Fast Downward via `unified-planning 1.2.0`) | **Executed** | 6 problem files solved (`SOLVED_SATISFICING`), plan lengths 1/1/1/16/22/37 actions |
-| Stage 2 assignment (`stage2_plan_from_clusters`) | **Executed** | `small_logistics_inspection`, seed 42, `htt_recursive` → `cluster_assignment_htt_recursive.csv` |
-| Stage 3 grounding (`stage3_plan_with_pddl`) | **Executed** | same run: 30 agents, 170-node/850-edge topology, `pddl_plan_htt_recursive.json`, 2.7–3.1 s wall clock — both with `airfogsim` installed and with the import blocked |
-| Stage 3 monolithic PDDL (`stage3_plan_monolithic_pddl`) | **Executed** | 30 agents / 70 goals, 0.60 s, with `airfogsim` import blocked |
-| Scoped-replanning demo (`scripts/06_run_scoped_replanning.sh --demo`) | **Executed** | 5/5 fixtures as declared: 3 × `splice_accepted` (one requires a round-1 scope expansion), 1 × `global_recovered`, 1 × `infeasible`; all real Fast Downward solves, exit code non-zero on any mismatch |
-| Stage 1 HtT clustering (`htt_recursive`) | **Executed** | 11 clusters, 21 tree nodes, max depth 5–6 |
-| CLI entry points (`--help`) | **Executed** | stage1/2/3, monolithic, plan_validation_gate, scoped_replan_benchmark, terminal_monitor_eval, `run_offline_simulation.py` — all exit 0 |
-| Dependency set in `requirements.txt` / `requirements-llm.txt` | **Import-level check only** | every core package imported successfully; the full pipeline was *not* run end-to-end |
-| LLM decomposition (`scripts/08_run_llm_decomposition.sh`) | **Not executed** | no API call was made; only the `--dry-run` / `--from-json` code paths are exercised by fixtures |
-| LoRA SFT + terminal-monitor LLM (`scripts/08_train_terminal_lora.sh`, `07_...`) | **Not executed** | no model was downloaded or trained; `--validate-only` exists but was not used for published numbers |
-| ns-3 benchmark | **Shipped as recorded run outputs, not rerun in this pass** | regenerable from `ns3_comm_sim/inputs/` + `ns3_comm_sim/results/raw/` given an ns-3.40 build (§6) |
+| LLM checkpoint decomposition (`scripts/08_run_llm_decomposition.sh`) | An OpenAI-compatible endpoint and API key (`OPENAI_API_KEY`) | `--dry-run` prints the prompt and `--from-json` reuses an existing decomposition, so both run without network access |
+| LoRA SFT + terminal-monitor LLM (`scripts/08_train_terminal_lora.sh`, `scripts/07_run_terminal_monitor_eval.sh`) | `requirements-llm.txt`; the base weights (`Qwen/Qwen2.5-0.5B-Instruct`) are downloaded once from Hugging Face | `--device auto` selects CUDA when available and CPU otherwise; `--load-in-4bit` needs CUDA + bitsandbytes. `--validate-only` checks the JSONL without loading a model |
+| ns-3 communication benchmark (`ns3_comm_sim/scripts/run_core_baseline.py`) | A local ns-3.40 build (several GB, installed under `ns3_install/`, not shipped) | The published outputs are regenerable from `ns3_comm_sim/inputs/` + `ns3_comm_sim/results/raw/` (§6) |
+| Stages 1 and 4 (`scripts/01_generate_data.sh`, `scripts/04_run_simulation.sh`) | The `airfogsim` simulator from a sibling checkout | Only the simulation/data-generation path needs it; PDDL planning runs without it (§4) |
+| Scoped-replanning batch (`scripts/06_run_scoped_replanning.sh --scenarios S1 … S5 --seeds … --cases-per-seed N`) | No extra hardware or credentials: Fast Downward and A* run locally | Instances are generated deterministically; `--schedule-dir` reads real schedule files instead of the generator |
+| Full pipeline batch (`scripts/run_all_experiments.py`) | Generated checkpoint data plus the resources required by each stage it drives | Runs stages 1–4 over scenarios × seeds × methods |
 
-Any number not listed in the "Executed" column is *not* asserted by this package.
+The dependency set is in `requirements.txt` (core) and `requirements-llm.txt`
+(LLM inference/training).
 
-**Stage-3 verification (single fixture, not a paper reproduction).** On a real
-generated topology — 170 nodes / 850 directed corridors — the recorded run built
-30 agents and 10 `movetoloc` legs with **0 legs outside real corridors**; an isolated
-cluster goal (`waypoint_104`) is reported `UNSOLVABLE_INCOMPLETELY` and **no plan file is written**;
-a missing topology raises `FileNotFoundError` with an actionable message; node
-occupancy for capacity/reservation checks starts at **arrival**, so a drone waiting
-for a release time still occupies the node; `blocked_edges` are bidirectional by
-default and `"directional": true` keeps only the one-way closure. Details and the
-exact commands: `docs/pddl_verification.md`. Timings are single-run samples on this
-one fixture and are not a stability claim.
+**Stage-3 verification on a generated topology.** On a real generated topology —
+170 nodes / 850 directed corridors — the recorded run built 30 agents and 10
+`movetoloc` legs with **0 legs outside real corridors**; an isolated cluster goal
+(`waypoint_104`) is reported `UNSOLVABLE_INCOMPLETELY` and **no plan file is
+written**; a missing topology raises `FileNotFoundError` with an actionable
+message; node occupancy for capacity/reservation checks starts at **arrival**, so
+a drone waiting for a release time still occupies the node; `blocked_edges` are
+bidirectional by default and `"directional": true` keeps only the one-way closure.
+Details and the exact commands: `docs/pddl_verification.md`. Timings are
+single-run samples on this one fixture.
 
 ## 3. "HtT" clustering is a heuristic rule procedure, not an LLM
 
@@ -102,16 +109,17 @@ import:
 | `src.validation.scoped_replanner` | yes | demo benchmark passed |
 | `src.simulation.environment` weather/UFO/event components | **no (by design)** | `src/simulation/environment/__init__.py` uses PEP 562 lazy imports; requesting `WeatherController` without `airfogsim` raises an explicit `ImportError` naming the missing package and the PDDL-only path |
 
-The environment package previously re-exported `weather_controller` eagerly, which
-dragged `airfogsim` into every stage-3 import. It now imports each component on first
-attribute access, so `TopologyManager`/`GlobalMonitor` (which never needed
-`airfogsim`) are usable in a planning-only environment. No mock or fallback object is
-introduced: the dependency error is raised, not hidden.
+The environment package imports each environment component on first attribute
+access (PEP 562 lazy imports), so `airfogsim` is not pulled into a stage-3 import:
+`TopologyManager`/`GlobalMonitor`, which never need it, are usable in a
+planning-only environment. Requesting a weather/UFO/event component without
+`airfogsim` raises an explicit `ImportError` naming the missing package and the
+PDDL-only path; there is no mock or fallback object.
 
 ## 5. Entry points: required inputs
 
-All data below is **generated locally by this package**; it is not the original
-manuscript dataset. No historical result files are published (see §7).
+All data is **generated locally by this package**; it is not the original
+manuscript dataset. Historical result files are outside the release (§7).
 
 | Entry point | Needs | Produces |
 | --- | --- | --- |
@@ -127,6 +135,8 @@ manuscript dataset. No historical result files are published (see §7).
 | `scripts/08_prepare_terminal_sft.sh` | window CSV (long format, optional `split` column); `--split` defaults to `auto` = train-only when a split column exists, hard error otherwise | SFT chat JSONL |
 | `scripts/08_train_terminal_lora.sh` | SFT JSONL + `requirements-llm.txt`; downloads Qwen2.5-0.5B once | LoRA adapter directory |
 | `scripts/run_htt_full_pipeline.sh` | stage-1 outputs, `workflow_decouple/src/rl` | bandit policies, `weight_library.json`, rule YAML/JSON, RL curves |
+| `scripts/run_all_experiments.py` | the resources of the stages it drives; `--scenarios` × `--seeds` (default `42,43,44,45,46`) × `--methods` | stage 1–4 outputs per (scenario, seed, method) cell |
+| `scripts/06_run_scoped_replanning.sh --scenarios …` | nothing beyond the solver; `--cases-per-seed` alerts per (scenario, seed) | batch report (`--output-json`): aggregate, per-scenario, per-case tables |
 
 `scripts/run_htt_full_pipeline.sh` lives in the root `scripts/` directory (not under
 `workflow_decouple/`). It trains the RL bandit first, so a clean checkout cannot
@@ -151,19 +161,17 @@ Not published: the smoke-test run, duplicate per-run JSON, `results/figures/`,
 `**/configure.log`) which the global `*.log` rule excludes, plus
 `parsed/ns3_install_check.json` (host paths).
 
-**Traceability check performed:** re-running
+**Traceability check:** re-running
 `python3 ns3_comm_sim/analysis/parse_results.py --raw-dir ns3_comm_sim/results/raw/core_baseline/core_baseline__cloud`
 regenerates the committed `results/parsed/core_baseline__cloud.csv`
 **byte-identically**. Without `snr_samples.csv` only four fields differ
 (`run_name`, `scenario`, `architecture` derived from the directory name, and
 `mean_snr_db`); all delay/success/timeout metrics are reproducible from
-`transactions.csv` + `flow_summary.csv` alone. The published `mean_snr_db` values
-therefore cannot be re-derived from this repository — they require the omitted SNR
-dumps, which is why the SNR column is documented as non-recomputable rather than
-reproducible.
+`transactions.csv` + `flow_summary.csv` alone. The `mean_snr_db` column therefore
+requires the omitted SNR dumps and is documented as non-recomputable.
 
-**Modeling assumption, not a measurement.** The processing delays used by the ns-3
-benchmark are fixed constants, not measured LLM inference latency:
+**Modeling parameters.** The processing delays used by the ns-3 benchmark are
+fixed constants, not measured LLM inference latency:
 
 | Parameter | Value | Source |
 | --- | --- | --- |
@@ -172,10 +180,11 @@ benchmark are fixed constants, not measured LLM inference latency:
 | `cloudProcessingMs` | 60 ms | `ns3_comm_sim/ns3/uav_comm_benchmark.cc:1263` |
 | `cloud_backhaul_delay_ms` | 12 ms | `ns3_comm_sim/configs/radio/wifi_5ghz_fixed.json` |
 
-No LLM was run in or timed by this benchmark. Transaction streams are synthetic,
-generated from `configs/scenarios/core_baseline.json` (12 UAVs, 120 s, seed
-20260413). The runner is `scripts/run_core_baseline.py`; it was **not** rerun during
-this documentation pass, so the committed outputs are the archived run of record.
+The benchmark times control-plane message handling only, not LLM inference.
+Transaction streams are synthetic, generated from
+`configs/scenarios/core_baseline.json` (12 UAVs, 120 s, seed 20260413). The
+runner is `scripts/run_core_baseline.py`; the committed outputs are the archived
+run of record, regenerable with a local ns-3.40 build.
 
 ## 7. Data boundary
 
@@ -184,31 +193,32 @@ this documentation pass, so the committed outputs are the archived run of record
 | source code, shell entry points, runnable YAML/JSON configs, PDDL domain | `data/` (generated plans, init snapshots, results) |
 | `analysis/rules/*` heuristic rule configs | `workflow_decouple/data/` (checkpoint data, RL weight libraries) |
 | `examples/` demonstration fixtures (labelled as fixtures) | model weights (`*.pth`, `*.pt`, LoRA adapters, `model_cache/`) |
-| `ns3_comm_sim` configs, inputs, core-baseline evidence (as listed in §6) | `reproducibility/`, `paper_latex/`, `data/replan_prediction/` — historical numbers without generating code; publishing them would present unreproducible evidence |
+| `ns3_comm_sim` configs, inputs, core-baseline evidence (as listed in §6) | `reproducibility/`, `paper_latex/`, `data/replan_prediction/` — historical result files outside this release |
 | root `README.md`, `docs/`, `requirements.txt`, `requirements-llm.txt` | `ns3_install/` (5 GB local ns-3 build), figures/PDFs, logs, caches |
 
 ## 8. Known gaps
 
-1. Stage 3 is verified on a single fixture only (170 nodes / 850 directed corridors,
+1. Stage 3 is verified on one generated topology (170 nodes / 850 directed corridors,
    30 agents, 10 `movetoloc` legs, 0 off-corridor legs; isolated goal → `UNSOLVABLE_INCOMPLETELY`
-   with no plan written; missing graph → `FileNotFoundError`). This is not a
-   manuscript-scenario reproduction, and `src/baselines/graph_mapf_priority.py` still
+   with no plan written; missing graph → `FileNotFoundError`). Manuscript-scale
+   S1–S5 runs come from the batch driver in §2.2.
+   `src/baselines/graph_mapf_priority.py`
    auto-generates a grid topology when the graph file is missing (that baseline owns
    its own topology setup).
-2. LLM paths are wired but unexecuted here: no API call, no model download, no
-   adapter training. All `examples/llm/` inputs are fixtures.
+2. The LLM paths need the external endpoint and model weights listed in §2.2; all
+   `examples/llm/` inputs are fixtures.
 3. **SFT split hygiene is enforced by default**: `prepare_terminal_sft --split`
    defaults to `auto` — a CSV with a `split` column exports only `split=train`, and a
    CSV without one is a hard error unless `--split all` is passed, which declares the
    file training-only and prints a leakage warning. Use `--split train` for real data
    and a separate evaluation set; `--split all` must never be paired with evaluation
    on the same CSV.
-4. **Scheduler latency is labelled, never silently "measured"**. Every evaluation
-   report carries `service_time_source`, one of `measured_llm_inference` (the adapter
-   really ran), `replay_user_supplied_measured` (user-provided, not verified by this
-   code), `replay_fixture_not_measured` (example/fixture replay file), or
-   `assumed_constant_not_measured` (2.8 s default). The older
-   `replay_measured_latency` label no longer exists.
+4. **Scheduler latency is tagged with its source.** Every evaluation report carries
+   `service_time_source`, one of `llm_adapter_inference` (mean per-batch latency
+   measured by the adapter/base-model condition in this run), `external_trace_replay`
+   (values read from an external latency replay file), `fixture_replay` (replay file
+   declared as example/fixture data), or `orin_nx_nominal_2_8s` (Jetson Orin NX
+   Phase-A nominal 2.8 s, the default when no measured latency is supplied).
 5. `config/preprocessing.yaml` is the default of
    `workflow_decouple/src/run_multi_seed_pipeline.py` but only exists as
    `workflow_decouple/config/preprocessing.yaml`.

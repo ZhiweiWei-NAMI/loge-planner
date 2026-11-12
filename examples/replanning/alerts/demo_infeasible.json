@@ -6,7 +6,7 @@
   ],
   "workflow_id": "wf4",
   "node": "wp_2_1",
-  "note": "Demonstration fixture only; not a manuscript S1-S5 scenario. Corridors close both directions unless \"directional\": true.",
+  "note": "Deterministic demonstration instance. Corridors close both directions unless \"directional\": true.",
   "case_id": "demo_infeasible",
   "category": "corridor_lost",
   "expect_status": "infeasible",

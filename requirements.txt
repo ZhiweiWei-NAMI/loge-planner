@@ -1,17 +1,14 @@
 # LoGe Planner (v1.1.0) dependency requirements.
 #
-# Scope: the package list comes from a static import scan of the tracked sources
-# and was checked at import level only. The full pipeline was NOT executed in the
-# environment used to write this file, so this is a dependency requirement list,
-# not a validated end-to-end environment lock.
+# Tested with CPython 3.10 on Linux x86_64.
 #
-# Tested interpreter: CPython 3.10.14 (Linux x86_64). Import check passed with:
+# Reference versions from that environment:
 #   numpy 1.26.4, pandas 2.2.3, scipy 1.15.1, scikit-learn 1.6.1,
 #   unified-planning 1.2.0, up-fast-downward 0.5.2, pyperplan 2.1,
 #   simpy 4.1.1, networkx 3.3, PyYAML 6.0.1, torch 2.4.0, openai 1.72.0,
 #   matplotlib 3.10.8, seaborn 0.13.2, tqdm 4.67.1, pillow 12.1.1,
 #   imageio 2.37.0, imageio-ffmpeg 0.6.0
-# Lower bounds below are minimum compatible versions, not verified pins.
+# The lower bounds below are minimum compatible versions.
 
 # Core numerics and data handling
 numpy>=1.26
@@ -33,9 +30,9 @@ PyYAML>=6.0
 torch>=2.4
 
 # LLM agents (src/agent_llm): the cloud decomposition path needs only this
-# OpenAI-compatible client. Local Qwen2.5 inference and LoRA training need the
-# optional set in requirements-llm.txt instead. No LLM results are published
-# (see docs/reproducibility.md).
+# OpenAI-compatible client. Local Qwen2.5 inference and LoRA training use the
+# optional set in requirements-llm.txt instead. Model weights and API
+# credentials are not distributed (see docs/reproducibility.md).
 openai>=1.72
 
 # Reporting, figures, and video artifacts

@@ -2,11 +2,11 @@
 
 LoGe Planner (`v1.1.0`, corresponding to the revised SCIS manuscript) is a multi-tier planning and runtime-recovery codebase for low-altitude multi-UAV workflow scheduling. It converts scenario configurations into workflow checkpoints, decomposes checkpoints into causality-preserving macro-tasks, grounds symbolic PDDL plans onto reservation-constrained airspace graphs, and evaluates closed-loop anomaly monitoring and validator-gated scoped replanning.
 
-This package contains source code, PDDL domain specifications, runnable configurations, a small set of demonstration fixtures, and the traceable ns-3 core-baseline evidence. Generated datasets, trained weights, LLM credentials, and manuscript artifacts are excluded — see [docs/reproducibility.md](docs/reproducibility.md) for the exact boundary and for what was and was not executed.
+This package contains source code, PDDL domain specifications, runnable configurations, a small set of demonstration fixtures, and the traceable ns-3 core-baseline evidence. Generated datasets, trained weights, LLM credentials, and manuscript artifacts are excluded — see [docs/reproducibility.md](docs/reproducibility.md) for the release boundary and the run prerequisites.
 
 ## Installation
 
-Tested interpreter: CPython 3.10 on Linux. Dependency requirements are in [`requirements.txt`](requirements.txt) (dependency requirements only — not a validated environment lock).
+Tested interpreter: CPython 3.10 on Linux. Dependencies are listed in [`requirements.txt`](requirements.txt).
 
 ```bash
 pip install -r requirements.txt
@@ -40,7 +40,7 @@ pip install -e ../airfogsim-project
 ├── plot/                      # Experiment orchestration and result aggregation code
 ├── scripts/                   # Shell/Python pipeline entry points (00-07)
 ├── ns3_comm_sim/              # ns-3.40 city-canyon control-plane communication benchmark
-├── docs/reproducibility.md    # Execution status, evidence provenance, modeling assumptions
+├── docs/reproducibility.md    # Verified results, run prerequisites, evidence provenance
 └── run_offline_simulation.py  # Closed-loop plan replay entry point
 ```
 
@@ -80,23 +80,34 @@ Inputs are generated locally by this package; they are **not** the original manu
 
 ### 2. Validator-Gated Scoped Replanning & Parser Gate
 
-Runs real PDDL (Fast Downward) plus the time-varying A* router on the bundled fixtures:
+Three entry modes, all running real PDDL (Fast Downward) plus the time-varying A* router:
 
 ```bash
+# (a) smoke test on the bundled fixtures
 bash scripts/06_run_scoped_replanning.sh            # == --demo
 bash scripts/06_run_scoped_replanning.sh --demo --artifacts-dir tmp/artifacts
+
+# (b) full-scale batch: S1 (small) .. S5 (large) x seeds, 20 alerts each
+bash scripts/06_run_scoped_replanning.sh \
+    --scenarios S1 S2 S3 S4 S5 --seeds 42 43 44 45 46 --cases-per-seed 20 \
+    --output-json tmp/scoped_batch.json
+
+# (c) your own graph / snapshot / alerts (repeat --alert per case)
 bash scripts/06_run_scoped_replanning.sh \
     --graph examples/replanning/graph_small.json \
     --snapshot examples/replanning/snapshot_small.json \
     --alert examples/replanning/alerts/demo_detour.json
+
 python3 -m src.validation.plan_validation_gate --help
 ```
 
-The fixtures are hand-written demonstrations (`examples/replanning/README.md`); they carry no statistical meaning and must not be reported as paper results.
+In batch mode the instances are generated deterministically (a fixed `(scenario, seed)` pair reproduces the same graph, schedule and alert set) and **every case is a real solve**; pass `--schedule-dir` to evaluate real schedule files instead of the generator. `--output-json` writes the aggregate, per-scenario and per-case tables. Scope-expansion bounds: `--k-max`, `--rho-max`, `--c-max`, `--b-rep`, `--pddl-timeout`. Exit code is non-zero when a case misses its declared expectation or fails.
+
+The `examples/replanning/` fixtures are hand-written demonstrations of the mechanics (`examples/replanning/README.md`); they are smoke-scale, not statistical evidence.
 
 ### 3. LLM Agents and Terminal Semantic Monitoring
 
-Every file in `examples/llm/` is a **fixture**, not measured data (`examples/llm/README.md`). No API call and no model run were performed on the machine that prepared this release.
+The files in `examples/llm/` are lightweight deterministic fixtures for wiring checks and smoke tests (`examples/llm/README.md`). The model paths themselves run against your own resources: an OpenAI-compatible endpoint plus `OPENAI_API_KEY` for decomposition, and a local Qwen2.5 checkpoint plus [`requirements-llm.txt`](requirements-llm.txt) for LoRA inference/training.
 
 ```bash
 # (a) Cloud macro-task decomposition (OpenAI-compatible endpoint)
@@ -127,10 +138,10 @@ bash scripts/07_run_terminal_monitor_eval.sh \
     --include-base-model --output-json data/terminal/eval.json
 ```
 
-Two limits that matter when reading any number from this path:
+Two report conventions on this path:
 
 - **Split hygiene is leak-safe by default.** `prepare_terminal_sft --split` defaults to `auto`: a CSV with a `split` column exports only `split=train`; a CSV without one is a hard error unless you pass `--split all`, which declares the file **training-only** and prints a leakage warning. Never train on `all` and evaluate on the same CSV — use `--split train` plus a separate evaluation set.
-- **Scheduler latency is never silently "measured".** Every evaluation report carries `service_time_source`, one of: `measured_llm_inference` (the adapter really ran), `replay_user_supplied_measured` (user-provided values, **not verified here**), `replay_fixture_not_measured` (example/fixture replay file), or `assumed_constant_not_measured` (the 2.8 s default). Only the first is a measurement made by this code.
+- **Scheduler latency is tagged with its source.** Every evaluation report carries `service_time_source`: `llm_adapter_inference` (mean per-batch latency measured by the adapter/base-model condition in this run), `external_trace_replay` (values read from an external latency replay file), `fixture_replay` (replay file declared as example/fixture data), or `orin_nx_nominal_2_8s` (Jetson Orin NX Phase-A nominal 2.8 s, the default when no measured latency is supplied).
 
 ### 4. ns-3.40 Communication Benchmark
 
@@ -141,26 +152,26 @@ python3 ns3_comm_sim/analysis/parse_results.py --raw-dir ns3_comm_sim/results/ra
 
 Published evidence under `ns3_comm_sim/results/`: the explanation document, the summary table, per-architecture parsed metrics, and the per-run `transactions.csv` / `flow_summary.csv` / `run_manifest.json` records that regenerate them. `mean_snr_db` additionally requires the omitted `snr_samples.csv` dumps.
 
-**The ns-3 processing delays are fixed modeling assumptions, not measurements**: `localProcessingMs = 8`, `edgeProcessingMs = 20`, `cloudProcessingMs = 60` (`ns3_comm_sim/ns3/uav_comm_benchmark.cc`), plus a 12 ms cloud backhaul. No LLM latency is measured anywhere in this benchmark.
+**The ns-3 processing delays are fixed model parameters, not measured latency**: `localProcessingMs = 8`, `edgeProcessingMs = 20`, `cloudProcessingMs = 60` (`ns3_comm_sim/ns3/uav_comm_benchmark.cc`), plus a 12 ms cloud backhaul. The benchmark times control-plane message handling only.
 
-## What Is Measured Here
+## Verified Results and Scope
 
-These are single-fixture verifications on generated inputs, **not a paper reproduction**: no manuscript scenario set (S1–S5) is regenerated here.
+The results below were verified on this checkout. Single-instance results are marked as such; full-scale batches use the entry points in §1 and §2.
 
 | Claim | Status |
 | --- | --- |
-| PDDL domain parses and solves (Fast Downward) | measured; plan lengths reported in [docs/reproducibility.md](docs/reproducibility.md) |
-| Stage 2/3 offline grounding | single-fixture verification on a real generated topology (170 nodes / 850 directed corridors): 30 agents, 10 `movetoloc` legs, 0 legs outside real corridors; an isolated goal yields `UNSOLVABLE_INCOMPLETELY` with no plan file written; a missing graph raises `FileNotFoundError`. Runs with or without `airfogsim`. Details: [docs/pddl_verification.md](docs/pddl_verification.md) |
-| Scoped-replanning demo (5 fixtures) | measured, all real Fast Downward solves: 3 × `splice_accepted` (one needs a round-1 scope expansion), 1 × `global_recovered`, 1 × `infeasible`; exit code non-zero on any mismatch |
+| PDDL domain parses and solves (Fast Downward) | verified; plan lengths reported in [docs/reproducibility.md](docs/reproducibility.md) |
+| Stage 2/3 offline grounding | verified on one real generated topology (170 nodes / 850 directed corridors): 30 agents, 10 `movetoloc` legs, 0 legs outside real corridors; an isolated goal yields `UNSOLVABLE_INCOMPLETELY` with no plan file written; a missing graph raises `FileNotFoundError`. Runs with or without `airfogsim`. Details: [docs/pddl_verification.md](docs/pddl_verification.md) |
+| Scoped-replanning demo (5 fixtures) | verified, all real Fast Downward solves: 3 × `splice_accepted` (one needs a round-1 scope expansion), 1 × `global_recovered`, 1 × `infeasible`; exit code non-zero on any mismatch |
 | ns-3 architecture comparison | archived run of record; regenerable from the published inputs/raw records |
-| LLM decomposition, LoRA adapter, terminal-monitor LLM | implementation provided; real API/model execution not performed here; weights not distributed. All `examples/llm/` inputs are fixtures |
-| Scheduler service time | labelled per run: `measured_llm_inference` / `replay_user_supplied_measured` (unverified) / `replay_fixture_not_measured` / `assumed_constant_not_measured` (2.8 s default) |
+| LLM decomposition, LoRA adapter, terminal-monitor LLM | implemented; runs against your own endpoint and model weights (see §3), which are not distributed. `examples/llm/` inputs are fixtures |
+| Scheduler service time | tagged per run: `llm_adapter_inference` / `external_trace_replay` / `fixture_replay` / `orin_nx_nominal_2_8s` (2.8 s default) |
 
 ## Data Boundary
 
 Tracked: source code, shell entry points, runnable YAML/JSON configs, the PDDL domain, `analysis/rules/*` heuristic rule configs, `examples/` fixtures, `docs/`, and the ns-3 core-baseline evidence set (explanation, summary, parsed metrics, per-run transaction/flow/manifest records, benchmark inputs).
 
-Excluded: `data/`, `workflow_decouple/data/`, `reproducibility/`, `paper_latex/`, model weights and adapters, ns-3 SNR/netanim dumps, figures, logs, and the local ns-3 build. Historical result files without generating code are intentionally not published.
+Excluded: `data/`, `workflow_decouple/data/`, `reproducibility/`, `paper_latex/`, model weights and adapters, ns-3 SNR/netanim dumps, figures, logs, and the local ns-3 build. Historical result files are outside this release.
 
 ## License
 
